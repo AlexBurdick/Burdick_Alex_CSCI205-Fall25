@@ -20,10 +20,11 @@ using namespace std;
 
 /**
  * @brief Finds the largest fraction
+ * 
  * @param vector location
  * @return largest fraction
  * 
- * Iterates through the vector of fractions to find the largest. This function is not
+ * @details Iterates through the vector of fractions to find the largest. This function is not
  * in the implementation file for Fraction (Fraction.cpp) so that it would not need 
  * to include the array library, which would increase the time it takes to compile.
  */
@@ -44,9 +45,10 @@ Fraction find_largest(const vector<Fraction>& fractions) {
 
 /**
  * @brief Function that prints fractions
+ * 
  * @param fractions Location of vector of Fractions
  * 
- * Prints fractions in rows of 5.This function is not
+ * @details Prints fractions in rows of 5.This function is not
  * in the implementation file for Fraction (Fraction.cpp) so that it would not need 
  * to include the array library, which would increase the time it takes to compile.
  * 
@@ -74,9 +76,10 @@ void print(const vector<Fraction>& fractions)
 
 /**
  * @brief Main function
+ * 
  * @return 0 or 1 if there are errors
  * 
- * Runs the program
+ * @details Runs the program that tests the functions of the Fraction class
  */
 int main()
 {
