@@ -96,7 +96,7 @@ public:
      * Overloaded arithmetic operators are member funcitons to improve 
      * performance when accessing member variables. Because both operands 
      * (left is implicit *this) are Fractions, it doesn't matter which
-     * order to to operands are in, making it user friendly to make them 
+     * order the operands are in, making it user friendly to make them 
      * member functions.
      */
     Fraction operator+(const Fraction& other) const;
@@ -156,7 +156,7 @@ public:
      * The overloaded output operator is a friend function to have access to
      * mamber variables for better performance. It is not a member function
      * since the left operand of IO operators must be a stream object, therfore
-     * cannot be *this as would be the case if it were a memeber function..
+     * cannot be *this as would be the case if it were a memeber function.
      */
     friend std::ostream& operator<<(std::ostream&, const Fraction&);
 

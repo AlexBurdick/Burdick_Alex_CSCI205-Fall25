@@ -18,7 +18,9 @@ using namespace std;
  * @param vector location
  * @return largest fraction
  * 
- * Iterates through the vector of fractions to find the largest.
+ * Iterates through the vector of fractions to find the largest. This function is not
+ * in the implementation file for Fraction (Fraction.cpp) so that it would not need 
+ * to include the array library, which would increase the time it takes to compile.
  */
 Fraction find_largest(const vector<Fraction>& fractions) {
     
@@ -39,17 +41,16 @@ Fraction find_largest(const vector<Fraction>& fractions) {
  * @brief Function that prints fractions
  * @param fractions Location of vector of Fractions
  * 
- * Prints fractions in rows of 5.
+ * Prints fractions in rows of 5.This function is not
+ * in the implementation file for Fraction (Fraction.cpp) so that it would not need 
+ * to include the array library, which would increase the time it takes to compile.
  * 
  * Nested loop structure and formatting elements suggested by LeoAI (08/24/2025).
  */
-void print(const vector<Fraction>& fractions) {
-
+void print(const vector<Fraction>& fractions)
+{
     int num_columns = 5; /** Number of items per row (columns ) */
-    int column_width = 10; /** Width of each column ) */
-
-    cout << "Fractions in file: \n";
-    
+    int column_width = 10; /** Width of each column ) */    
     // Loop through each column
     for (int i=0; i<fractions.size(); i+=num_columns) {
         // Loop through row
@@ -72,11 +73,13 @@ void print(const vector<Fraction>& fractions) {
  * 
  * Runs the program
  */
-int main(){
-    
+int main()
+{
+    string separator = "\n--------------------\n"; /**< Used for formatting output */
     // Open a file with fraction values, and vector to store them
     ifstream file; /**< This will hold the file we read from */
-    file.open("fractions.txt"); /**< ifstream defaults to ios::in */
+    string file_name = "fractions.txt"; /**< File containing list of fractions */
+    file.open(file_name); /**< ifstream defaults to ios::in */
     
     vector<Fraction> fraction_vector; /**< Stores data from the file */
     fraction_vector.reserve(100); /**< Sets aside memory, already knowing file length */
@@ -89,7 +92,7 @@ int main(){
              * I found an explanation of the substring function on Geeks for 
              * Geeks. I chose to find the position of the comma and use that to 
              * get the two parts of the fraction, then convert them to integers.
-             * Citation:
+             * 
              * Geeks for Geeks. n.d. substr() in C++. geeksforgeeks.org.
              * https://www.geeksforgeeks.org/cpp/substring-in-cpp/
              */
@@ -109,16 +112,16 @@ int main(){
         cout << "No open file";
         return 1; 
     }
-
+    cout << "Fractions in " << file_name << " - \n";
     print(fraction_vector);
     Fraction largest_fraction = find_largest(fraction_vector);
-    cout << "** The largest fraction is: " << largest_fraction << "\n";
+    cout << "** The largest fraction is: " << largest_fraction << endl;
 
     
     // Math tests
     Fraction x(11, 17);
     Fraction y(2, 4);
-    cout << "\n--------------------\n" << "Math operator tests: \n";
+    cout << separator << "Math operator tests: \n";
     cout << x << " + " << y << " = " << x+y << "\n"; // add
     cout << x << " - " << y << " = " << x-y << "\n"; // subract
     cout << x << " * " << y << " = " << x*y << "\n"; // mupltiply
@@ -126,7 +129,7 @@ int main(){
     
 
     // Comparison tests
-    cout << "\n--------------------\n" << "Comparison operator tests: \n";
+    cout << separator << "Comparison operator tests: \n";
     // equals
     if (x==y) { cout << x << " equals " << y << "\n"; }
     else      { cout << x << " not equals " << y << "\n"; }
@@ -148,7 +151,7 @@ int main(){
 
 
     // Assignment operator tests
-    cout << "\n--------------------\n" << "Assignment operator tests: \n";
+    cout << separator << "Assignment operator tests: \n";
     cout << x << " before adding adding " << y << "\n";
     x += y;
     cout << x << " after adding " << y << endl;
