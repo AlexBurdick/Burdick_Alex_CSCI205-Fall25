@@ -1,3 +1,8 @@
+/*********************************************************************
+ * @file  Fraction.cpp
+ * 
+ * @brief Implementation of the Fraction class.
+ *********************************************************************/
 #include "Fraction.h"
 #include <math.h>
 #include <string>
@@ -16,6 +21,8 @@ Fraction :: Fraction()
 // Constructor implementation - 2 arguments
 Fraction :: Fraction(int n, int d)
 {
+    // Denominator cannot be 0
+    if (d == 0) { throw std::invalid_argument("Division by zero error"); }
     m_numerator = n;
     m_denominator = d;
     this->simplify();
@@ -83,7 +90,8 @@ Fraction Fraction :: operator+=(const Fraction& other)
 // Output operator
 std::ostream& operator<< (std::ostream& out_stream, const Fraction& f)
 {
-    if (f.m_numerator > f.m_denominator) // Convert to mixed fraction
+    // Convert to mixed fraction
+    if (f.m_numerator > f.m_denominator)
     {
         int i = f.m_numerator / f.m_denominator;
         int r = f.m_numerator % f.m_denominator;

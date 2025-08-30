@@ -1,3 +1,8 @@
+/*********************************************************************
+ * @file  Main.cpp
+ * 
+ * @brief Main function that runs the Fraction testing program.
+ *********************************************************************/
 #include "Fraction.h"
 #include "Fraction.cpp"
 #include <iostream>
@@ -28,11 +33,11 @@ Fraction find_largest(const vector<Fraction>& fractions) {
     
     // Loop through each element in the vector 
     for (int i=0; i<fractions.size(); i++) {
-        if (fractions[i] > largest) { /**< If the next is larger */
-            largest = fractions[i];   /**< set it as new largest */
+        if (fractions[i] > largest)  ///< If the next is larger
+        {
+            largest = fractions[i];   /**< Holds the largest Fraction in the vector */
         }
     }
-
     return largest;
 }
 
@@ -75,19 +80,19 @@ void print(const vector<Fraction>& fractions)
  */
 int main()
 {
-    string separator = "\n--------------------\n"; /**< Used for formatting output */
-    // Open a file with fraction values, and vector to store them
-    ifstream file; /**< This will hold the file we read from */
-    string file_name = "fractions.txt"; /**< File containing list of fractions */
-    file.open(file_name); /**< ifstream defaults to ios::in */
-    
-    vector<Fraction> fraction_vector; /**< Stores data from the file */
-    fraction_vector.reserve(100); /**< Sets aside memory, already knowing file length */
+    string separator = "\n--------------------\n"; /**< Section separator for formatting output */
+    ifstream file; ///< This will hold the contents of the file we read from
+    string file_name = "fractions.txt"; /**< Name of file containing list of fractions */
+    int file_length = 100; /**< Length of the file (number of fractions) */
+    vector<Fraction> fraction_vector; /**< Stores Fractions from the file */
+    fraction_vector.reserve(file_length); ///< Sets aside memory, already knowing file length
 
+    // Open a file with fraction values, and vector to store them
+    file.open(file_name); ///< ifstream defaults to ios::in
     // Read file into vector
-    if (file.is_open()) {   /**< Confirm the file is open */
-        string line;
-        while(getline(file, line)) { /**< Read each line into a string */
+    if (file.is_open()) { ///< Confirm the file is open
+        string line; /**< Holds each line as it's read from the file */
+        while(getline(file, line)) { ///< Read each line into a string
             /**
              * I found an explanation of the substring function on Geeks for 
              * Geeks. I chose to find the position of the comma and use that to 
@@ -98,17 +103,22 @@ int main()
              */
             int pos = line.find(","); /**< Get index of comma */
             
-            string sub_n = line.substr(0, pos); /**< Get substring before of comma */
-            string sub_d = line.substr(pos+1); /**< Get substring after of comma */
+            string sub_n = line.substr(0, pos); /**< Get substring before comma */
+            string sub_d = line.substr(pos+1); /**< Get substring after comma */
             
-            int n = stoi(sub_n); /**< Convert to integer */
+            int n = stoi(sub_n); ///< Convert to integer
             int d = stoi(sub_d);
             
-            fraction_vector.push_back(Fraction(n,d)); /**< Add Fraction to end of vector */
+            try {
+                Fraction f{n,d}; ///< Will throw an error if d=0
+                fraction_vector.push_back(f); ///< Add Fraction to end of vector
+            } catch (const invalid_argument& e) {
+                cerr << "Error: " << e.what() << " Skipping fraction: " << n << "/" << d << endl; ///< Error message handling from Copilot 08/30/2025
+            }
         }
-        file.close();   /**< Close the file object */
+        file.close();   ///< Close the file object
     }
-    else { /**< If the file is not open */
+    else { ///< If the file is not open
         cout << "No open file";
         return 1; 
     }

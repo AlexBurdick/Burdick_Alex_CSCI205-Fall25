@@ -1,6 +1,11 @@
 #ifndef FRACTION_H
 #define FRACTION_H
 
+/*********************************************************************
+ * @file  Fraction.h
+ * 
+ * @brief Fraction class.
+ *********************************************************************/
 #include <iostream>
 
 /**
@@ -10,16 +15,6 @@ class Fraction {
 private:
     int m_numerator, m_denominator; /**< Top and bottom numeber of Fraction */
 
-    /**
-     * @brief Reduces a Fraction to is greatest common denominator
-     * 
-     * Uses Euclid's Algorith to find the greatest commone factor
-     * between the numerator and denominator. Both will be divided
-     * by the greatest common factor to get the reduced Fraction. 
-     * Then a negative in the denominator is moved to the numerator.
-     * This is necesary when doing Fraction math and comparisons.
-     * (created by Copilot 08/27/2025, modified by author)
-     */
     void simplify()
     {
         // Reduce the fraction
@@ -28,7 +23,7 @@ private:
         m_denominator /= divisor;
         
         // Ensure the denominator is always positive
-        if (m_denominator < 0)
+        if (m_denominator < 0) // This will also work if the numerator is negative too
         {
             m_numerator = -m_numerator;
             m_denominator = -m_denominator;
@@ -69,21 +64,6 @@ public:
      */
     int get_den() const { return m_denominator; }
 
-    /**
-     * @brief Set the numerator
-     * 
-     * @param n numerator
-     */
-    void setNumerator(int n) { m_numerator = n; }
-    
-    /**
-     * @brief Set the Denominator object
-     * 
-     * @param d denominator
-     */
-    void setDenominator(int d) { 
-        if (d == 0) { return; }
-        m_denominator = d; }
 
     // ------------------------------
     // OVERLOADED OPERATORS
@@ -138,14 +118,19 @@ public:
     // Overloaded comparison operators (created by Copilot 08/27/2025)
     bool operator==(const Fraction& other) const
     { return m_numerator == other.m_numerator && m_denominator == other.m_denominator; }
+    
     bool operator!=(const Fraction& other) const 
     { return !(*this == other); }
+    
     bool operator<(const Fraction& other) const
     { return m_numerator * other.m_denominator < other.m_numerator * m_denominator; }
+    
     bool operator<=(const Fraction& other) const
     { return *this < other || *this == other; }
+    
     bool operator>(const Fraction& other) const
     { return !(*this <= other); }
+    
     bool operator>=(const Fraction& other) const 
     { return !(*this < other); }
     
@@ -173,11 +158,11 @@ public:
  * 
  * @param other Fraction
  * @return Fraction
- * Overloaded arithmetic operators that add a Fraction obejct to an integer.
+ * Overloaded arithmetic operators that work on a Fraction obejct and an integer.
  * These are not member fucntions so that they can be invoked in either order - 
  * If these were member functions, Fraction + 5 would work, but 5 + Fraction 
  * would not work since the implied left operand would have to be the oject of 
- * the class the overloaded operand was a memeber of.
+ * the class.
  */
 // Fraction operator+(const Fraction& other) const;
 
