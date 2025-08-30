@@ -1,27 +1,24 @@
 #include "Fraction.h"
 #include <math.h>
+#include <string>
 
 // ------------------------------
 // CONSTRUCTORS
 // ------------------------------
 
-// Constructor implementation - 2 arguments
-Fraction :: Fraction(int n, int d) {
-    // Make sure denominator is not negative
-    if (d < 0) {
-        d = abs(d);
-        n = -n; // Make numerator negative instead
-    }
-    
-    int common = gcd(abs(n), d); /**< d should not be negative at this point */
-    m_num = n/common; /**< The constructor automatically reduces */
-    m_den = d/common; /**< the Fraction as it is created */
+// Constructor implementation - no argument
+Fraction :: Fraction()
+{
+    m_numerator = 0; /**< Default to 0 */
+    m_denominator = 1;
 }
 
-// Constructor implementation - no argument
-Fraction :: Fraction() {
-    m_num = 0; /** Default to 0 */
-    m_den = 1;
+// Constructor implementation - 2 arguments
+Fraction :: Fraction(int n, int d)
+{
+    m_numerator = n;
+    m_denominator = d;
+    this->simplify();
 }
 
 
@@ -30,54 +27,74 @@ Fraction :: Fraction() {
 // ------------------------------
 
 // Greatest common denominator
-int Fraction :: gcd(int m, int n) {
-    while (m%n != 0) {
+int Fraction :: gcd(int m, int n)
+{
+    while (m%n != 0)
+    {
         int oldm = m;
         int oldn = n;
         m = oldn;
-        n = oldm%oldn;
+        n = oldm % oldn;
     }
+
     return n;
 }
 
-// Overloaded assigment operator
-Fraction& Fraction :: operator+=(const Fraction& other) {
-    *this = *this + other; /** Add the new fraction to this fraction */
-    return *this;
-}
 
-
-// ------------------------------
-// OVERLOADED OPERATORS
-// ------------------------------
-
+// Overloaded operators:
 // Addition
-Fraction operator+(const Fraction& f1, const Fraction& f2) {
-    int newnum = f1.get_num()*f2.get_den() + f1.get_den()*f2.get_num();
-    int newden = f1.get_den()*f2.get_den();
-    return Fraction(newnum, newden);
+Fraction Fraction :: operator+(const Fraction& other) const
+{
+    int new_n = m_numerator*other.m_denominator + m_denominator*other.m_numerator;
+    int new_d = m_denominator*other.m_denominator;
+    return Fraction(new_n, new_d);
 }
 
 // Subraction
-Fraction operator-(const Fraction& f1, const Fraction& f2) {
-    int new_n = f1.get_num()*f2.get_den() - f1.get_den()*f2.get_num();
-    int new_d = f1.get_den()*f2.get_den();    
+Fraction Fraction :: operator-(const Fraction& other) const
+{
+    int new_n = m_numerator*other.m_denominator - m_denominator*other.m_numerator;
+    int new_d = m_denominator*other.m_denominator;
     return Fraction(new_n, new_d);
 }
 
 // Division
-Fraction operator/(const Fraction& f1, const Fraction& f2) {
-    int new_n = f1.get_num()*f2.get_den();
-    int new_d = f1.get_den()*f2.get_num();    
+Fraction Fraction :: operator/(const Fraction& other) const
+{
+    int new_n = m_numerator*other.m_denominator;
+    int new_d = m_denominator*other.m_numerator;
     return Fraction(new_n, new_d);
 }
 
-/** 
- * Multiplication
- * Citation:
- * Learn C++. ©2024. 21.2 — Overloading the arithmetic operators using friend functions. LearnCpp.com.
- * https://www.learncpp.com/cpp-tutorial/overloading-the-arithmetic-operators-using-friend-functions/
- */
-Fraction operator*(const Fraction& f1, const Fraction& f2) {
-	return Fraction { f1.get_num()*f2.get_num(), f1.get_den()*f2.get_den() };
+// Multiplication
+Fraction Fraction :: operator*(const Fraction& other) const
+{
+	return Fraction(m_numerator*other.m_numerator, 
+                    m_denominator*other.m_denominator);
+}
+
+// Assignment operator
+Fraction Fraction :: operator+=(const Fraction& other)
+{
+    *this = *this + other;
+    return *this;
+}
+
+// Output operator
+std::ostream& operator<< (std::ostream& out_stream, const Fraction& f)
+{
+    if (f.m_numerator > f.m_denominator) // Convert to mixed fraction
+    {
+        int i = f.m_numerator / f.m_denominator;
+        int r = f.m_numerator % f.m_denominator;
+        std::string output = std::to_string(i) + " " + std::to_string(r) + 
+                             "/" + std::to_string(f.m_denominator);
+        out_stream << output;
+	    return out_stream;
+    }
+    
+    // Put into stream
+    std::string output = std::to_string(f.m_numerator) + "/" + std::to_string(f.m_denominator);
+    out_stream << output;
+	return out_stream;
 }

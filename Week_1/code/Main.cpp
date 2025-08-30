@@ -10,7 +10,7 @@ using namespace std;
 
 
 // ****NOTE FOR CLASS****
-/** text right above Exploration 1.12.9. Overloading Addition., 
+/** text right above Exploration 1.12.9. Overloading Addition, 
  *  what are they talking about?  */
 
 /**
