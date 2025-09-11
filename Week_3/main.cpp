@@ -23,6 +23,7 @@ using namespace std;
  * and discuss why it is O(1). Ensure that the plot aligns with constant time.
  */
 int getMiddleElement(int* arr, int size, unsigned int& counter) {
+    counter++; // Increment counter for the operation
     return arr[size / 2]; // Return the middle element
 }
 
@@ -48,7 +49,8 @@ int findRange(int* arr, int size, unsigned int& counter) {
     for (int i = 1; i < size; i++) {        // Loop through the array and set 
         if (arr[i] < min) { min = arr[i]; } // the min and max, starting at 1
         if (arr[i] > max) { max = arr[i]; } // because we already set min and 
-    }                                       // max to arr[0]
+        counter++;                          // max to arr[0]
+    }                                       
 
     return max - min; // Return the range
 }
@@ -90,6 +92,7 @@ int findMaxInMatrix(int** matrix, int N, unsigned int& counter) {
             if (matrix[i][j] > maxElement) {
                 maxElement = matrix[i][j]; // Update max if current element is greater
             }
+            counter++; // Increment counter for the operation
         }
     }
     return maxElement; // Return the maximum element found
@@ -108,6 +111,7 @@ unsigned long factorial(unsigned int n, unsigned int& counter) {
     while (n > 1) { // While n is greater than 1
         result *= n; // Multiply result by n
         n--; // Decrement n
+        counter++; // Increment counter for the operation
     }
     return result; 
 }
@@ -124,6 +128,7 @@ unsigned long factorial(unsigned int n, unsigned int& counter) {
 bool isPrime(unsigned int N, unsigned int& counter) {
     for (int i = 2; i <= N/2; i++) { // Check for factors from 2 to N/2
         if (N % i == 0) {
+            counter++; // Increment counter for the operation
             return false; // Found a factor, not prime
         }
     }
@@ -142,6 +147,7 @@ bool hasDuplicates(int* arr, int size, unsigned int& counter) {
     for (int i = 0; i < size; i++) {
         for (int j = i + 1; j < size; j++) {
             if (arr[i] == arr[j]) {
+                counter++; // Increment counter for the operation
                 return true; // Found a duplicate
             }
         }
@@ -211,7 +217,7 @@ void experiment() {
         // 6. Prime
         counter = 0;
         bool prime = isPrime(i, counter);
-        cout << "Prime" << i << " " << counter << "\n";
+        cout << "Prime: " << i << " " << counter << "\n";
         //primeFile << i << " " << counter << "\n";
 
         // 7. Duplicates
