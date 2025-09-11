@@ -22,7 +22,7 @@ private:
         m_denominator /= divisor;
         
         // Ensure the denominator is always positive
-        if (m_denominator < 0) // This will also work if the numerator is negative too
+        if (m_denominator < 0) // This works if the numerator is negative too
         {
             m_numerator = -m_numerator;
             m_denominator = -m_denominator;
