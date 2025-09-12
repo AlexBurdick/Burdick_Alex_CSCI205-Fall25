@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ bool hasDuplicates(int* arr, int size, unsigned int& counter);
 
 // Main function
 int main() {
-    const unsigned LIMIT = 100; /**< The # of times to run the experiments. */
+    const unsigned LIMIT = 10; /**< The # of times to run the experiments. */
     srand(static_cast<unsigned int>(time(0))); // Seed the random number generator
 
     /**
@@ -92,6 +93,8 @@ int main() {
         duplicatesFile << i << " " << counter << "\n";
         //delete[] arr;
     }
+
+    system("python grapher.py"); // Call the grapher script to generate graphs
     return 0;
 }
 
@@ -209,9 +212,9 @@ unsigned long long factorial(unsigned int n, unsigned int& counter) {
  * Analyze and discuss the time complexity of this approach. Graph both.
  */
 bool isPrime(unsigned int N, unsigned int& counter) {
-    for (int i = 2; i <= N/2; i++) { // Check for factors from 2 to N/2
+    for (int i = 2; i <= std::sqrt(N); i++) { // Check divisors up to sqrt(N)
+        counter++; // Increment counter for the operation
         if (N % i == 0) {
-            counter++; // Increment counter for the operation
             return false; // Found a factor, not prime
         }
     }
