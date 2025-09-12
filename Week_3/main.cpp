@@ -24,6 +24,7 @@ bool hasDuplicates(int* arr, int size, unsigned int& counter);
 // Main function
 int main() {
     const unsigned LIMIT = 100; /**< The # of times to run the experiments. */
+    srand(static_cast<unsigned int>(time(0))); // Seed the random number generator
 
     /**
      * Call each function and write the results to text files
@@ -34,48 +35,46 @@ int main() {
     ofstream quadraticTimeFile("Matrix.txt");
     ofstream factorialFile("Factorial.txt");
     ofstream primeFile("Prime.txt");
-    ofstream duplicatesFile("Duplicates.txt");
+    ofstream duplicatesFile("Duplicates.txt");  
 
-    // How many times to run the experiment
-    int n = 2;
     for(int i = 0; i < LIMIT; i++) {
         // 1. Middle - Constant
         unsigned int counter {0}; // Counter for operations
-        int* arr = new int[LIMIT]; // Allocate an array of size LIMIT
-        for(int j = 0; j < LIMIT; j++) {
-            arr[j] = rand() % 1000; // Fill the array with random integers
+        int size = i+1; // Size of the array, to account for 0 at the start
+        int* arr = new int[i]; // Allocate an array of size i
+        for(int j = 0; j < size; j++) {
+            arr[j] = rand() % 100; // Fill the array with random integers
         }
-        int result = getMiddleElement(arr, LIMIT, counter);
+        int result = getMiddleElement(arr, size, counter);
         constantTimeFile << i << " " << counter << " result: " << result << "\n";
 
         // 2. Range - Linear
         counter = 0;
-        result = findRange(arr, LIMIT, counter);
+        result = findRange(arr, size, counter);
         linearTimeFile << i << " " << counter << " result: " << result << "\n";
 
         // 3. Power of N - Linear exponential
         counter = 0;
-        result = powerOfN(n, i, counter);
+        result = powerOfN(2, i, counter);
         linearExpFile << i << " " << counter << " result: " << result << "\n";
 
         // 4. Matrix - quadratic
         counter = 0;
-        int** matrix = new int*[LIMIT];
-        for(int j = 0; j < LIMIT; j++) {
-            matrix[j] = new int[LIMIT];
+        int** matrix = new int*[size];
+        for(int j = 0; j < size; j++) {
+            matrix[j] = new int[i];
         }
-        for(int r = 0; r < LIMIT; r++) {
-            for(int c = 0; c < LIMIT; c++) {
-                matrix[r][c] = rand() % 1000; // Fill the matrix with random integers
+        for(int r = 0; r < size; r++) {
+            for(int c = 0; c < i; c++) {
+                matrix[r][c] = rand() % 100; // Fill the matrix with random integers
             }
         }
-        result = findMaxInMatrix(matrix, LIMIT, counter);
+        result = findMaxInMatrix(matrix, size, counter);
         quadraticTimeFile << i << " " << counter << " result: " << result << "\n";
-        for(int j = 0; j < LIMIT; j++){
+        for(int j = 0; j < size; j++){
             delete[] matrix[j];
         }
         delete[] matrix;
-        quadraticTimeFile << i << " " << counter << " result: " << result << "\n";
 
         // 5. Factorial - linear
         counter = 0;
@@ -89,11 +88,10 @@ int main() {
 
         // 7. Duplicates - quadratic
         counter = 0;
-        bool duplicates = hasDuplicates(arr, LIMIT, counter);
+        bool duplicates = hasDuplicates(arr, size, counter);
         duplicatesFile << i << " " << counter << " result: " << result << "\n";
         delete[] arr;
     }
-
     return 0;
 }
 
