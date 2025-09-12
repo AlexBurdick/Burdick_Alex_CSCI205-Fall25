@@ -46,17 +46,17 @@ int main() {
             arr[j] = rand() % 100; // Fill the array with random integers
         }
         int result = getMiddleElement(arr, size, counter);
-        constantTimeFile << i << " " << counter << " result: " << result << "\n";
+        constantTimeFile << i << " " << counter << "\n";
 
         // 2. Range - Linear
         counter = 0;
         result = findRange(arr, size, counter);
-        linearTimeFile << i << " " << counter << " result: " << result << "\n";
+        linearTimeFile << i << " " << counter << "\n";
 
         // 3. Power of N - Linear exponential
         counter = 0;
         result = powerOfN(2, i, counter);
-        linearExpFile << i << " " << counter << " result: " << result << "\n";
+        linearExpFile << i << " " << counter << "\n";
 
         // 4. Matrix - quadratic
         counter = 0;
@@ -70,7 +70,7 @@ int main() {
             }
         }
         result = findMaxInMatrix(matrix, size, counter);
-        quadraticTimeFile << i << " " << counter << " result: " << result << "\n";
+        quadraticTimeFile << i << " " << counter << "\n";
         for(int j = 0; j < size; j++){
             delete[] matrix[j];
         }
@@ -79,17 +79,17 @@ int main() {
         // 5. Factorial - linear
         counter = 0;
         unsigned long long fact = factorial(i, counter);
-        factorialFile << i << " " << counter << " result: " << result << "\n";
+        factorialFile << i << " " << counter << "\n";
 
         // 6. Prime - linear (or better?)
         counter = 0;
         bool prime = isPrime(i, counter);
-        primeFile << i << " " << counter << " result: " << result << "\n";
+        primeFile << i << " " << counter << "\n";
 
         // 7. Duplicates - quadratic
         counter = 0;
         bool duplicates = hasDuplicates(arr, size, counter);
-        duplicatesFile << i << " " << counter << " result: " << result << "\n";
+        duplicatesFile << i << " " << counter << "\n";
         //delete[] arr;
     }
     return 0;
