@@ -13,6 +13,8 @@
 
 using namespace std;
 
+const unsigned int LIMIT = 10; /**< The number of times to run the experiments. */
+
 // Function prototypes
 int getMiddleElement(int* arr, int size, unsigned int& counter);
 int findRange(int* arr, int size, unsigned int& counter);
@@ -24,7 +26,6 @@ bool hasDuplicates(int* arr, int size, unsigned int& counter);
 
 // Main function
 int main() {
-    const unsigned LIMIT = 10; /**< The # of times to run the experiments. */
     srand(static_cast<unsigned int>(time(0))); // Seed the random number generator
 
     /**
@@ -38,20 +39,19 @@ int main() {
     ofstream primeFile("Prime.txt");
     ofstream duplicatesFile("Duplicates.txt");  
 
-    for(int i = 0; i < LIMIT; i++) {
+    for(int i = 1; i < LIMIT; i++) {
         // 1. Middle - Constant
         unsigned int counter {0}; // Counter for operations
-        int size = i+1; // Size of the array, to account for 0 at the start
         int* arr = new int[i]; // Allocate an array of size i
-        for(int j = 0; j < size; j++) {
-            arr[j] = rand() % 100; // Fill the array with random integers
+        for(int j = 0; j < i; j++) {
+            arr[j] = rand() % LIMIT; // Fill the array with random integers
         }
-        int result = getMiddleElement(arr, size, counter);
+        int result = getMiddleElement(arr, i, counter);
         constantTimeFile << i << " " << counter << "\n";
 
         // 2. Range - Linear
         counter = 0;
-        result = findRange(arr, size, counter);
+        result = findRange(arr, i, counter);
         linearTimeFile << i << " " << counter << "\n";
 
         // 3. Power of N - Linear exponential
@@ -61,18 +61,18 @@ int main() {
 
         // 4. Matrix - quadratic
         counter = 0;
-        int** matrix = new int*[size];
-        for(int j = 0; j < size; j++) {
+        int** matrix = new int*[i];
+        for(int j = 0; j < i; j++) {
             matrix[j] = new int[i];
         }
-        for(int r = 0; r < size; r++) {
+        for(int r = 0; r < i; r++) {
             for(int c = 0; c < i; c++) {
                 matrix[r][c] = rand() % 100; // Fill the matrix with random integers
             }
         }
-        result = findMaxInMatrix(matrix, size, counter);
+        result = findMaxInMatrix(matrix, i, counter);
         quadraticTimeFile << i << " " << counter << "\n";
-        for(int j = 0; j < size; j++){
+        for(int j = 0; j < i; j++){
             delete[] matrix[j];
         }
         delete[] matrix;
@@ -89,12 +89,12 @@ int main() {
 
         // 7. Duplicates - quadratic
         counter = 0;
-        bool duplicates = hasDuplicates(arr, size, counter);
+        bool duplicates = hasDuplicates(arr, i, counter);
         duplicatesFile << i << " " << counter << "\n";
-        //delete[] arr;
+        delete[] arr;
     }
 
-    system("python grapher.py"); // Call the grapher script to generate graphs
+    //system("py grapher.py"); // Call the grapher script to generate graphs
     return 0;
 }
 
@@ -232,8 +232,8 @@ bool isPrime(unsigned int N, unsigned int& counter) {
 bool hasDuplicates(int* arr, int size, unsigned int& counter) {
     for (int i = 0; i < size; i++) {
         for (int j = i + 1; j < size; j++) {
+            counter++; // Increment counter for the operation
             if (arr[i] == arr[j]) {
-                counter++; // Increment counter for the operation
                 return true; // Found a duplicate
             }
         }

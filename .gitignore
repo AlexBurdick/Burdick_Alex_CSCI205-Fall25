@@ -2,7 +2,7 @@
 *.txt
 
 # Instruction files
-*.pdf
+
 
 # Compiled files
 *.exe
