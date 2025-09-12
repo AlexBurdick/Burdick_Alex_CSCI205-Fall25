@@ -1,0 +1,8 @@
+# Files produced by the program
+*.txt
+
+# Instruction files
+*.pdf
+
+# Compiled files
+*.exe

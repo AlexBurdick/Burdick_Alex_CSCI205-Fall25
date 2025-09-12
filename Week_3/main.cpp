@@ -12,6 +12,91 @@
 
 using namespace std;
 
+// Function prototypes
+int getMiddleElement(int* arr, int size, unsigned int& counter);
+int findRange(int* arr, int size, unsigned int& counter);
+unsigned long powerOfN(int base, int exponent, unsigned int& counter);
+int findMaxInMatrix(int** matrix, int N, unsigned int& counter);
+unsigned long long factorial(unsigned int n, unsigned int& counter);
+bool isPrime(unsigned int N, unsigned int& counter);
+bool hasDuplicates(int* arr, int size, unsigned int& counter);
+
+// Main function
+int main() {
+    const unsigned LIMIT = 100; /**< The # of times to run the experiments. */
+
+    /**
+     * Call each function and write the results to text files
+     */
+    ofstream constantTimeFile("Middle.txt");
+    ofstream linearTimeFile("Range.txt");
+    ofstream linearExpFile("PowerofN.txt");
+    ofstream quadraticTimeFile("Matrix.txt");
+    ofstream factorialFile("Factorial.txt");
+    ofstream primeFile("Prime.txt");
+    ofstream duplicatesFile("Duplicates.txt");
+
+    // How many times to run the experiment
+    int n = 2;
+    for(int i = 0; i < LIMIT; i++) {
+        // 1. Middle - Constant
+        unsigned int counter {0}; // Counter for operations
+        int* arr = new int[LIMIT]; // Allocate an array of size LIMIT
+        for(int j = 0; j < LIMIT; j++) {
+            arr[j] = rand() % 1000; // Fill the array with random integers
+        }
+        int result = getMiddleElement(arr, LIMIT, counter);
+        constantTimeFile << i << " " << counter << " result: " << result << "\n";
+
+        // 2. Range - Linear
+        counter = 0;
+        result = findRange(arr, LIMIT, counter);
+        linearTimeFile << i << " " << counter << " result: " << result << "\n";
+
+        // 3. Power of N - Linear exponential
+        counter = 0;
+        result = powerOfN(n, i, counter);
+        linearExpFile << i << " " << counter << " result: " << result << "\n";
+
+        // 4. Matrix - quadratic
+        counter = 0;
+        int** matrix = new int*[LIMIT];
+        for(int j = 0; j < LIMIT; j++) {
+            matrix[j] = new int[LIMIT];
+        }
+        for(int r = 0; r < LIMIT; r++) {
+            for(int c = 0; c < LIMIT; c++) {
+                matrix[r][c] = rand() % 1000; // Fill the matrix with random integers
+            }
+        }
+        result = findMaxInMatrix(matrix, LIMIT, counter);
+        quadraticTimeFile << i << " " << counter << " result: " << result << "\n";
+        for(int j = 0; j < LIMIT; j++){
+            delete[] matrix[j];
+        }
+        delete[] matrix;
+        quadraticTimeFile << i << " " << counter << " result: " << result << "\n";
+
+        // 5. Factorial - linear
+        counter = 0;
+        unsigned long long fact = factorial(i, counter);
+        factorialFile << i << " " << counter << " result: " << result << "\n";
+
+        // 6. Prime - linear (or better?)
+        counter = 0;
+        bool prime = isPrime(i, counter);
+        primeFile << i << " " << counter << " result: " << result << "\n";
+
+        // 7. Duplicates - quadratic
+        counter = 0;
+        bool duplicates = hasDuplicates(arr, LIMIT, counter);
+        duplicatesFile << i << " " << counter << " result: " << result << "\n";
+        delete[] arr;
+    }
+
+    return 0;
+}
+
 /** 
  * @brief Finds the middle element of an array.
  * 
@@ -106,7 +191,7 @@ int findMaxInMatrix(int** matrix, int N, unsigned int& counter) {
  * its time complexity and discuss why it is O(n). Ensure that the plot aligns 
  * with linear time.
  */
-unsigned long factorial(unsigned int n, unsigned int& counter) {
+unsigned long long factorial(unsigned int n, unsigned int& counter) {
     unsigned long result = 1; /**< Holds the factorial to return */    
     while (n > 1) { // While n is greater than 1
         result *= n; // Multiply result by n
@@ -153,129 +238,4 @@ bool hasDuplicates(int* arr, int size, unsigned int& counter) {
         }
     }
     return false; // No duplicates found
-}
-
-void experiment() {
-    /**
-     * Call each function and write the results to text files
-     */
-    ofstream constantTimeFile("Constant_Time.txt");
-    ofstream linearTimeFile("Linear_Time.txt");
-    ofstream linearBetterFile("Linear_Better_Time.txt");
-    ofstream quadraticTimeFile("Quadratic_Time.txt");
-    ofstream factorialFile("Factorial_Time.txt");
-    ofstream primeFile("Prime_Time.txt");
-    ofstream duplicatesFile("Duplicates_Time.txt");
-
-    // How many times to run the experiment
-    int n = 2;
-    const unsigned LIMIT = 100;
-    for(int i = 0; i < LIMIT; i++) {
-        // Call each function here and write results to the appropriate file
-        // Example: constantTimeFile << getMiddleElement(...) << endl;
-        // 1. Constant
-        unsigned int counter = 0;
-        int* arr = new int[LIMIT]; // Allocate an array of size LIMIT
-        int size = LIMIT;
-        int result = getMiddleElement(arr, size, counter);
-        cout << "Constant: " << i << " " << counter << "\n";
-        //constantTimeFile << i << " " << counter << "\n";
-
-        // 2. Linear
-        counter = 0;
-        result = findRange(arr, size, counter);
-        cout << "Linear: " << i << " " << counter << "\n";
-        //linearTimeFile << i << " " << counter << "\n";
-
-        // 3. Linear exponential
-        counter = 0;
-        result = powerOfN(n, i, counter);
-        cout << "Linear-better: " << i << " " << counter << "\n";
-        //linearBetterFile << i << " " << counter << "/n";
-
-        // 4. Quadratic
-        counter = 0;
-        int** matrix = new int*[LIMIT];
-        for(int j = 0; j < LIMIT; j++) {
-            matrix[j] = new int[LIMIT];
-        }
-        result = findMaxInMatrix(matrix, size, counter);
-        quadraticTimeFile << i << " " << counter << "\n";
-        for(int j = 0; j < LIMIT; j++){
-            delete[] matrix[j];
-        }
-        delete[] matrix;
-        cout << "Quadratic: " << i << " " << counter << "\n";
-        //quadraticTimeFile << i << " " << counter << "\n";
-
-        // 5. Factorial
-        counter = 0;
-        unsigned long fact = factorial(i, counter);
-        cout << "Factorial: " << i << " " << counter << "\n";
-        //factorialFile << i << " " << counter << "\n";
-
-        // 6. Prime
-        counter = 0;
-        bool prime = isPrime(i, counter);
-        cout << "Prime: " << i << " " << counter << "\n";
-        //primeFile << i << " " << counter << "\n";
-
-        // 7. Duplicates
-        counter = 0;
-        bool duplicates = hasDuplicates(arr, size, counter);
-        cout << "Duplicates: " << i << " " << counter << "\n";
-        //duplicatesFile << i << " " << counter << "\n";
-        delete[] arr;
-        
-    }
-}
-
-int main() {
-    /** Testing functions
-    // 1. Middle element
-    unsigned int counter = 0;
-    int arr[] = {10,2,3,4,5};
-    int size = sizeof(arr)/sizeof(arr[0]);
-    int middle = getMiddleElement(arr, size);
-    cout << "Middle element: " << middle << endl;
-
-    // 2. Range
-    counter = 0;
-    int range = findRange(arr, size);
-    cout << "Range: " << range << endl;
-
-    // 3. Power
-    counter = 0;
-    int base {2}, exponent {3};
-    unsigned long power = powerOfN(base, exponent, counter);
-    cout << base << "^" << exponent << " = " << power << endl;
-
-    // 4. Matrix max
-    int N = 3;
-    int matrix[3][3] = { {1, 2, 3}, {4, 15, 6}, {7, 8, 9} };
-    int max = findMaxInMatrix(matrix, N);
-    cout << "Max in matrix: " << max << endl;
-    
-    // 5. Factorial
-    counter = 0;
-    int num = 1;
-    unsigned long fact = factorial(num);
-    cout << num << "! = " << fact << endl;
-
-    // 6. Prime
-    counter = 0;
-    int primeCandidate = 28;
-    bool prime = isPrime(primeCandidate);
-    cout << primeCandidate << (prime ? " is prime" : " is not prime") << endl;
-
-    // 7. Duplicates
-    counter = 0;
-    int arrWithDup[] = {1,2,3,4,5};
-    size = sizeof(arrWithDup)/sizeof(arrWithDup[0]);
-    bool duplicates = hasDuplicates(arrWithDup, size); // Pass array as pointer
-    cout << "Array has duplicates: " << (duplicates ? "Yes" : "No") << endl;
-    */ 
-    
-    experiment();
-    return 0;
 }
