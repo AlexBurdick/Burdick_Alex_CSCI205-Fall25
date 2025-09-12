@@ -90,7 +90,7 @@ int main() {
         counter = 0;
         bool duplicates = hasDuplicates(arr, size, counter);
         duplicatesFile << i << " " << counter << " result: " << result << "\n";
-        delete[] arr;
+        //delete[] arr;
     }
     return 0;
 }
