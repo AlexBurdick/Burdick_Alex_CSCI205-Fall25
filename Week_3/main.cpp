@@ -4,6 +4,10 @@
  * @brief The main function for the analysis homework project. This file
  * contains the main function that calls various analysis functions and
  * writes their results to text files.
+ * 
+ * Instructions: Compile and run the C++ file. Then run the python script
+ * grapher.py to generate graphs from the output text files. The C++ and
+ * python scripts should be in the same directory.
  ************************************************************************/
 
 #include <iostream>
@@ -24,13 +28,13 @@ unsigned long long factorial(unsigned int n, unsigned int& counter);
 bool isPrime(unsigned int N, unsigned int& counter);
 bool hasDuplicates(int* arr, int size, unsigned int& counter);
 
-// Main function
+/**
+ * @brief Main function to run the analysis experiments and write results to files.
+ * @return success or failure code 
+ */
 int main() {
     srand(static_cast<unsigned int>(time(0))); // Seed the random number generator
 
-    /**
-     * Call each function and write the results to text files
-     */
     ofstream constantTimeFile("Middle.txt");
     ofstream linearTimeFile("Range.txt");
     ofstream linearExpFile("PowerofN.txt");
