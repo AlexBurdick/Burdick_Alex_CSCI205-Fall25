@@ -7,6 +7,8 @@ import numpy as np
 def plot_algorith_analysis():
     files = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.txt')]
     for file in files:
+        print(f"Processing file: {file}")
+        print(f"File contents")
         label = file.replace('.txt', '')
         data = np.loadtxt(file, delimiter=' ')
         x = data[:, 0]

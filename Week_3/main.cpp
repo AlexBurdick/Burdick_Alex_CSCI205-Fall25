@@ -35,22 +35,21 @@ int main() {
     unsigned int LIMIT = 100; /**< The number of times to run the experiments. */
     cout << "Enter the upper limit for the experiments (e.g., 100): ";
     // Test if input is valid
-    while(!(cin >> LIMIT)){
+    while (!(cin >> LIMIT)){
         cout << "Invalid input. Please enter a positive integer: ";
         cin.clear(); // Clear the error flag
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
     }
-    cin >> LIMIT;
     
     srand(static_cast<unsigned int>(time(0))); // Seed the random number generator
 
-    ofstream constantTimeFile("Middle_O(1).txt");
-    ofstream linearTimeFile("Range_0(n).txt");
-    ofstream linearExpFile("PowerofN_0(n).txt");
-    ofstream quadraticTimeFile("Matrix_0(n^2).txt");
-    ofstream factorialFile("Factorial_0(n).txt");
-    ofstream primeFile("Prime_0(sqrt(n)).txt");
-    ofstream duplicatesFile("Duplicates_0(n^2).txt");  
+    ofstream constantTimeFile("Middle.txt");
+    ofstream linearTimeFile("Range.txt");
+    ofstream linearExpFile("PowerofN.txt");
+    ofstream quadraticTimeFile("Matrix.txt");
+    ofstream factorialFile("Factorial.txt");
+    ofstream primeFile("Prime.txt");
+    ofstream duplicatesFile("Duplicates.txt");  
 
     cout<< "Running experiments, this may take a few minutes..." << endl;
     for(int i = 1; i < LIMIT; i++) {
@@ -61,17 +60,17 @@ int main() {
             arr[j] = rand() % LIMIT; // Fill the array with random integers
         }
         int result = getMiddleElement(arr, i, counter);
-        constantTimeFile << i << " " << counter << "\n";
+        constantTimeFile << i << " " << counter << endl;
 
         // 2. Range - Linear
         counter = 0;
         result = findRange(arr, i, counter);
-        linearTimeFile << i << " " << counter << "\n";
+        linearTimeFile << i << " " << counter << endl;
 
         // 3. Power of N - Linear exponential
         counter = 0;
         result = powerOfN(2, i, counter);
-        linearExpFile << i << " " << counter << "\n";
+        linearExpFile << i << " " << counter << endl;
 
         // 4. Matrix - quadratic
         counter = 0;
@@ -85,7 +84,7 @@ int main() {
             }
         }
         result = findMaxInMatrix(matrix, i, counter);
-        quadraticTimeFile << i << " " << counter << "\n";
+        quadraticTimeFile << i << " " << counter << endl;
         for(int j = 0; j < i; j++){
             delete[] matrix[j];
         }
@@ -94,20 +93,20 @@ int main() {
         // 5. Factorial - linear
         counter = 0;
         unsigned long long fact = factorial(i, counter);
-        factorialFile << i << " " << counter << "\n";
+        factorialFile << i << " " << counter << endl;
 
         // 6. Prime - linear (or better?)
         counter = 0;
         bool prime = isPrime(i, counter);
-        primeFile << i << " " << counter << "\n";
+        primeFile << i << " " << counter << endl;
 
         // 7. Duplicates - quadratic
         counter = 0;
         bool duplicates = hasDuplicates(arr, i, counter);
-        duplicatesFile << i << " " << counter << "\n";
+        duplicatesFile << i << " " << counter << endl;
         delete[] arr;
     }
-
+    
     system("python grapher.py"); // Call the grapher script to generate graphs
     return 0;
 }
