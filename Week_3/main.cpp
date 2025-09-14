@@ -5,9 +5,12 @@
  * contains the main function that calls various analysis functions and
  * writes their results to text files.
  * 
- * Instructions: Compile and run the C++ file. Then run the python script
- * grapher.py to generate graphs from the output text files. The C++ and
- * python scripts should be in the same directory.
+ * Instructions: Compile and run the C++ file. The program will prompt
+ * the user to enter an upper limit for the experiments. It will then
+ * run a series of experiments, each corresponding to a different time
+ * complexity analysis, and write the results to separate text files. After
+ * running the experiments, it will call a Python script to generate
+ * graphs based on the results.
  ************************************************************************/
 
 #include <iostream>
