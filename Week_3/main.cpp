@@ -17,8 +17,6 @@
 
 using namespace std;
 
-const unsigned int LIMIT = 10; /**< The number of times to run the experiments. */
-
 // Function prototypes
 int getMiddleElement(int* arr, int size, unsigned int& counter);
 int findRange(int* arr, int size, unsigned int& counter);
@@ -33,16 +31,28 @@ bool hasDuplicates(int* arr, int size, unsigned int& counter);
  * @return success or failure code 
  */
 int main() {
+    // Get the limit for the experiments from user input
+    unsigned int LIMIT = 100; /**< The number of times to run the experiments. */
+    cout << "Enter the upper limit for the experiments (e.g., 100): ";
+    // Test if input is valid
+    while(!(cin >> LIMIT)){
+        cout << "Invalid input. Please enter a positive integer: ";
+        cin.clear(); // Clear the error flag
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+    }
+    cin >> LIMIT;
+    
     srand(static_cast<unsigned int>(time(0))); // Seed the random number generator
 
-    ofstream constantTimeFile("Middle.txt");
-    ofstream linearTimeFile("Range.txt");
-    ofstream linearExpFile("PowerofN.txt");
-    ofstream quadraticTimeFile("Matrix.txt");
-    ofstream factorialFile("Factorial.txt");
-    ofstream primeFile("Prime.txt");
-    ofstream duplicatesFile("Duplicates.txt");  
+    ofstream constantTimeFile("Middle_O(1).txt");
+    ofstream linearTimeFile("Range_0(n).txt");
+    ofstream linearExpFile("PowerofN_0(n).txt");
+    ofstream quadraticTimeFile("Matrix_0(n^2).txt");
+    ofstream factorialFile("Factorial_0(n).txt");
+    ofstream primeFile("Prime_0(sqrt(n)).txt");
+    ofstream duplicatesFile("Duplicates_0(n^2).txt");  
 
+    cout<< "Running experiments, this may take a few minutes..." << endl;
     for(int i = 1; i < LIMIT; i++) {
         // 1. Middle - Constant
         unsigned int counter {0}; // Counter for operations
@@ -98,7 +108,7 @@ int main() {
         delete[] arr;
     }
 
-    //system("py grapher.py"); // Call the grapher script to generate graphs
+    system("python grapher.py"); // Call the grapher script to generate graphs
     return 0;
 }
 
