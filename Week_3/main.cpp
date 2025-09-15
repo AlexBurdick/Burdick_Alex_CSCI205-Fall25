@@ -16,7 +16,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <ctime>
 #include <cmath>
 
 using namespace std;
@@ -55,7 +54,7 @@ int main() {
     ofstream primeFile("Prime.txt");
     ofstream duplicatesFile("Duplicates.txt");  
 
-    cout<< "Running experiments, this may take a few minutes..." << endl;
+    cout<< "Running experiments, this may take a few minutes..." << "\n";
     for(int i = 1; i < LIMIT; i++) {
         // 1. Middle - Constant
         unsigned int counter {0}; // Counter for operations
@@ -64,17 +63,17 @@ int main() {
             arr[j] = rand() % LIMIT; // Fill the array with random integers
         }
         int result = getMiddleElement(arr, i, counter);
-        constantTimeFile << i << " " << counter << endl;
+        constantTimeFile << i << " " << counter << "\n";
 
         // 2. Range - Linear
         counter = 0;
         result = findRange(arr, i, counter);
-        linearTimeFile << i << " " << counter << endl;
+        linearTimeFile << i << " " << counter << "\n";
 
         // 3. Power of N - Linear exponential
         counter = 0;
         result = powerOfN(2, i, counter);
-        linearExpFile << i << " " << counter << endl;
+        linearExpFile << i << " " << counter << "\n";
 
         // 4. Matrix - quadratic
         counter = 0;
@@ -88,7 +87,7 @@ int main() {
             }
         }
         result = findMaxInMatrix(matrix, i, counter);
-        quadraticTimeFile << i << " " << counter << endl;
+        quadraticTimeFile << i << " " << counter << "\n";
         for(int j = 0; j < i; j++){
             delete[] matrix[j];
         }
@@ -97,21 +96,31 @@ int main() {
         // 5. Factorial - linear
         counter = 0;
         unsigned long long fact = factorial(i, counter);
-        factorialFile << i << " " << counter << endl;
+        factorialFile << i << " " << counter << "\n";
 
         // 6. Prime - linear (or better?)
         counter = 0;
         bool prime = isPrime(i, counter);
-        primeFile << i << " " << counter << endl;
+        primeFile << i << " " << counter << "\n";
 
         // 7. Duplicates - quadratic
         counter = 0;
         bool duplicates = hasDuplicates(arr, i, counter);
-        duplicatesFile << i << " " << counter << endl;
+        duplicatesFile << i << " " << counter << "\n";
         delete[] arr;
     }
     
-    system("python grapher.py"); // Call the grapher script to generate graphs
+    // Flush the output stream to ensure all data is written and files closed
+    constantTimeFile    << flush; // Forces the data to be written immediately
+    linearTimeFile      << flush; // Writing to files once at the end to reduce 
+    linearExpFile       << flush; // I/O overhead during the experiments
+    quadraticTimeFile   << flush;
+    factorialFile       << flush;
+    primeFile           << flush;
+    duplicatesFile      << flush;
+
+    // Call the grapher script to generate graphs
+    system("python grapher.py");
     return 0;
 }
 
