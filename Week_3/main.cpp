@@ -10,7 +10,8 @@
  * run a series of experiments, each corresponding to a different time
  * complexity analysis, and write the results to separate text files. After
  * running the experiments, it will call a Python script to generate
- * graphs based on the results.
+ * graphs based on the results. The legend in the graphs is clickable to
+ * hide/show lines.
  ************************************************************************/
 
 #include <iostream>
