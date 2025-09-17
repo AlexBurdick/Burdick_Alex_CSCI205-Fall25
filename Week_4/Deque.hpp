@@ -7,6 +7,10 @@
 #ifndef DEQUE_H
 #define DEQUE_H
 
+// Questions: 
+// - what makes it abstract? how is is different from java again?
+// - what does 'new' do?
+
 template <typename T> // Template class definition, interchange T with any type
 class Deque{
 	
@@ -77,9 +81,6 @@ class Deque{
 			// set the capacity to double the size of the array
 			capacity = size * 2;
 			
-			// set the size to the size of the array
-			this->size = size; // nees this pointer as size is a passed in variable
-			
 			// copy the items from the given array to the deque's array
 			array = new T[capacity];
 			for (size_t i = 0; i < size; i++){
@@ -104,15 +105,12 @@ class Deque{
 		 * 
 		 * @param item item to be added to the front of the deque
 		 */
-		void push_front(const T item){
+		void push_front(const T& item){
 			// If the array is full, call resize() to double the size of the array
 			if full resize;
-
-			// note: no need to check if you are at the end of the array
-			// modulus division will take care of that for you
-			
-
-
+			front = (front--) % capacity;
+			array[front] = item;
+			size++;
 		}
 
 		/**
@@ -120,14 +118,12 @@ class Deque{
 		 * 
 		 * @param item item to be added to the back of the deque
 		 */
-		void push_back(const T item){
-			// ===============================
-			// || TO DO: Handle wrap around ||
-			// ===============================
-
-			// note: no need to check if you are at the end of the array
-			// modulus division will take care of that for you
+		void push_back(const T& item){
 			// If the array is full, call resize() to double the size of the array
+			if full resize;
+			back = (back++) % capacity;
+			array[back] = item;
+			size++;
 		}
 
 		/**
@@ -136,12 +132,12 @@ class Deque{
 		 * @return T the item removed from the front of the deque
 		 */
 		T pop_front(){
-			// ===============================
-			// || TO DO: Handle wrap around ||
-			// ===============================
-
 			// If the deque is empty, throw an out_of_range exception
-			
+			if (empty()) throw out_of_range("Deque is empty");
+			T item = array[front];
+			front = (front++) % capacity;
+			size--;
+			return item;
 		}
 
 		/**
@@ -150,11 +146,12 @@ class Deque{
 		 * @return T the item removed from the back of the deque
 		 */
 		T pop_back(){
-			// ===============================
-			// || TO DO: Handle wrap around ||
-			// ===============================
-
 			// If the deque is empty, throw an out_of_range exceptio
+			if (empty()) throw out_of_range("Deque is empty");
+			T item = array[back];
+			back = (back--) % capactiy;
+			size--;
+			return item;
 		}
 
 		/**
@@ -162,14 +159,18 @@ class Deque{
 		 * 
 		 * @return T the item at the front of the deque
 		 */
-		T front(){  return array[front]  }
+		T front(){
+			return array[front]
+		}
 
 		/**
 		 * @brief Returns but does not remove the item at the back of the deque
 		 * 
 		 * @return T the item at the back of the deque
 		 */
-		T back(){  return array[back]  }
+		T back(){
+			return array[back]
+		}
 
 		/**
 		 * @brief Returns whether or not the deque is full
@@ -177,7 +178,9 @@ class Deque{
 		 * @return true, if the deque is full
 		 * @return false, if the deque is not full
 		 */
-		bool full(){  return size == capacity;  }
+		bool full(){
+			return size == capacity;
+		}
 
 		/**
 		 * @brief Returns whether or not the deque is empty
@@ -185,14 +188,18 @@ class Deque{
 		 * @return true, if the deque is empty
 		 * @return false, if the deque is not empty
 		 */
-		bool empty(){  return size == 0  }
+		bool empty(){
+			return size == 0
+		}
 
 		/**
 		 * @brief Returns the number of items in the deque
 		 * 
 		 * @return size_t, the number of items in the deque
 		 */
-		size_t size(){  return size  }	
+		size_t size(){
+			return size
+		}	
 };
 
 #endif
