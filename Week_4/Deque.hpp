@@ -8,8 +8,8 @@
 #define DEQUE_H
 
 template <typename T> // Template class definition, interchange T with any type
-class Deque
-{
+class Deque{
+	
 	private:
 		// Private member variables to manage insertion and removal points
 		size_t size;	 // number of items in the deque, acts as counter needs to be incremented and decremented
@@ -82,8 +82,9 @@ class Deque
 			
 			// copy the items from the given array to the deque's array
 			array = new T[capacity];
-			for (size_t i = 0; i < size; i++)
-			{  array[i] = arr[i];  }
+			for (size_t i = 0; i < size; i++){
+				array[i] = arr[i];
+			}
 			
 			// set the front and back indices appropriately
 			front = 0;
@@ -103,7 +104,7 @@ class Deque
 		 * 
 		 * @param item item to be added to the front of the deque
 		 */
-		void push_front(T item){
+		void push_front(const T item){
 			// If the array is full, call resize() to double the size of the array
 			if full resize;
 
@@ -119,7 +120,7 @@ class Deque
 		 * 
 		 * @param item item to be added to the back of the deque
 		 */
-		void push_back(T item){
+		void push_back(const T item){
 			// ===============================
 			// || TO DO: Handle wrap around ||
 			// ===============================
@@ -140,6 +141,7 @@ class Deque
 			// ===============================
 
 			// If the deque is empty, throw an out_of_range exception
+			
 		}
 
 		/**
@@ -160,22 +162,14 @@ class Deque
 		 * 
 		 * @return T the item at the front of the deque
 		 */
-		T front(){
-			// ===================
-			// || TO DO: Finish ||
-			// ===================
-		}
+		T front(){  return array[front]  }
 
 		/**
 		 * @brief Returns but does not remove the item at the back of the deque
 		 * 
 		 * @return T the item at the back of the deque
 		 */
-		T back(){
-			// ===================
-			// || TO DO: Finish ||
-			// ===================
-		}
+		T back(){  return array[back]  }
 
 		/**
 		 * @brief Returns whether or not the deque is full
@@ -183,9 +177,7 @@ class Deque
 		 * @return true, if the deque is full
 		 * @return false, if the deque is not full
 		 */
-		bool full(){
-			return size == capacity;
-		}
+		bool full(){  return size == capacity;  }
 
 		/**
 		 * @brief Returns whether or not the deque is empty
@@ -193,22 +185,14 @@ class Deque
 		 * @return true, if the deque is empty
 		 * @return false, if the deque is not empty
 		 */
-		bool empty(){
-			// ===================
-			// || TO DO: Finish ||
-			// ===================
-		}
+		bool empty(){  return size == 0  }
 
 		/**
 		 * @brief Returns the number of items in the deque
 		 * 
 		 * @return size_t, the number of items in the deque
 		 */
-		size_t size(){
-			// ===================
-			// || TO DO: Finish ||
-			// ===================
-		}	
+		size_t size(){  return size  }	
 };
 
 #endif
