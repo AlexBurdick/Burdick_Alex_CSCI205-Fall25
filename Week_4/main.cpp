@@ -61,4 +61,6 @@ int main(){
 		Card t = deck.pop_front();
 		cout << "Card is: " << t << endl;
 	}
+
+	return 0;
 }
