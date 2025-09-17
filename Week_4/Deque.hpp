@@ -1,31 +1,25 @@
+/*********************************************************************
+ * @file  Deque.hpp
+ * 
+ * @brief Implementation of the class Deque.
+ *********************************************************************/
+
 #ifndef DEQUE_H
 #define DEQUE_H
-
-// QUESTIONS FOR LAB: 
-// - Error at line 1
-// - Should the Doxygen comments go ahead of the file header
-// - Pop doesn't return a value, should ours? (see main line 26)
-// - How do we use 'this' in C++? (see push_front() line 119 and Deque line 89)
-// - How do we use size? doesn't that need to be reading the contents
-// 	 of the array? (see full() line 193)
-// - In the instructions, what does this mean? 
-//   'implement a templated stack in C++ by using the composition pattern and 
-//    including a private reference to a deque object.'
 
 template <typename T>
 class Deque
 {
 	private:
 		// Private member variables to manage insertion and removal points
-		size_t size;	 // number of items in the deque
+		size_t size;	 // number of items in the deque, acts as counter needs to be incremented and decremented
 		size_t capacity; // size of the array
 		size_t front;	 // index of the front of the deque
 		size_t rear;	 // index of the back of the deque
 		T* array;		 // array to store items (pointer to type T, to be determined at run time)
 
 		// Helper function to resize the array
-		void resize()
-		{
+		void resize(){
 			if (capacity == 0) capacity = 1; // Data validation, cannot be 0
 			capacity *= 2; // Double capacity
 			T* newArray = new T[capacity];
@@ -48,8 +42,7 @@ class Deque
 		 * @brief Construct a new Deque object
 		 * 
 		 */
-		Deque()
-		{
+		Deque(){
 			capacity= 100;
 			size 	= 0;
 			front 	= 0;
@@ -77,8 +70,7 @@ class Deque
 		 * @param arr the array to copy items from
 		 * @param size the number of items in the array
 		 */
-		Deque(T* arr, size_t size)
-		{
+		Deque(T* arr, size_t size){
 			// ensure the array is not null. Throw an invalid argument exception if it is
 			if (arr == nullptr) throw std::invalid_argument("Array cannot be null");
 			if (size == 0) throw std::invalid_argument("Size cannot be zero");
@@ -103,8 +95,7 @@ class Deque
 		 * @brief Destroy the Deque object and de-allocate dynamic memory
 		 * 
 		 */
-		~Deque()
-		{
+		~Deque(){
 			delete[] arr;
 		}				
 
@@ -125,7 +116,7 @@ class Deque
 		 * 
 		 * @param item item to be added to the back of the deque
 		 */
-		void push_back(T item)	{
+		void push_back(T item){
 			// ===============================
 			// || TO DO: Handle wrap around ||
 			// ===============================
@@ -190,7 +181,6 @@ class Deque
 		 * @return false, if the deque is not full
 		 */
 		bool full(){
-			// How can this work? size needs to be dynamic
 			return size == capacity;
 		}
 

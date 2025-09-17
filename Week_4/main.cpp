@@ -12,8 +12,15 @@
 	with the appropriate type
 */
 
+/*********************************************************************
+ * @file  main.cpp
+ * 
+ * @brief Main function for the Stacks, Queues, Deques Lab Assignment
+ *********************************************************************/
+
 #include <iostream>
 #include <string>
+#include "Card.h"
 #include "Deque.hpp"
 #include "Stack.hpp"
 #include "Queue.hpp"
