@@ -110,7 +110,7 @@ class Deque{
 			if (full()){
 				resize();
 			}
-			front = (front--) % capacity;
+			front = (front - 1) % capacity;
 			array[front] = item;
 			size++;
 		}
@@ -125,7 +125,7 @@ class Deque{
 			if (full()){
 				resize();
 			}
-			back = (back++) % capacity;
+			back = (back + 1) % capacity;
 			array[back] = item;
 			size++;
 		}
@@ -141,7 +141,7 @@ class Deque{
 				throw out_of_range("Deque is empty");
 			}
 			T item = array[front];
-			front = (front++) % capacity;
+			front = (front + 1) % capacity;
 			size--;
 			return item;
 		}
@@ -157,7 +157,7 @@ class Deque{
 				throw out_of_range("Deque is empty");
 			}
 			T item = array[back];
-			back = (back--) % capacity;
+			back = (back - 1) % capacity;
 			size--;
 			return item;
 		}
