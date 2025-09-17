@@ -26,9 +26,9 @@ class Deque{
 		void resize(){
 			capacity *= 2; // Double capacity
 			T* newArray = new T[capacity];
+
 			// Copy old array into new array
-			for (size_t i = 0; i < size; i++)
-			{
+			for( size_t i = 0; i < size; i++ ){
 				newArray[i] = array[front + i];
 			}
 			front = 0; // Reset front
@@ -97,7 +97,7 @@ class Deque{
 		 * 
 		 */
 		~Deque(){
-			delete[] arr;
+			delete[] array;
 		}				
 
 		/**
@@ -107,7 +107,9 @@ class Deque{
 		 */
 		void push_front(const T& item){
 			// If the array is full, call resize() to double the size of the array
-			if (full) resize;
+			if (full()){
+				resize();
+			}
 			front = (front--) % capacity;
 			array[front] = item;
 			size++;
@@ -120,7 +122,9 @@ class Deque{
 		 */
 		void push_back(const T& item){
 			// If the array is full, call resize() to double the size of the array
-			if (full) resize;
+			if (full()){
+				resize();
+			}
 			back = (back++) % capacity;
 			array[back] = item;
 			size++;
@@ -133,7 +137,9 @@ class Deque{
 		 */
 		T pop_front(){
 			// If the deque is empty, throw an out_of_range exception
-			if (empty()) throw out_of_range("Deque is empty");
+			if ( empty() ){
+				throw out_of_range("Deque is empty");
+			}
 			T item = array[front];
 			front = (front++) % capacity;
 			size--;
@@ -147,9 +153,11 @@ class Deque{
 		 */
 		T pop_back(){
 			// If the deque is empty, throw an out_of_range exceptio
-			if (empty()) throw out_of_range("Deque is empty");
+			if (empty()){
+				throw out_of_range("Deque is empty");
+			}
 			T item = array[back];
-			back = (back--) % capactiy;
+			back = (back--) % capacity;
 			size--;
 			return item;
 		}
@@ -159,8 +167,8 @@ class Deque{
 		 * 
 		 * @return T the item at the front of the deque
 		 */
-		T front(){
-			return array[front]
+		T getFront(){
+			return array[front];
 		}
 
 		/**
@@ -168,8 +176,8 @@ class Deque{
 		 * 
 		 * @return T the item at the back of the deque
 		 */
-		T back(){
-			return array[back]
+		T getBack(){
+			return array[back];
 		}
 
 		/**
@@ -179,7 +187,7 @@ class Deque{
 		 * @return false, if the deque is not full
 		 */
 		bool full(){
-			return size == capacity;
+			return (size == capacity);
 		}
 
 		/**
@@ -189,7 +197,7 @@ class Deque{
 		 * @return false, if the deque is not empty
 		 */
 		bool empty(){
-			return size == 0
+			return (size == 0);
 		}
 
 		/**
@@ -197,8 +205,8 @@ class Deque{
 		 * 
 		 * @return size_t, the number of items in the deque
 		 */
-		size_t size(){
-			return size
+		size_t getSize(){
+			return size;
 		}	
 };
 
