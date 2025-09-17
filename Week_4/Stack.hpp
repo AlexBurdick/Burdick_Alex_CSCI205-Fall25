@@ -16,4 +16,5 @@ private:
     int capacity;
     int top;
 };
+
 #endif // STACK_H

@@ -7,7 +7,7 @@
 #ifndef DEQUE_H
 #define DEQUE_H
 
-template <typename T>
+template <typename T> // Template class definition, interchange T with any type
 class Deque
 {
 	private:
@@ -15,12 +15,11 @@ class Deque
 		size_t size;	 // number of items in the deque, acts as counter needs to be incremented and decremented
 		size_t capacity; // size of the array
 		size_t front;	 // index of the front of the deque
-		size_t rear;	 // index of the back of the deque
+		size_t back;	 // index of the back of the deque
 		T* array;		 // array to store items (pointer to type T, to be determined at run time)
 
 		// Helper function to resize the array
 		void resize(){
-			if (capacity == 0) capacity = 1; // Data validation, cannot be 0
 			capacity *= 2; // Double capacity
 			T* newArray = new T[capacity];
 			// Copy old array into new array
@@ -29,7 +28,7 @@ class Deque
 				newArray[i] = array[front + i];
 			}
 			front = 0; // Reset front
-			rear = size - 1; // Reset rear
+			back = size - 1; // Reset back
 			delete[] array; // Deallocate memory
 			array = newArray; // Point to new array
 
@@ -46,7 +45,7 @@ class Deque
 			capacity= 100;
 			size 	= 0;
 			front 	= 0;
-			rear 	= capacity - 1;
+			back 	= capacity - 1;
 			array	= new T[capacity]; // create dynamic memory for array of template type T
 		}
 
@@ -60,7 +59,7 @@ class Deque
 			capacity= cap;
 			size 	= 0;
 			front 	= 0;
-			rear 	= capacity - 1;
+			back 	= capacity - 1;
 			array	= new T[capacity];
 		}
 
@@ -72,23 +71,23 @@ class Deque
 		 */
 		Deque(T* arr, size_t size){
 			// ensure the array is not null. Throw an invalid argument exception if it is
-			if (arr == nullptr) throw std::invalid_argument("Array cannot be null");
-			if (size == 0) throw std::invalid_argument("Size cannot be zero");
+			if (arr == nullptr) throw invalid_argument("Array cannot be null");
+			if (size == 0) throw invalid_argument("Size cannot be zero");
 			
 			// set the capacity to double the size of the array
 			capacity = size * 2;
 			
 			// set the size to the size of the array
-			this->size = size;
+			this->size = size; // nees this pointer as size is a passed in variable
 			
 			// copy the items from the given array to the deque's array
 			array = new T[capacity];
 			for (size_t i = 0; i < size; i++)
 			{  array[i] = arr[i];  }
 			
-			// set the front and rear indices appropriately
+			// set the front and back indices appropriately
 			front = 0;
-			rear = size - 1;
+			back = size - 1;
 		}
 
 		/**
@@ -105,10 +104,14 @@ class Deque
 		 * @param item item to be added to the front of the deque
 		 */
 		void push_front(T item){
-			// note: no need to check if you are at the end of the array
-			// modulus division will take care of that for you
 			// If the array is full, call resize() to double the size of the array
 			if full resize;
+
+			// note: no need to check if you are at the end of the array
+			// modulus division will take care of that for you
+			
+
+
 		}
 
 		/**
