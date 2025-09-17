@@ -1,8 +1,4 @@
-# Files produced by the program
 *.txt
-
-# Instruction files
-
-
-# Compiled files
+*.pdf
 *.exe
+.vscode/

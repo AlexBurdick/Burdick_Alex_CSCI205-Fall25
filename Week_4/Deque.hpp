@@ -1,8 +1,16 @@
 #ifndef DEQUE_H
 #define DEQUE_H
 
-// QUESTIONS FOR LAB: how do we use size? doesn't that need to be reading the contents
-// of the array? see function full for the problem
+// QUESTIONS FOR LAB: 
+// - Error at line 1
+// - Should the Doxygen comments go ahead of the file header
+// - Pop doesn't return a value, should ours? (see main line 26)
+// - How do we use 'this' in C++? (see push_front() line 119 and Deque line 89)
+// - How do we use size? doesn't that need to be reading the contents
+// 	 of the array? (see full() line 193)
+// - In the instructions, what does this mean? 
+//   'implement a templated stack in C++ by using the composition pattern and 
+//    including a private reference to a deque object.'
 
 template <typename T>
 class Deque
@@ -109,9 +117,7 @@ class Deque
 			// note: no need to check if you are at the end of the array
 			// modulus division will take care of that for you
 			// If the array is full, call resize() to double the size of the array
-			if full{
-				resize;
-			}
+			if full resize;
 		}
 
 		/**

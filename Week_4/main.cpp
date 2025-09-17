@@ -1,27 +1,53 @@
-/*********************************************************************
- * @file  main.cpp
- * 
- * @brief Main funciton for the Abstract Data Types lab.
- *********************************************************************/
+/*
+	To build this app run: 
+		g++ -Wall -pedantic main.cpp Card.cpp
+	
+	Do not include Deque.hpp in the build command. The hpp code
+	will be copied by the preprocessor into main.cpp. This is
+	possible because the Deque class is a template class. The
+	compiler will generate the appropriate code for the template
+	class when it is used in main.cpp.
+
+	All references to generic type T in Deque.hpp will be replaced
+	with the appropriate type
+*/
 
 #include <iostream>
-#include <stack>
+#include <string>
+#include "Deque.hpp"
+#include "Stack.hpp"
+#include "Queue.hpp"
+
 using namespace std;
 
-int main() {
-    stack<int> myStack;
+int main(){
+	// Deque of strings
+	Deque<string> names;
+	names.push_front("bill");
+	names.push_front("ward");
+	while( !names.empty() ){
+		string temp = names.pop_front();
+		cout << "Name is: " << temp << endl;
+	}
 
-    // Example usage: push some values
-    myStack.push(10);
-    myStack.push(20);
-    ;myStack.push(30);
+	// Deque of integers
+	Deque<int> nums;
+	nums.push_front(1);
+	nums.push_front(2);
+	while( !nums.empty() ){
+		int a = nums.pop_front();
+		cout << "Number is: " << a << endl;
+	}
 
-    // Push a value and return the result of a pop
-    int poppedValue = myStack.top();
-    myStack.pop();
-    cout << "Popped value: " << poppedValue << endl;
-
-    int popV = myStack.pop();
-
-    return 0;
+	// Deck of Card objects
+	Deque<Card> deck;
+	Card a('A', 'S');
+	Card b('2', 'C');
+	deck.push_front(a);
+	deck.push_front(b);
+	
+	while( !deck.empty() ){
+		Card t = deck.pop_front();
+		cout << "Card is: " << t << endl;
+	}
 }
