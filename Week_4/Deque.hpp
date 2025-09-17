@@ -107,7 +107,7 @@ class Deque{
 		 */
 		void push_front(const T& item){
 			// If the array is full, call resize() to double the size of the array
-			if full resize;
+			if (full) resize;
 			front = (front--) % capacity;
 			array[front] = item;
 			size++;
@@ -120,7 +120,7 @@ class Deque{
 		 */
 		void push_back(const T& item){
 			// If the array is full, call resize() to double the size of the array
-			if full resize;
+			if (full) resize;
 			back = (back++) % capacity;
 			array[back] = item;
 			size++;
