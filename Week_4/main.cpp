@@ -57,22 +57,22 @@ int main(){
 	Deque<int> ns(sizeDeque/2);
 	cout << "Push front:" << "\n";
 	for( int i = 0; i < sizeDeque; i++ ){
-		ns.push_front(i);
+		ns.push_back(i);
 	}
 	ns.printDeque(sizeDeque);
-
+	/** 
 	cout << "Push back:" << "\n";
 	Deque<int> nums(sizeDeque);
 	for( int i = 0; i < sizeDeque; i++ ){
 		nums.push_back(i);
 	}
-	nums.printDeque(sizeDeque);
-	/**
+	*/
+	cout << "While !ns.empty:" << "\n";
 	while( !ns.empty() ){
 		int a = ns.pop_back();
-		cout << "Number is: " << a << endl;
+		cout << "Number is: " << a << "\n";
 	}
 	cout << "Size: " << ns.getSize() << endl;
-	*/
+	
 	return 0;
 }
