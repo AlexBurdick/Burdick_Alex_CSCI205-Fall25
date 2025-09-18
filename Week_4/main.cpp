@@ -30,10 +30,6 @@ using namespace std;
 int main(){
 	// Deque of integers
 	Deque<int> nums(11);
-
-	for( int i = 0; i < 5; i++ ){
-		//nums.push_front(5);
-	}
 	
 	nums.push_front(42);
 	nums.push_back(12);
@@ -47,12 +43,20 @@ int main(){
 	cout << "Get back:  " << nums.getBack() << "\n";
 
 	nums.push_front(19);
+	nums.push_back(117);
 
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
+	cout << "Pop back:  " << nums.pop_back() << "\n";
+	cout << "Pop back:  " << nums.pop_back() << "\n";
+	cout << "Pop back:  " << nums.pop_back() << "\n";
+	cout << "Size:  " << nums.getSize() << "\n";
 	
-	nums.push_back(117);
+
+	for( int i = 0; i <22; i++ ){
+		nums.push_front(i);
+	}
 	
 	while( !nums.empty() ){
 		int a = nums.pop_front();
