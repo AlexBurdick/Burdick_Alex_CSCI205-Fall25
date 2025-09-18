@@ -1,4 +1,5 @@
 *.txt
 *.pdf
 *.exe
+*.out
 .vscode/

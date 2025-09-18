@@ -16,10 +16,10 @@ class Deque{
 	
 	private:
 		// Private member variables to manage insertion and removal points
-		size_t size;	 // number of items in the deque, acts as counter needs to be incremented and decremented
+		size_t size_var; // number of items in the deque, acts as counter needs to be incremented and decremented
 		size_t capacity; // size of the array
-		size_t front;	 // index of the front of the deque
-		size_t back;	 // index of the back of the deque
+		size_t front_var;// index of the front of the deque
+		size_t back_var;	 // index of the back of the deque
 		T* array;		 // array to store items (pointer to type T, to be determined at run time)
 
 		// Helper function to resize the array
@@ -28,13 +28,13 @@ class Deque{
 			T* newArray = new T[newCapacity];
 
 			// Copy old array into new array
-			for( size_t i = 0; i < size; i++ ){
-				newArray[i] = array[ (back + i + capacity) % capacity ];
+			for( size_t i = 0; i < size_var; i++ ){
+				newArray[i] = array[ (back_var + i + capacity) % capacity ];
 			}
 
 			capacity = newCapacity;
-			front = size - 1; // Reset front
-			back = 0; // Reset back
+			front_var = size_var - 1; // Reset front
+			back_var = 0; // Reset back
 			delete[] array; // Deallocate memory
 			array = newArray; // Point to new array
 
@@ -48,11 +48,11 @@ class Deque{
 		 * 
 		 */
 		Deque(){
-			capacity= 100;
-			size 	= 0;
-			front 	= -1;
-			back 	= capacity;
-			array	= new T[capacity]; // create dynamic memory for array of template type T
+			capacity	= 100;
+			size_var 	= 0;
+			front_var 	= -1;
+			back_var 	= capacity;
+			array = new T[capacity]; // create dynamic memory for array of template type T
 		}
 
 		/**
@@ -62,18 +62,18 @@ class Deque{
 		 */
 		Deque(size_t cap){
 			if (cap == 0) cap = 1; // Data validation, cannot be 0
-			capacity= cap;
-			size 	= 0;
-			front 	= -1;
-			back 	= capacity;
-			array	= new T[capacity];
+			capacity	= cap;
+			size_var	= 0;
+			front_var	= -1;
+			back_var	= capacity;
+			array		= new T[capacity];
 		}
 
 		/**
 		 * @brief construct a new Deque object from an existing array
 		 * 
 		 * @param arr the array to copy items from
-		 * @param size the number of items in the array
+		 * @param size_var the number of items in the array
 		 */
 		Deque(T* arr, size_t size){
 			// ensure the array is not null. Throw an invalid argument exception if it is
@@ -90,8 +90,8 @@ class Deque{
 			}
 			
 			// set the front and back indices appropriately
-			front = 0;
-			back = size - 1;
+			front_var = 0;
+			back_var = size - 1;
 		}
 
 		/**
@@ -112,9 +112,9 @@ class Deque{
 			if (full()){
 				resize();
 			}
-			front = (front + 1 + capacity) % capacity;
-			array[front] = item;
-			size++;
+			front_var = (front_var + 1 + capacity) % capacity;
+			array[front_var] = item;
+			size_var++;
 		}
 
 		/**
@@ -127,9 +127,9 @@ class Deque{
 			if (full()){
 				resize();
 			}
-			back = (back - 1 + capacity) % capacity;
-			array[back] = item;
-			size++;
+			back_var = (back_var - 1 + capacity) % capacity;
+			array[back_var] = item;
+			size_var++;
 		}
 
 		/**
@@ -142,9 +142,9 @@ class Deque{
 			if ( empty() ){
 				throw out_of_range("Deque is empty");
 			}
-			T item = array[front];
-			front = (front - 1 + capacity) % capacity;
-			size--;
+			T item = array[front_var];
+			front_var = (front_var - 1 + capacity) % capacity;
+			size_var--;
 			return item;
 		}
 
@@ -158,9 +158,9 @@ class Deque{
 			if (empty()){
 				throw out_of_range("Deque is empty");
 			}
-			T item = array[back];
-			back = (back + 1 + capacity) % capacity;
-			size--;
+			T item = array[back_var];
+			back_var = (back_var + 1 + capacity) % capacity;
+			size_var--;
 			return item;
 		}
 
@@ -169,8 +169,8 @@ class Deque{
 		 * 
 		 * @return T the item at the front of the deque
 		 */
-		T getFront(){
-			return array[front];
+		T front(){
+			return array[front_var];
 		}
 
 		/**
@@ -178,8 +178,8 @@ class Deque{
 		 * 
 		 * @return T the item at the back of the deque
 		 */
-		T getBack(){
-			return array[back];
+		T back(){
+			return array[back_var];
 		}
 
 		/**
@@ -189,7 +189,7 @@ class Deque{
 		 * @return false, if the deque is not full
 		 */
 		bool full(){
-			return (size == capacity);
+			return (size_var == capacity);
 		}
 
 		/**
@@ -199,7 +199,7 @@ class Deque{
 		 * @return false, if the deque is not empty
 		 */
 		bool empty(){
-			return (size == 0);
+			return (size_var == 0);
 		}
 
 		/**
@@ -207,15 +207,17 @@ class Deque{
 		 * 
 		 * @return size_t, the number of items in the deque
 		 */
-		size_t getSize(){
-			return size;
+		size_t size(){
+			return size_var;
 		}	
 
-		void printDeque(int size){
-			for( int i = 0; i < size; i++ ){
-				cout << "Value = " << array[i] << " [" << i << "]" << "\n";
+		void print(){
+			cout << "Print from back:" << "\n";
+			for( int i = 0; i < size_var ; i++ ){
+				int j = (back_var + i + capacity) % capacity;
+				cout << "Value = " << array[j] << " [" << back_var << "]" << "\n";
 			}
-			cout << "Size = " << this->size << "\n" << endl;
+			cout << "Size = " << size_var << "\n" << endl;
 		}
 };
 

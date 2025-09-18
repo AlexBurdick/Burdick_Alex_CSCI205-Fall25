@@ -28,7 +28,20 @@
 using namespace std;
 
 int main(){
-	/** Deque of integers
+
+	Queue<int> nums(3);
+	cout << "STACK\n";
+	nums.enqueue(42);
+	nums.enqueue(12);
+	nums.enqueue(27);
+	cout << nums.size() << endl;
+	cout << nums.dequeue() << endl;
+	cout << nums.dequeue() << endl;
+	cout << nums.dequeue() << endl;
+	cout << nums.size() << endl;
+
+/** 
+	Deque of integers
 	Deque<int> nums(11);
 	
 	nums.push_front(42);
@@ -43,16 +56,17 @@ int main(){
 	cout << "Get back:  " << nums.getBack() << "\n";
 
 	nums.push_front(19);
-	nums.push_back(117);
 
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
-	cout << "Pop back:  " << nums.pop_back() << "\n";
-	cout << "Pop back:  " << nums.pop_back() << "\n";
-	cout << "Pop back:  " << nums.pop_back() << "\n";
-	cout << "Size:  " << nums.getSize() << "\n";
-	*/
+
+	nums.push_back(67);
+	nums.push_back(117);
+	
+	nums.print();
+	 */
+	/**
 	int sizeDeque = 6;
 	Deque<int> ns(sizeDeque/2);
 	cout << "Push front:" << "\n";
@@ -60,19 +74,14 @@ int main(){
 		ns.push_back(i);
 	}
 	ns.printDeque(sizeDeque);
-	/** 
-	cout << "Push back:" << "\n";
-	Deque<int> nums(sizeDeque);
-	for( int i = 0; i < sizeDeque; i++ ){
-		nums.push_back(i);
-	}
-	*/
+	
 	cout << "While !ns.empty:" << "\n";
 	while( !ns.empty() ){
 		int a = ns.pop_back();
 		cout << "Number is: " << a << "\n";
 	}
-	cout << "Size: " << ns.getSize() << endl;
+	cout << "Size: " << ns.size() << endl;
+	*/
 	
 	return 0;
 }
