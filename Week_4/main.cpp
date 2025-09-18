@@ -29,26 +29,30 @@ using namespace std;
 
 int main(){
 	// Deque of integers
-	Deque<int> nums(10);
+	Deque<int> nums(11);
 
 	for( int i = 0; i < 5; i++ ){
 		//nums.push_front(5);
 	}
 	
-	nums.push_front(1);
-	nums.push_back(4);
-	nums.push_front(2);
-	nums.push_back(5);
-	nums.push_front(3);
-	nums.push_back(6);
+	nums.push_front(42);
+	nums.push_back(12);
+	nums.push_back(27);
+	nums.push_back(92);
+	nums.push_front(86);
+	nums.push_front(53);
 
-	cout << "i0: " << nums.getIndex(0) << "\n";
-	cout << "i9: " << nums.getIndex(9) << "\n";
-	cout << "i1: " << nums.getIndex(1) << "\n";
-	cout << "i8: " << nums.getIndex(8) << "\n";
-	cout << "i2: " << nums.getIndex(2) << "\n";
-	cout << "i7: " << nums.getIndex(7) << "\n";
+	cout << "Pop front: " << nums.pop_front() << "\n";
+	cout << "Pop back:  " << nums.pop_back() << "\n";
+	cout << "Get back:  " << nums.getBack() << "\n";
 
+	nums.push_front(19);
+
+	cout << "Pop back:  " << nums.pop_back() << "\n";
+	cout << "Pop back:  " << nums.pop_back() << "\n";
+	cout << "Pop back:  " << nums.pop_back() << "\n";
+	
+	nums.push_back(117);
 	
 	while( !nums.empty() ){
 		int a = nums.pop_front();
