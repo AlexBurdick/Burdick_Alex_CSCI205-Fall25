@@ -28,7 +28,7 @@
 using namespace std;
 
 int main(){
-	// Deque of integers
+	/** Deque of integers
 	Deque<int> nums(11);
 	
 	nums.push_front(42);
@@ -52,16 +52,27 @@ int main(){
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Size:  " << nums.getSize() << "\n";
-	
-
-	for( int i = 0; i <22; i++ ){
-		nums.push_front(i);
+	*/
+	int sizeDeque = 6;
+	Deque<int> ns(sizeDeque/2);
+	cout << "Push front:" << "\n";
+	for( int i = 0; i < sizeDeque; i++ ){
+		ns.push_front(i);
 	}
-	
-	while( !nums.empty() ){
-		int a = nums.pop_front();
+	ns.printDeque(sizeDeque);
+
+	cout << "Push back:" << "\n";
+	Deque<int> nums(sizeDeque);
+	for( int i = 0; i < sizeDeque; i++ ){
+		nums.push_back(i);
+	}
+	nums.printDeque(sizeDeque);
+	/**
+	while( !ns.empty() ){
+		int a = ns.pop_back();
 		cout << "Number is: " << a << endl;
 	}
-
+	cout << "Size: " << ns.getSize() << endl;
+	*/
 	return 0;
 }

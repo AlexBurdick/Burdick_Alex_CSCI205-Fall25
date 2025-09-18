@@ -29,13 +29,12 @@ class Deque{
 
 			// Copy old array into new array
 			for( size_t i = 0; i < size; i++ ){
-				int j = (front + i) % capacity;
-				newArray[i] = array[ j ];
+				newArray[i] = array[ (back + i + capacity) % capacity ];
 			}
 
 			capacity = newCapacity;
 			front = size - 1; // Reset front
-			back = capacity; // Reset back
+			back = 0; // Reset back
 			delete[] array; // Deallocate memory
 			array = newArray; // Point to new array
 
@@ -212,8 +211,11 @@ class Deque{
 			return size;
 		}	
 
-		int getIndex(int i){
-			return array[i];
+		void printDeque(int size){
+			for( int i = 0; i < size; i++ ){
+				cout << "Value = " << array[i] << " [" << i << "]" << "\n";
+			}
+			cout << "Size = " << this->size << "\n" << endl;
 		}
 };
 
