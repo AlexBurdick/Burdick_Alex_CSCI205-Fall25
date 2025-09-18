@@ -24,15 +24,17 @@ class Deque{
 
 		// Helper function to resize the array
 		void resize(){
-			capacity *= 2; // Double capacity
-			T* newArray = new T[capacity];
+			int newCapacity = capacity * 2; // Double capacity
+			T* newArray = new T[newCapacity];
 
 			// Copy old array into new array
 			for( size_t i = 0; i < size; i++ ){
-				newArray[i] = array[front + i];
+				newArray[i] = array[(front + i) % capacity];
 			}
-			front = 0; // Reset front
-			back = size - 1; // Reset back
+
+			capacity = newCapacity;
+			front = size - 1; // Reset front
+			back = capacity; // Reset back
 			delete[] array; // Deallocate memory
 			array = newArray; // Point to new array
 
@@ -110,8 +112,8 @@ class Deque{
 			if (full()){
 				resize();
 			}
-			front = (front - 1) % capacity;
 			array[front] = item;
+			front = (front + 1) % capacity;
 			size++;
 		}
 
@@ -125,8 +127,8 @@ class Deque{
 			if (full()){
 				resize();
 			}
-			back = (back + 1) % capacity;
 			array[back] = item;
+			back = (back - 1) % capacity;
 			size++;
 		}
 
@@ -208,6 +210,10 @@ class Deque{
 		size_t getSize(){
 			return size;
 		}	
+
+		int getIndex(int i){
+			return array[i];
+		}
 };
 
 #endif
