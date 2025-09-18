@@ -17,7 +17,9 @@ class Queue{
 
     public:
         // CONSTRUCTORS 
-       // Queue() = default;
+        Queue(){
+            d = new Deque<T>();
+        };
 
         Queue(size_t cap){
             d = new Deque<T>(cap);
@@ -43,7 +45,7 @@ class Queue{
         bool full(){
             return d->full();
         }
-        
+
         bool empty(){
             return d->empty();
         }

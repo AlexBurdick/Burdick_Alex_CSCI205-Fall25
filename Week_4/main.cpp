@@ -24,10 +24,12 @@
 #include "Deque.hpp"
 #include "Stack.hpp"
 #include "Queue.hpp"
+#include "Converters.cpp"
 
 using namespace std;
 
 int main(){
+	/** 
 	cout << "QUEUE\n";
 	Queue<int> nums(3);
 	nums.enqueue(10);
@@ -44,7 +46,7 @@ int main(){
 	cout << "Empty: " << nums.empty() << "\n";
 	cout << "Full: " << nums.full() << "\n";
 	cout << "Size: " << nums.size() << "\n";
-
+	
 	Stack<int> ns(3);
 	ns.push(22);
 	ns.push(33);
@@ -59,10 +61,9 @@ int main(){
 	cout << "Empty: " << ns.empty() << "\n";
 	cout << "Full: " << ns.full() << "\n";
 	cout << "Size: " << ns.size() << "\n";
-
-
-/** 
-	Deque of integers
+	*/
+	/** 
+	cout << "\nDEQUE\n";
 	Deque<int> nums(11);
 	
 	nums.push_front(42);
@@ -74,7 +75,7 @@ int main(){
 
 	cout << "Pop front: " << nums.pop_front() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
-	cout << "Get back:  " << nums.getBack() << "\n";
+	cout << "Get back:  " << nums.back() << "\n";
 
 	nums.push_front(19);
 
@@ -85,16 +86,18 @@ int main(){
 	nums.push_back(67);
 	nums.push_back(117);
 	
+	cout << "Get front: " << nums.front() << "\n";
+
 	nums.print();
-	 */
-	/**
+	*/
+	
 	int sizeDeque = 6;
 	Deque<int> ns(sizeDeque/2);
 	cout << "Push front:" << "\n";
 	for( int i = 0; i < sizeDeque; i++ ){
 		ns.push_back(i);
 	}
-	ns.printDeque(sizeDeque);
+	ns.print();
 	
 	cout << "While !ns.empty:" << "\n";
 	while( !ns.empty() ){
@@ -102,7 +105,6 @@ int main(){
 		cout << "Number is: " << a << "\n";
 	}
 	cout << "Size: " << ns.size() << endl;
-	*/
 	
 	return 0;
 }

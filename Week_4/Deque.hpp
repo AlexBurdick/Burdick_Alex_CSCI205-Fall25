@@ -16,11 +16,11 @@ class Deque{
 	
 	private:
 		// Private member variables to manage insertion and removal points
-		size_t size_var; // number of items in the deque, acts as counter needs to be incremented and decremented
-		size_t capacity; // size of the array
-		size_t front_var;// index of the front of the deque
-		size_t back_var;	 // index of the back of the deque
-		T* array;		 // array to store items (pointer to type T, to be determined at run time)
+		size_t size_var;  /**< Number of elements in the array, acts as a counter. */
+		size_t capacity;  /**< Total size of the array allocated. */
+		size_t front_var; /**< Index of the front of the deque. */
+		size_t back_var;  /**< Index of the back of the deque */
+		T* array; /**< Array to store items (pointer to type T, to be determined at run time). */
 
 		// Helper function to resize the array
 		void resize(){
@@ -48,10 +48,10 @@ class Deque{
 		 * 
 		 */
 		Deque(){
-			capacity	= 100;
-			size_var 	= 0;
-			front_var 	= -1;
-			back_var 	= 0;
+			size_var = 0;
+			capacity = 100;
+			front_var = capacity - 1;
+			back_var = 0;
 			array = new T[capacity]; // create dynamic memory for array of template type T
 		}
 
@@ -61,12 +61,12 @@ class Deque{
 		 * @param cap The capacity of the deque
 		 */
 		Deque(size_t cap){
-			if (cap == 0) cap = 1; // Data validation, cannot be 0
-			capacity	= cap;
-			size_var	= 0;
-			front_var	= -1;
-			back_var	= 0;
-			array		= new T[capacity];
+			if (cap < 1) cap = 1; // Data validation, cannot be 0
+			capacity = cap;
+			size_var = 0;
+			front_var = capacity - 1;
+			back_var = 0;
+			array = new T[capacity];
 		}
 
 		/**
