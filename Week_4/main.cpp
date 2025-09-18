@@ -32,7 +32,7 @@ int main(){
 	Deque<int> nums(10);
 
 	for( int i = 0; i < 20; i++ ){
-		nums.push_front(i);
+		nums.push_front(5);
 	}
 	
 	cout << "Front: " << nums.getFront() << "\n";
