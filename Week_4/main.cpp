@@ -31,15 +31,27 @@ int main(){
 	// Deque of integers
 	Deque<int> nums(10);
 
-	for( int i = 0; i < 20; i++ ){
-		nums.push_front(5);
+	for( int i = 0; i < 5; i++ ){
+		//nums.push_front(5);
 	}
 	
-	cout << "Front: " << nums.getFront() << "\n";
-	cout << "Back:  " << nums.getFront() << "\n";
+	nums.push_front(1);
+	nums.push_back(4);
+	nums.push_front(2);
+	nums.push_back(5);
+	nums.push_front(3);
+	nums.push_back(6);
 
+	cout << "i0: " << nums.getIndex(0) << "\n";
+	cout << "i9: " << nums.getIndex(9) << "\n";
+	cout << "i1: " << nums.getIndex(1) << "\n";
+	cout << "i8: " << nums.getIndex(8) << "\n";
+	cout << "i2: " << nums.getIndex(2) << "\n";
+	cout << "i7: " << nums.getIndex(7) << "\n";
+
+	
 	while( !nums.empty() ){
-		int a = nums.pop_back();
+		int a = nums.pop_front();
 		cout << "Number is: " << a << endl;
 	}
 

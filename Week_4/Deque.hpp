@@ -29,7 +29,8 @@ class Deque{
 
 			// Copy old array into new array
 			for( size_t i = 0; i < size; i++ ){
-				newArray[i] = array[(front + i) % capacity];
+				int j = (front + i) % capacity;
+				newArray[i] = array[ j ];
 			}
 
 			capacity = newCapacity;
@@ -50,8 +51,8 @@ class Deque{
 		Deque(){
 			capacity= 100;
 			size 	= 0;
-			front 	= 0;
-			back 	= capacity - 1;
+			front 	= -1;
+			back 	= capacity;
 			array	= new T[capacity]; // create dynamic memory for array of template type T
 		}
 
@@ -64,8 +65,8 @@ class Deque{
 			if (cap == 0) cap = 1; // Data validation, cannot be 0
 			capacity= cap;
 			size 	= 0;
-			front 	= 0;
-			back 	= capacity - 1;
+			front 	= -1;
+			back 	= capacity;
 			array	= new T[capacity];
 		}
 
@@ -112,8 +113,8 @@ class Deque{
 			if (full()){
 				resize();
 			}
+			front = (front + 1 + capacity) % capacity;
 			array[front] = item;
-			front = (front + 1) % capacity;
 			size++;
 		}
 
@@ -127,8 +128,8 @@ class Deque{
 			if (full()){
 				resize();
 			}
+			back = (back - 1 + capacity) % capacity;
 			array[back] = item;
-			back = (back - 1) % capacity;
 			size++;
 		}
 
@@ -143,7 +144,7 @@ class Deque{
 				throw out_of_range("Deque is empty");
 			}
 			T item = array[front];
-			front = (front + 1) % capacity;
+			front = (front - 1 + capacity) % capacity;
 			size--;
 			return item;
 		}
@@ -159,7 +160,7 @@ class Deque{
 				throw out_of_range("Deque is empty");
 			}
 			T item = array[back];
-			back = (back - 1) % capacity;
+			back = (back + 1 + capacity) % capacity;
 			size--;
 			return item;
 		}
