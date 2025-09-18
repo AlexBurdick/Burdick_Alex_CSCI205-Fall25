@@ -32,10 +32,18 @@ class Queue{
             return d->pop_back();
         }
 
-        const T& peak() const{
+        T front(){
             return d->front();
         }
 
+        T back(){
+            return d->back();
+        }
+
+        bool full(){
+            return d->full();
+        }
+        
         bool empty(){
             return d->empty();
         }

@@ -28,17 +28,38 @@
 using namespace std;
 
 int main(){
-
+	cout << "QUEUE\n";
 	Queue<int> nums(3);
-	cout << "STACK\n";
-	nums.enqueue(42);
-	nums.enqueue(12);
-	nums.enqueue(27);
-	cout << nums.size() << endl;
-	cout << nums.dequeue() << endl;
-	cout << nums.dequeue() << endl;
-	cout << nums.dequeue() << endl;
-	cout << nums.size() << endl;
+	nums.enqueue(10);
+	nums.enqueue(20);
+	nums.enqueue(30);
+
+	nums.print();
+	cout << "Empty: " << nums.empty() << "\n";
+	cout << "Full: " << nums.full() << "\n";
+	cout << "Size: " << nums.size() << "\n";
+	cout << nums.dequeue() << "\n";
+	cout << nums.dequeue() << "\n";
+	cout << nums.dequeue() << "\n";
+	cout << "Empty: " << nums.empty() << "\n";
+	cout << "Full: " << nums.full() << "\n";
+	cout << "Size: " << nums.size() << "\n";
+
+	Stack<int> ns(3);
+	ns.push(22);
+	ns.push(33);
+	ns.push(44);
+	cout << "\nSTACK\n";
+	cout << "Empty: " << ns.empty() << "\n";
+	cout << "Full: " << ns.full() << "\n";
+	cout << "Size: " << ns.size() << "\n";
+	cout << ns.pop() << "\n";
+	cout << ns.pop() << "\n";
+	cout << ns.pop() << "\n";
+	cout << "Empty: " << ns.empty() << "\n";
+	cout << "Full: " << ns.full() << "\n";
+	cout << "Size: " << ns.size() << "\n";
+
 
 /** 
 	Deque of integers

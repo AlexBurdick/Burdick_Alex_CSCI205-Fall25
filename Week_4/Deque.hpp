@@ -51,7 +51,7 @@ class Deque{
 			capacity	= 100;
 			size_var 	= 0;
 			front_var 	= -1;
-			back_var 	= capacity;
+			back_var 	= 0;
 			array = new T[capacity]; // create dynamic memory for array of template type T
 		}
 
@@ -65,7 +65,7 @@ class Deque{
 			capacity	= cap;
 			size_var	= 0;
 			front_var	= -1;
-			back_var	= capacity;
+			back_var	= 0;
 			array		= new T[capacity];
 		}
 
@@ -90,8 +90,9 @@ class Deque{
 			}
 			
 			// set the front and back indices appropriately
-			front_var = 0;
-			back_var = size - 1;
+			front_var = size - 1;
+			back_var = 0;
+			size_var = 0;
 		}
 
 		/**
@@ -215,7 +216,7 @@ class Deque{
 			cout << "Print from back:" << "\n";
 			for( int i = 0; i < size_var ; i++ ){
 				int j = (back_var + i + capacity) % capacity;
-				cout << "Value = " << array[j] << " [" << back_var << "]" << "\n";
+				cout << "Value = " << array[j] << " [" << j << "]" << "\n";
 			}
 			cout << "Size = " << size_var << "\n" << endl;
 		}

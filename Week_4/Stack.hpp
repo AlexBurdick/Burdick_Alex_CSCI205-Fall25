@@ -41,6 +41,10 @@ class Stack{
             return d.front();
         }
 
+        bool full(){
+            return d.full();
+        }
+
         bool empty(){
             return d.empty();
         }
