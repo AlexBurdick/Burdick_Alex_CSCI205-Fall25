@@ -55,8 +55,6 @@ void testDeque(){
 	nums.push_back(117);
 	
 	cout << "Get front: " << nums.front() << "\n";
-
-	nums.print();
 	
 	int sizeDeque = 6; // Will be larger than initial size of the deque
 	Deque<int> ns(sizeDeque/2); // Create a smaller deque to be expanded
@@ -64,7 +62,6 @@ void testDeque(){
 	for( int i = 0; i < sizeDeque; i++ ){ // Deque will have to resize
 		ns.push_back(i);
 	}
-	ns.print();
 	
 	cout << "While !ns.empty:" << "\n";
 	while( !ns.empty() ){
@@ -81,7 +78,6 @@ void testQueue(){
 	nums.enqueue(20);
 	nums.enqueue(30);
 
-	nums.print();
 	cout << "Empty: " << nums.empty() << "\n";
 	cout << "Full: " << nums.full() << "\n";
 	cout << "Size: " << nums.size() << "\n";
