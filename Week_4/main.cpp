@@ -22,20 +22,22 @@ void testInfixToPostfix();
 void testParChecker();
 void testPostfixEvaluator();
 void testInfixEvaluator();
+//void test_infix_calculator();
 
 int main(){
-	/**testDeque();
+	testDeque();
 	testQueue();
 	testStack();
-	testInfixToPostfix();
 	testParChecker();
-	testPostfixEvaluator();*/
-	void testInfixEvaluator();
+	//testInfixToPostfix();
+	testPostfixEvaluator();
+	testInfixEvaluator();
+	//void test_infix_calculator();
 	return 0;
 }
 
 void testDeque(){
-	cout << "\nDEQUE\n";
+	cout << "\n--DEQUE--\n";
 	Deque<int> nums(11);
 	
 	nums.push_front(42);
@@ -76,7 +78,7 @@ void testDeque(){
 }
 
 void testQueue(){
-	cout << "QUEUE\n";
+	cout << "\n--QUEUE--\n";
 	Queue<int> nums(3);
 	nums.enqueue(10);
 	nums.enqueue(20);
@@ -94,12 +96,11 @@ void testQueue(){
 }
 
 void testStack(){
-	cout << "\nSTACK\n";
+	cout << "\n--STACK--\n";
 	Stack<int> ns(3);
 	ns.push(22);
 	ns.push(33);
 	ns.push(44);
-	cout << "\nSTACK\n";
 	cout << "Empty: " << ns.empty() << "\n";
 	cout << "Full: " << ns.full() << "\n";
 	cout << "Size: " << ns.size() << "\n";
@@ -112,28 +113,36 @@ void testStack(){
 }
 
 void testInfixToPostfix(){
+	cout << "\n--Infix-to-Postfix--\n";
 	string equation = "A+ B /(C*D) - E"; // Default value
-	// Get user input for an equation written in infix notation
-	cout << "Equation (infix notation): ";
-	cin >> equation;
 	cout << "Prefix:  " << equation << "\n";
 	cout << "Postfix: " << infixToPostfix(equation) << endl;
 }
 
 void testParChecker(){
+	cout << "\n--Parentheses balance check--\n";
 	string parens = "((())())"; // Default value
 	bool isBalanced = parChecker(parens);
 	cout << "Parentheses are balanced? " << (isBalanced ? "Yes" : "No") << endl;
 }
 
 void testPostfixEvaluator(){
+	cout << "\n--Postfix Evaluation--\n";
 	string expr = "234*+5+";
 	int result = postfixEvaluator(expr);
 	cout << "Postfix eval = " << result << endl;
 }
 
 void testInfixEvaluator(){
+	cout << "\n--Infix Evaluation--\n";
 	string expr = "234*+5+";
 	int result = infixEvaluator(expr);
-	cout << "Postfix eval = " << result << endl;
+	cout << "Infix eval = " << result << endl;
 }
+/** 
+void test_infix_calculator(){
+	string expr = "(2+3)*4+5";
+	int result = infixCalculator(expr);
+	cout << "Infix eval = " << result << endl;
+};
+*/

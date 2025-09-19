@@ -1,15 +1,15 @@
 #include "Stack.hpp"
 #include <unordered_map>
 #include <string>
-#include <vector>
+#include <stdexcept>
 
 // Function prototypes
-string infixToPostfix(string);
-int postfixEvaluator(string);
-int infixEvaluator(string);
-bool parChecker(string);
+std::string infixToPostfix(std::string);
+int postfixEvaluator(std::string);
+int infixEvaluator(std::string);
+bool parChecker(std::string);
 
-string infixToPostfix(string infixExpr) { // Code from Runestone, edited by Alex Burdick
+std::string infixToPostfix(std::string infixExpr) { // Code from Runestone, edited by Alex Burdick
     // Make sure the expression is valid
     if ( !parChecker(infixExpr) ){ 
         throw std::invalid_argument("Invalid expression: unbalanced parentheses");
@@ -24,7 +24,7 @@ string infixToPostfix(string infixExpr) { // Code from Runestone, edited by Alex
 
     size_t length = infixExpr.length();
     Stack<char> opStack;
-    string postfixExpr;
+    std::string postfixExpr;
 
     for (char token:infixExpr){ // For each character in infixExpr
         if (token == ' '){
@@ -39,30 +39,27 @@ string infixToPostfix(string infixExpr) { // Code from Runestone, edited by Alex
             opStack.push(token);
         } else if (token == ')') {
             char topToken;
-            topToken = opStack.peak();
+            topToken = opStack.peek();
             opStack.pop();
             while (topToken != '(') { // Pop and add to the string until reaching '('
                 postfixExpr += topToken;
-                topToken = opStack.peak();
-                opStack.pop();
+                topToken = opStack.pop();
             }
         } else { // If token is not an operand
-            while ( !opStack.empty() && (prec[opStack.peak()] >= prec[token]) ) {
-                postfixExpr += opStack.peak();
-                opStack.pop();
+            while ( !opStack.empty() && (prec[opStack.peek()] >= prec[token]) ) {
+                postfixExpr += opStack.pop();
             }
             opStack.push(token);
         }
     }
     while (!opStack.empty()) {
-        postfixExpr += opStack.peak();
-        opStack.pop();
+        postfixExpr += opStack.pop();
     }
 
     return postfixExpr;
 }
 
-int postfixEvaluator(string expr){
+int postfixEvaluator(std::string expr){
     size_t length = expr.length();
     Stack<char> operands;
     int n;
@@ -88,36 +85,36 @@ int postfixEvaluator(string expr){
     return operands.pop();
 }
 
-int infixEvaluator(string expr){
+int infixEvaluator(std::string expr){
     return postfixEvaluator( infixToPostfix(expr) );
 }
 
 // Returns whether the parentheses in the input are balanced
 // From Runestone, edited by Alex Burdick
-bool parChecker(string symbolString) {
-    Stack<string> opStack;
+bool parChecker(std::string symbolString) {
+    Stack<std::string> s;
     bool balanced = true;
     int index = 0;
     int str_len = symbolString.length();
 
     while (index < str_len && balanced) {
-              string symbol;
-              symbol = symbolString[index];
+        std::string symbol;
+        symbol = symbolString[index];
               if (symbol == "(") {
-                  opStack.push(symbol); //pushes the open parentheses to the stack.
+                  s.push(symbol); //pushes the open parentheses to the stack.
               } else {
-                  if (opStack.empty()) { //if there is no open parentheses in the stack,
+                  if (s.empty()) { //if there is no open parentheses in the stack,
                                    //the closing parentheses just found makes the string unbalanced.
                         balanced = false;
                   } else { //if there is an open parentheses in the stack,
                            //the closing parentheses just found has a matching open parentheses.
-                       opStack.pop();
+                       s.pop();
                   }
               }
     index = index + 1;
     }
 
-    if (balanced && opStack.empty()) { //if the string is balanced and there are no
+    if (balanced && s.empty()) { //if the string is balanced and there are no
                                  //remaining open parentheses.
         return true;
     } else {
