@@ -21,14 +21,16 @@ void testStack();
 void testInfixToPostfix();
 void testParChecker();
 void testPostfixEvaluator();
+void testInfixEvaluator();
 
 int main(){
 	/**testDeque();
 	testQueue();
 	testStack();
 	testInfixToPostfix();
-	testParChecker();*/
-	testPostfixEvaluator();
+	testParChecker();
+	testPostfixEvaluator();*/
+	void testInfixEvaluator();
 	return 0;
 }
 
@@ -120,15 +122,18 @@ void testInfixToPostfix(){
 
 void testParChecker(){
 	string parens = "((())())"; // Default value
-	// Get user input for a series of parentheses
-	cout << "Parentheses: ";
-	cin >> parens;
 	bool isBalanced = parChecker(parens);
 	cout << "Parentheses are balanced? " << (isBalanced ? "Yes" : "No") << endl;
 }
 
 void testPostfixEvaluator(){
-	string expr = "94+6*";
+	string expr = "234*+5+";
 	int result = postfixEvaluator(expr);
+	cout << "Postfix eval = " << result << endl;
+}
+
+void testInfixEvaluator(){
+	string expr = "234*+5+";
+	int result = infixEvaluator(expr);
 	cout << "Postfix eval = " << result << endl;
 }

@@ -3,6 +3,12 @@
 #include <string>
 #include <vector>
 
+// Function prototypes
+string infixToPostfix(string);
+int postfixEvaluator(string);
+int infixEvaluator(string);
+bool parChecker(string);
+
 string infixToPostfix(string infixExpr) { // Code from Runestone, edited by Alex Burdick
     // Make sure the expression is valid
     if ( !parChecker(infixExpr) ){ 
@@ -80,6 +86,10 @@ int postfixEvaluator(string expr){
     }
 
     return operands.pop();
+}
+
+int infixEvaluator(string expr){
+    return postfixEvaluator( infixToPostfix(expr) );
 }
 
 // Returns whether the parentheses in the input are balanced
