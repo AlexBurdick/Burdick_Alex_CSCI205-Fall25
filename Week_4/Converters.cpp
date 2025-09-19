@@ -9,6 +9,22 @@ int postfixEvaluator(std::string);
 int infixEvaluator(std::string);
 bool parChecker(std::string);
 
+/**
+ * @brief Evaluates an infix expression by converting it to postfix notation first.
+ * 
+ * @param expr infix expression to be evaluated
+ * @return int result of the evalutaion
+ */
+int infixEvaluator(std::string expr){
+    return postfixEvaluator( infixToPostfix(expr) );
+}
+
+/**
+ * @brief Converts an infix expression to postfix notation.
+ * 
+ * @param infixExpr infix expression
+ * @return string postfix expression
+ */
 std::string infixToPostfix(std::string infixExpr) { // Code from Runestone, edited by Alex Burdick
     // Make sure the expression is valid
     if ( !parChecker(infixExpr) ){ 
@@ -59,19 +75,25 @@ std::string infixToPostfix(std::string infixExpr) { // Code from Runestone, edit
     return postfixExpr;
 }
 
+/**
+ * @brief Evaluates an expression in postfix notation
+ * 
+ * @param expr expression to be evaluated
+ * @return int result of the calculation
+ */
 int postfixEvaluator(std::string expr){
     size_t length = expr.length();
     Stack<char> operands;
     int n;
 
     for (char token:expr){
-        if ( isdigit(token) ) {
+        if ( isdigit(token) ){
             operands.push(token - '0');;
         } else {
             int lhs = operands.pop();
             int rhs = operands.pop();
             int r;
-            switch (token) { // Switch statement from LeChat 09/19/2025
+            switch (token){ // Switch statement from LeChat 09/19/2025
                 case '+': r = lhs + rhs; break;
                 case '-': r = lhs - rhs; break;
                 case '*': r = lhs * rhs; break;
@@ -81,43 +103,36 @@ int postfixEvaluator(std::string expr){
             operands.push(r); // Push the result onto the stack
         }
     }
-
     return operands.pop();
-}
-
-int infixEvaluator(std::string expr){
-    return postfixEvaluator( infixToPostfix(expr) );
 }
 
 // Returns whether the parentheses in the input are balanced
 // From Runestone, edited by Alex Burdick
-bool parChecker(std::string symbolString) {
+/**
+ * @brief 
+ * 
+ * @param symbolString 
+ * @return true 
+ * @return false 
+ */
+bool parChecker(std::string symbolString){
     Stack<std::string> s;
     bool balanced = true;
     int index = 0;
     int str_len = symbolString.length();
 
-    while (index < str_len && balanced) {
+    while (index < str_len && balanced){
         std::string symbol;
         symbol = symbolString[index];
-              if (symbol == "(") {
-                  s.push(symbol); //pushes the open parentheses to the stack.
-              } else {
-                  if (s.empty()) { //if there is no open parentheses in the stack,
-                                   //the closing parentheses just found makes the string unbalanced.
-                        balanced = false;
-                  } else { //if there is an open parentheses in the stack,
-                           //the closing parentheses just found has a matching open parentheses.
-                       s.pop();
-                  }
-              }
+        if (symbol == "(") {
+            s.push(symbol); //pushes the open parentheses to the stack.
+        } else {
+            if (s.empty())  { balanced = false; } 
+            else            { s.pop(); }
+        }
     index = index + 1;
     }
 
-    if (balanced && s.empty()) { //if the string is balanced and there are no
-                                 //remaining open parentheses.
-        return true;
-    } else {
-        return false;
-    }
+    if (balanced && s.empty())  { return true; } 
+    else                        { return false; }
 }

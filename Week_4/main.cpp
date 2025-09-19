@@ -22,17 +22,15 @@ void testInfixToPostfix();
 void testParChecker();
 void testPostfixEvaluator();
 void testInfixEvaluator();
-//void test_infix_calculator();
 
 int main(){
-	testDeque();
+	/** testDeque();
 	testQueue();
 	testStack();
-	testParChecker();
-	//testInfixToPostfix();
+	testParChecker(); */
+	testInfixToPostfix();
 	testPostfixEvaluator();
 	testInfixEvaluator();
-	//void test_infix_calculator();
 	return 0;
 }
 
@@ -115,8 +113,10 @@ void testStack(){
 void testInfixToPostfix(){
 	cout << "\n--Infix-to-Postfix--\n";
 	string equation = "A+ B /(C*D) - E"; // Default value
+	string postfix;
+	postfix = infixToPostfix(equation);
 	cout << "Prefix:  " << equation << "\n";
-	cout << "Postfix: " << infixToPostfix(equation) << endl;
+	cout << "Postfix: " << infixToPostfix(postfix) << endl;
 }
 
 void testParChecker(){
@@ -139,10 +139,3 @@ void testInfixEvaluator(){
 	int result = infixEvaluator(expr);
 	cout << "Infix eval = " << result << endl;
 }
-/** 
-void test_infix_calculator(){
-	string expr = "(2+3)*4+5";
-	int result = infixCalculator(expr);
-	cout << "Infix eval = " << result << endl;
-};
-*/
