@@ -3,9 +3,12 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 string infixToPostfix(string infixExpr) { // Code from Runestone, edited by Alex Burdick
+    // Make sure the expression is valid
+    if ( !parChecker(infixExpr) ){ 
+        throw std::invalid_argument("Invalid expression: unbalanced parentheses");
+    }
+    
     unordered_map <char,int> prec;
     prec['*']=3;
     prec['/']=3;
@@ -51,6 +54,32 @@ string infixToPostfix(string infixExpr) { // Code from Runestone, edited by Alex
     }
 
     return postfixExpr;
+}
+
+int postfixEvaluator(string expr){
+    size_t length = expr.length();
+    Stack<char> operands;
+    int n;
+
+    for (char token:expr){
+        if ( isdigit(token) ) {
+            operands.push(token - '0');;
+        } else {
+            int lhs = operands.pop();
+            int rhs = operands.pop();
+            int r;
+            switch (token) { // Switch statement from LeChat 09/19/2025
+                case '+': r = lhs + rhs; break;
+                case '-': r = lhs - rhs; break;
+                case '*': r = lhs * rhs; break;
+                case '/': r = lhs / rhs; break;
+                default: throw invalid_argument("Invalid operator");
+            }
+            operands.push(r); // Push the result onto the stack
+        }
+    }
+
+    return operands.pop();
 }
 
 // Returns whether the parentheses in the input are balanced
