@@ -1,17 +1,3 @@
-/*
-	To build this app run: 
-		g++ -Wall -pedantic main.cpp Card.cpp
-	
-	Do not include Deque.hpp in the build command. The hpp code
-	will be copied by the preprocessor into main.cpp. This is
-	possible because the Deque class is a template class. The
-	compiler will generate the appropriate code for the template
-	class when it is used in main.cpp.
-
-	All references to generic type T in Deque.hpp will be replaced
-	with the appropriate type
-*/
-
 /*********************************************************************
  * @file  main.cpp
  * 
@@ -28,41 +14,25 @@
 
 using namespace std;
 
+// Function prototypes
+void testDeque();
+void testQueue();
+void testStack();
+void testInfixToPostfix();
+
 int main(){
 	/** 
-	cout << "QUEUE\n";
-	Queue<int> nums(3);
-	nums.enqueue(10);
-	nums.enqueue(20);
-	nums.enqueue(30);
-
-	nums.print();
-	cout << "Empty: " << nums.empty() << "\n";
-	cout << "Full: " << nums.full() << "\n";
-	cout << "Size: " << nums.size() << "\n";
-	cout << nums.dequeue() << "\n";
-	cout << nums.dequeue() << "\n";
-	cout << nums.dequeue() << "\n";
-	cout << "Empty: " << nums.empty() << "\n";
-	cout << "Full: " << nums.full() << "\n";
-	cout << "Size: " << nums.size() << "\n";
-	
-	Stack<int> ns(3);
-	ns.push(22);
-	ns.push(33);
-	ns.push(44);
-	cout << "\nSTACK\n";
-	cout << "Empty: " << ns.empty() << "\n";
-	cout << "Full: " << ns.full() << "\n";
-	cout << "Size: " << ns.size() << "\n";
-	cout << ns.pop() << "\n";
-	cout << ns.pop() << "\n";
-	cout << ns.pop() << "\n";
-	cout << "Empty: " << ns.empty() << "\n";
-	cout << "Full: " << ns.full() << "\n";
-	cout << "Size: " << ns.size() << "\n";
+	testDeque();
+	testQueue();
+	testStack();
 	*/
-	/** 
+
+	testInfixToPostfix();
+	
+	return 0;
+}
+
+void testDeque(){
 	cout << "\nDEQUE\n";
 	Deque<int> nums(11);
 	
@@ -89,7 +59,6 @@ int main(){
 	cout << "Get front: " << nums.front() << "\n";
 
 	nums.print();
-	*/
 	
 	int sizeDeque = 6;
 	Deque<int> ns(sizeDeque/2);
@@ -105,6 +74,54 @@ int main(){
 		cout << "Number is: " << a << "\n";
 	}
 	cout << "Size: " << ns.size() << endl;
-	
-	return 0;
+}
+
+void testQueue(){
+	cout << "QUEUE\n";
+	Queue<int> nums(3);
+	nums.enqueue(10);
+	nums.enqueue(20);
+	nums.enqueue(30);
+
+	nums.print();
+	cout << "Empty: " << nums.empty() << "\n";
+	cout << "Full: " << nums.full() << "\n";
+	cout << "Size: " << nums.size() << "\n";
+	cout << nums.dequeue() << "\n";
+	cout << nums.dequeue() << "\n";
+	cout << nums.dequeue() << "\n";
+	cout << "Empty: " << nums.empty() << "\n";
+	cout << "Full: " << nums.full() << "\n";
+	cout << "Size: " << nums.size() << endl;
+}
+
+void testStack(){
+	cout << "\nSTACK\n";
+	Stack<int> ns(3);
+	ns.push(22);
+	ns.push(33);
+	ns.push(44);
+	cout << "\nSTACK\n";
+	cout << "Empty: " << ns.empty() << "\n";
+	cout << "Full: " << ns.full() << "\n";
+	cout << "Size: " << ns.size() << "\n";
+	cout << ns.pop() << "\n";
+	cout << ns.pop() << "\n";
+	cout << ns.pop() << "\n";
+	cout << "Empty: " << ns.empty() << "\n";
+	cout << "Full: " << ns.full() << "\n";
+	cout << "Size: " << ns.size() << endl;
+}
+
+void testInfixToPostfix(){
+	// Get user input for an equation written in infix notation
+	string equation;
+	//cout << "Equation (infix notation): ";
+	//cin >> equation;
+
+	equation = "A + B (C-D) * 9"; // test code
+
+	string postfixEquation = infixToPostfix(equation);
+	cout << "Prefix:  " << equation << "\n";
+	cout << "Postfix: " << postfixEquation << endl;
 }
