@@ -12,6 +12,10 @@ class Stack{
     
     private:
         Deque<T>* d;
+        
+        void print(){
+            d->print();
+        }
 
     public:
         // CONSTRUCTORS
@@ -55,10 +59,6 @@ class Stack{
 
         size_t size(){
             return d->size();
-        }
-
-        void print(){
-            d->print();
         }
 };
 

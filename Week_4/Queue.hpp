@@ -7,13 +7,15 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "Deque.hpp"
-
 template <typename T>
 class Queue{
 
     private:
         Deque<T>* d; // = new Deque<T>(10);
+
+        void print(){
+            d->print();
+        }
 
     public:
         // CONSTRUCTORS 
@@ -52,10 +54,6 @@ class Queue{
 
         size_t size(){
             return d->size();
-        }
-
-        void print(){
-            d->print();
         }
 };
 #endif

@@ -19,16 +19,14 @@ void testDeque();
 void testQueue();
 void testStack();
 void testInfixToPostfix();
+void testParChecker();
 
 int main(){
-	/** 
 	testDeque();
 	testQueue();
 	testStack();
-	*/
-
 	testInfixToPostfix();
-	
+	testParChecker();
 	return 0;
 }
 
@@ -60,10 +58,10 @@ void testDeque(){
 
 	nums.print();
 	
-	int sizeDeque = 6;
-	Deque<int> ns(sizeDeque/2);
+	int sizeDeque = 6; // Will be larger than initial size of the deque
+	Deque<int> ns(sizeDeque/2); // Create a smaller deque to be expanded
 	cout << "Push front:" << "\n";
-	for( int i = 0; i < sizeDeque; i++ ){
+	for( int i = 0; i < sizeDeque; i++ ){ // Deque will have to resize
 		ns.push_back(i);
 	}
 	ns.print();
@@ -114,14 +112,19 @@ void testStack(){
 }
 
 void testInfixToPostfix(){
+	string equation = "A+ B /(C*D) - E"; // Default value
 	// Get user input for an equation written in infix notation
-	string equation;
-	//cout << "Equation (infix notation): ";
-	//cin >> equation;
-
-	equation = "A + B (C-D) * 9"; // test code
-
-	string postfixEquation = infixToPostfix(equation);
+	cout << "Equation (infix notation): ";
+	cin >> equation;
 	cout << "Prefix:  " << equation << "\n";
-	cout << "Postfix: " << postfixEquation << endl;
+	cout << "Postfix: " << infixToPostfix(equation) << endl;
+}
+
+void testParChecker(){
+	string parens = "((())())"; // Default value
+	// Get user input for a series of parentheses
+	cout << "Parentheses: ";
+	cin >> parens;
+	bool isBalanced = parChecker(parens);
+	cout << "Parentheses are balanced? " << (isBalanced ? "Yes" : "No") << endl;
 }

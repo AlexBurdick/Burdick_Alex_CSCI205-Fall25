@@ -52,3 +52,36 @@ string infixToPostfix(string infixExpr) { // Code from Runestone, edited by Alex
 
     return postfixExpr;
 }
+
+// Returns whether the parentheses in the input are balanced
+// From Runestone, edited by Alex Burdick
+bool parChecker(string symbolString) {
+    Stack<string> opStack;
+    bool balanced = true;
+    int index = 0;
+    int str_len = symbolString.length();
+
+    while (index < str_len && balanced) {
+              string symbol;
+              symbol = symbolString[index];
+              if (symbol == "(") {
+                  opStack.push(symbol); //pushes the open parentheses to the stack.
+              } else {
+                  if (opStack.empty()) { //if there is no open parentheses in the stack,
+                                   //the closing parentheses just found makes the string unbalanced.
+                        balanced = false;
+                  } else { //if there is an open parentheses in the stack,
+                           //the closing parentheses just found has a matching open parentheses.
+                       opStack.pop();
+                  }
+              }
+    index = index + 1;
+    }
+
+    if (balanced && opStack.empty()) { //if the string is balanced and there are no
+                                 //remaining open parentheses.
+        return true;
+    } else {
+        return false;
+    }
+}
