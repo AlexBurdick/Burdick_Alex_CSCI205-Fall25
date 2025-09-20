@@ -37,7 +37,7 @@ int main(){
 void testDeque(){
 	cout << "\n--DEQUE--\n";
 	// Test default instantiation
-	cout << "\nDefault Instantiation:\n";
+	cout << "Default Instantiation:\n";
 	int sizeDeque = 200; // Will be larger than initial size of the deque
 	Deque<bool> bools; // Create a smaller deque to be expanded, default = 100
 	
