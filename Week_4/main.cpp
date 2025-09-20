@@ -25,12 +25,12 @@ void testInfixEvaluator();
 
 int main(){
 	testDeque();
-	/** testQueue();
+	testQueue();
 	testStack();
 	testParChecker(); 
 	testInfixToPostfix();
 	testPostfixEvaluator();
-	testInfixEvaluator(); */
+	testInfixEvaluator();
 	return 0;
 }
 
