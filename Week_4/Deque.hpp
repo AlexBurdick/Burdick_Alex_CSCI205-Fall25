@@ -42,6 +42,16 @@ class Deque{
 			// - O(n), n is the number of elements in the array. It would be O(1) if we didn't copy the old array.
 		}
 
+		// Can be moved and used to view the contents of the array within the size
+		void print(){
+			cout << "Print from back:" << "\n";
+			for( int i = 0; i < size_var ; i++ ){
+				int j = (back_var + i + capacity) % capacity;
+				cout << "Value = " << array[j] << " [" << j << "]" << "\n";
+			}
+			cout << "Size = " << size_var << "\n" << endl;
+		}
+
 	public:
 		/**
 		 * @brief Construct a new Deque object
@@ -92,7 +102,7 @@ class Deque{
 			// set the front and back indices appropriately
 			front_var = size - 1;
 			back_var = 0;
-			size_var = 0;
+			size_var = size;
 		}
 
 		/**
@@ -171,6 +181,9 @@ class Deque{
 		 * @return T the item at the front of the deque
 		 */
 		T front(){
+			if (empty()){
+				throw out_of_range("Deque is empty");
+			}
 			return array[front_var];
 		}
 
@@ -180,6 +193,9 @@ class Deque{
 		 * @return T the item at the back of the deque
 		 */
 		T back(){
+			if (empty()){
+				throw out_of_range("Deque is empty");
+			}
 			return array[back_var];
 		}
 
@@ -211,16 +227,5 @@ class Deque{
 		size_t size(){
 			return size_var;
 		}
-
-		// Can be moved and used to view the contents of the array within the size
-		void print(){
-			cout << "Print from back:" << "\n";
-			for( int i = 0; i < size_var ; i++ ){
-				int j = (back_var + i + capacity) % capacity;
-				cout << "Value = " << array[j] << " [" << j << "]" << "\n";
-			}
-			cout << "Size = " << size_var << "\n" << endl;
-		}
 };
-
 #endif

@@ -25,54 +25,70 @@ void testInfixEvaluator();
 
 int main(){
 	testDeque();
-	testQueue();
+	/** testQueue();
 	testStack();
 	testParChecker(); 
 	testInfixToPostfix();
 	testPostfixEvaluator();
-	testInfixEvaluator();
+	testInfixEvaluator(); */
 	return 0;
 }
 
 void testDeque(){
 	cout << "\n--DEQUE--\n";
-	Deque<int> nums(11);
+	// Test default instantiation
+	cout << "\nDefault Instantiation:\n";
+	int sizeDeque = 200; // Will be larger than initial size of the deque
+	Deque<bool> bools; // Create a smaller deque to be expanded, default = 100
 	
+	// Test member functions
+	cout << "Size:  " << bools.size() << "\n";
+	cout << "Full:  " << bools.full() << "\n";
+	cout << "Empty: " << bools.empty() << "\n";
+	
+	// Test resize
+	for( int i = 0; i < sizeDeque; i++ ){ // Deque will have to resize
+		bools.push_back( (i%2 == 0 ) ? true : false );
+	}
+	
+	// Test member functions
+	cout << "Size:  " << bools.size() << "\n";
+	cout << "Full:  " << bools.full() << "\n";
+	cout << "Empty: " << bools.empty() << "\n";
+	cout << "Front: " << bools.front() << "\n";
+	cout << "Back:  " << bools.back() << "\n";
+	
+	// Test int instantiation, and integer data type
+	cout << "\nInt Instantiation:\n";
+	Deque<int> nums(11);
+	// Test push front/back, pop front/back
 	nums.push_front(42);
 	nums.push_back(12);
 	nums.push_back(27);
 	nums.push_back(92);
 	nums.push_front(86);
 	nums.push_front(53);
-
 	cout << "Pop front: " << nums.pop_front() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Get back:  " << nums.back() << "\n";
-
 	nums.push_front(19);
-
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
 	cout << "Pop back:  " << nums.pop_back() << "\n";
-
 	nums.push_back(67);
 	nums.push_back(117);
-	
 	cout << "Get front: " << nums.front() << "\n";
 	
-	int sizeDeque = 6; // Will be larger than initial size of the deque
-	Deque<int> ns(sizeDeque/2); // Create a smaller deque to be expanded
-	cout << "Push front:" << "\n";
-	for( int i = 0; i < sizeDeque; i++ ){ // Deque will have to resize
-		ns.push_back(i);
+	// Test array instantiaion, and char datatype
+	cout << "\nArray Instantiation:\n";
+	char arr[] = {'a', 'b', 'c', 'd', 'e'};
+	size_t size = 5;
+	Deque<char> chars(arr, size);
+	cout << "While !chars.empty:" << "\n";
+	while( !chars.empty() ){
+		cout << chars.pop_back() << "\n";
 	}
-	
-	cout << "While !ns.empty:" << "\n";
-	while( !ns.empty() ){
-		int a = ns.pop_back();
-		cout << "Number is: " << a << "\n";
-	}
-	cout << "Size: " << ns.size() << endl;
+	cout << "Size: " << chars.size() << endl;
 }
 
 void testQueue(){
@@ -81,7 +97,6 @@ void testQueue(){
 	nums.enqueue(10);
 	nums.enqueue(20);
 	nums.enqueue(30);
-
 	cout << "Empty: " << nums.empty() << "\n";
 	cout << "Full: " << nums.full() << "\n";
 	cout << "Size: " << nums.size() << "\n";
