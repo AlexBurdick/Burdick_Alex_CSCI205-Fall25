@@ -10,7 +10,7 @@
 #include "Deque.hpp"
 #include "Stack.hpp"
 #include "Queue.hpp"
-#include "Converters.cpp"
+#include "infix_converter.cpp"
 
 using namespace std;
 
@@ -24,10 +24,10 @@ void testPostfixEvaluator();
 void testInfixEvaluator();
 
 int main(){
-	/** testDeque();
+	testDeque();
 	testQueue();
 	testStack();
-	testParChecker(); */
+	testParChecker(); 
 	testInfixToPostfix();
 	testPostfixEvaluator();
 	testInfixEvaluator();
@@ -121,7 +121,7 @@ void testInfixToPostfix(){
 
 void testParChecker(){
 	cout << "\n--Parentheses balance check--\n";
-	string parens = "((())())"; // Default value
+	string parens = "(((()())())()))"; // Default value
 	bool isBalanced = parChecker(parens);
 	cout << "Parentheses are balanced? " << (isBalanced ? "Yes" : "No") << endl;
 }

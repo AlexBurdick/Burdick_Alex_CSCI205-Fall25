@@ -31,7 +31,7 @@ std::string infixToPostfix(std::string infixExpr) { // Code from Runestone, edit
         throw std::invalid_argument("Invalid expression: unbalanced parentheses");
     }
     
-    unordered_map <char,int> prec;
+    std::unordered_map <char, int> prec;
     prec['*']=3;
     prec['/']=3;
     prec['+']=2;
@@ -98,7 +98,7 @@ int postfixEvaluator(std::string expr){
                 case '-': r = lhs - rhs; break;
                 case '*': r = lhs * rhs; break;
                 case '/': r = lhs / rhs; break;
-                default: throw invalid_argument("Invalid operator");
+                default: throw std::invalid_argument("Invalid operator");
             }
             operands.push(r); // Push the result onto the stack
         }
@@ -124,13 +124,16 @@ bool parChecker(std::string symbolString){
     while (index < str_len && balanced){
         std::string symbol;
         symbol = symbolString[index];
-        if (symbol == "(") {
+        if ( !( symbol == "(" || symbol == ")" ) ){ // 
+            index++;
+            continue;
+        } else if (symbol == "(") {
             s.push(symbol); //pushes the open parentheses to the stack.
         } else {
             if (s.empty())  { balanced = false; } 
             else            { s.pop(); }
         }
-    index = index + 1;
+        index++;
     }
 
     if (balanced && s.empty())  { return true; } 
