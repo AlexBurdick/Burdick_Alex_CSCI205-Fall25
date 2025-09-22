@@ -53,7 +53,17 @@ class List{
 		 * @brief Destroy the List object
 		 * 
 		 */
-		~List();
+		~List(){
+			cout << "List destructor called" << endl; 	// just for visual clues
+			Node<T> *current = head;					// start deleting at head
+			while (current != NULL){					// iterate until we find a next NULL reference
+				cout << "Node deleted" << endl;			// just for visual clues
+				Node<T> *next = current->next;			// advance "current" pointer to "next"
+				delete current;							// deallocate the memory pointed to by "current"
+				current = next;							// set current to "next"
+			}
+			head = NULL;								// set head to NULL	
+		}
 
 		/**
 		 * @brief insert item at beginning of list
