@@ -13,12 +13,14 @@ class List{
 		 * 
 		 */
 		List();
+
 		/**
 		 * @brief Construct a new List object
 		 * 
 		 * @param size 
 		 */
 		List(size_t size);
+
 		/**
 		 * @brief Construct a new List object
 		 * 
@@ -26,6 +28,7 @@ class List{
 		 * @param size 
 		 */
 		List(T* payload, size_t size);
+
 		/**
 		 * @brief Destroy the List object
 		 * 
@@ -38,6 +41,7 @@ class List{
 		 * @param item 
 		 */
 		void insert(T item);
+
 		/**
 		 * @brief insert item at position
 		 * 
@@ -45,12 +49,14 @@ class List{
 		 * @param position 
 		 */
 		void insert(T item, int position);
+
 		/**
 		 * @brief append item to end of list
 		 * 
 		 * @param item 
 		 */
 		void append(T item);
+
 		/**
 		 * @brief get item at position
 		 * 
@@ -58,6 +64,7 @@ class List{
 		 * @return T 
 		 */
 		T get(int position);
+
 		/**
 		 * @brief remove and return item at specified position
 		 * 
@@ -65,17 +72,20 @@ class List{
 		 * @return T 
 		 */
 		T remove(int position);
+
 		/**
 		 * @brief remove all instances of item from list
 		 * 
 		 * @param item 
 		 */
 		void remove(T item);
+
 		/**
 		 * @brief print list in neat format
 		 * 
 		 */
 		void print();
+		
 		/**
 		 * @brief return length of list
 		 * 
