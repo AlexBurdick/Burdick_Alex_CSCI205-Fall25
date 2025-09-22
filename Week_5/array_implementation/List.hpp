@@ -12,7 +12,9 @@ class List{
 		 * @brief Construct a new List object
 		 * 
 		 */
-		List();
+		List(){
+			
+		}
 
 		/**
 		 * @brief Construct a new List object
