@@ -32,14 +32,21 @@ class List{
 		 * @brief Construct a new List object
 		 * 
 		 */
-		List();
+		List(){
+			head = null;
+			size = 0;
+			
+		}
 
 		/**
 		 * @brief Construct a new List object
 		 * 
 		 * @param size 
 		 */
-		List(size_t size);
+		List(size_t size){
+			head = null;
+			this->size = size;
+		}
 
 		/**
 		 * @brief Construct a new List object
@@ -47,7 +54,11 @@ class List{
 		 * @param payload 
 		 * @param size 
 		 */
-		List(T* payload, size_t size);
+		List(T* payload, size_t size){
+			head = new Node<T>(); // instantiate new node to contain item
+			head->item = payload;
+			this->size = size;
+		}
 
 		/**
 		 * @brief Destroy the List object
@@ -70,7 +81,19 @@ class List{
 		 * 
 		 * @param item 
 		 */
-		void insert(T item);
+		void insert(T item){
+			Node<T> *temp = new Node<T>();
+			temp->item = data;	// assign the new node its "payload". Templated for flexibility
+
+			// check to see if this is the first item added
+			// need to configure the "head" reference if so
+			if(this->empty()) head = temp;	// not first item added
+			else{
+				temp->next	= head;			// push old "head" down the list
+				head		= temp;			// new item then becomes the head
+			}
+			++size;							// increase the size
+		}
 
 		/**
 		 * @brief insert item at position
@@ -78,7 +101,25 @@ class List{
 		 * @param item 
 		 * @param position 
 		 */
-		void insert(T item, int position);
+		void insert(T item, int pos){
+			Node<T> *temp = new Node<T>();
+			temp->item = data;
+
+			// Check to see if the position is out of range
+			if( pos > size ) {
+				throw std::out_of_range("Position (" + size + ") is out of range (" + size + ")");
+			}
+			else if(this->empty()) head = temp;	// first item added
+			else{
+				temp->next = head;			// push old "head" down the list
+				for( int i = 0; i < pos; i++ ){
+
+				}
+				temp->next	= ;			// push old "head" down the list
+				head		= temp;			// new item then becomes the head
+			}
+			++size;							// increase the size
+		}
 
 		/**
 		 * @brief append item to end of list
@@ -86,6 +127,15 @@ class List{
 		 * @param item 
 		 */
 		void append(T item);
+
+		/**
+		 * @brief return the item at the head of the list without removing it
+		 * 
+		 * @return T 
+		 */
+		T peek(){
+			return head->item;
+		}
 
 		/**
 		 * @brief get item at position
@@ -114,13 +164,33 @@ class List{
 		 * @brief print list in neat format
 		 * 
 		 */
-		void print();
+		void print(){
+			Node<T> *current = head;		// start at the head
+			int count = 1;					// enumerate just for kicks
+			while(current != NULL){			// loop until current is null
+				cout << "<Node " << count++ << ": " << current->item << "> ==> ";
+				current = current->next;	// step the reference down the list
+			}
+			cout << "NULL" << endl;
+		}
 		
 		/**
 		 * @brief return length of list
 		 * 
 		 * @return int 
 		 */
-		int length();
+		int length() const{
+			return size;
+		}
+
+		/**
+		 * @brief return true if the list is empty
+		 * 
+		 * @return true 
+		 * @return false 
+		 */
+		bool empty(){
+			return count == 0;
+		}
 };
 #endif
