@@ -1,8 +1,8 @@
-#ifndef H_LIST_ARRAY
-#define H_LIST_ARRAY
+#ifndef LIST_ARRAY_HPP
+#define LIST_ARRAY_HPP
 
 template <class T>
-class List{
+class Array_List{
 	private:
 		T* memory;			// memory allocation for list elements
 		unsigned int size;	// variable to hold the size

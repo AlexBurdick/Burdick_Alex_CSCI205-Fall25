@@ -10,6 +10,7 @@ class Student{
 
 	public:
 		Student(int, std::string);
+		~Student();
 		int getID() const;
 		std::string getName() const;
 		std::string getDorm() const;
