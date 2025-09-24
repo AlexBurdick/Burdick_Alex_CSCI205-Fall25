@@ -16,9 +16,9 @@ void testRemoveAt(){
 	// List of strings
 	LinkedList<string> stringList;
     cout << "\nString List:\n";
+	stringList.insert("Harry", 0);
 	stringList.insert("Tom", 0);
 	stringList.insert("Dick", 1);
-	stringList.insert("Harry", 2);
 	stringList.printList();
     stringList.removeAt(1);
     stringList.printList();
@@ -26,9 +26,9 @@ void testRemoveAt(){
 	// List of doubles
     cout << "\nDouble List:\n";
 	LinkedList<double> doubleList;
+	doubleList.insert(12.12, 0);
+	doubleList.insert(11.11, 0);
 	doubleList.insert(10.10, 0);
-	doubleList.insert(11.11, 1);
-	doubleList.insert(12.12, 2);
     doubleList.printList();
     doubleList.removeAt(2);
 	doubleList.printList();
@@ -96,9 +96,10 @@ void testFind(){
 	intList.append(10);
 	intList.append(11);
 	intList.append(12);
+    cout << "Leng: " << intList.length() << "\n";
     cout << "Peek: " << intList.peek() << "\n";
 	cout << "Get0: " << intList.get(0) << "\n";
     cout << "Get1: " << intList.get(1) << "\n";
-	cout << "Get2: " << intList.get(2) << "\n";
+	cout << "Get2: " << intList.get(2) << endl;
 
 }

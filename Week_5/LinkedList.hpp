@@ -92,16 +92,18 @@ class LinkedList{
 		 * @param position 
 		 */
 		void insert(T item, int pos){
-			Node<T>* newNode = new Node<T>(item, nullptr);
-
 			if( pos > size || pos < 0 ){ // Check to see if the position is out of range
 				throw std::out_of_range("Position is out of range.");
 			}
-			else if(this->empty()) head = newNode;	// first item added
-			else{
+
+			Node<T>* newNode = new Node<T>(item);
+			if (pos == 0) { // Insert at the head
+        		newNode->next = head;
+        		head = newNode;
+			} else {
 				Node<T>* current = head;
-				for( int i = 0; i < pos; i++ ){
-					Node<T>* temp = current->next;
+				for( int i = 0; i < pos-1; i++ ){
+					current = current->next;
 				}
 				newNode->next = current->next;
 				current->next = newNode;
@@ -226,7 +228,7 @@ class LinkedList{
 		 */
 		void printList(){
 			Node<T> *current = head;		// start at the head
-			int count = 1;					// enumerate just for kicks
+			int count = 0;					// enumerate just for kicks
 			while(current != nullptr){		// loop until current is null
 				std::cout << "<Node " << count++ << ": " << current->payload << "> ==> ";
 				current = current->next;	// step the reference down the list

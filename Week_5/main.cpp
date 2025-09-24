@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <string>
 #include <stdexcept>
-#include "linked_list_tests.cpp"
+#include "list_tests.cpp"
 #include "Student.h"
 using namespace std;
 
@@ -19,8 +19,8 @@ int main(){
     dorms["Hufflepuff"] = 3;
 
     testRemoveAt();
-    //testRemove();
-    //testFind();
+    testRemove();
+    testFind();
 
     return 0;
 }
