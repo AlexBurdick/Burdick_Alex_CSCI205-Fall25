@@ -18,8 +18,8 @@ int main(){
     dorms["Ravenclaw"]  = 2;
     dorms["Hufflepuff"] = 3;
 
-    testRemoveAt();
-    testRemove();
+    //testRemoveAt();
+    //testRemove();
     testFind();
 
     return 0;

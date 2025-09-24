@@ -5,35 +5,25 @@ template <class T>
 class Array_List{
 	private:
 		T* memory;			// memory allocation for list elements
-		unsigned int size;	// variable to hold the size
+		size_t size {0};	// variable to hold the size
 
 	public:
 		/**
 		 * @brief Construct a new List object
 		 * 
 		 */
-		List(){
+		List() = default;
+
+		/**
+		 * @brief Construct a new List object
+		 * 
+		 * @param size 
+		 */
+		List(size_t num){
+			
 		}
 
-		/**
-		 * @brief Construct a new List object
-		 * 
-		 * @param size 
-		 */
-		List(size_t size);
 
-		/**
-		 * @brief Construct a new List object
-		 * 
-		 * @param payload 
-		 * @param size 
-		 */
-		List(T* payload, size_t size);
-
-		/**
-		 * @brief Destroy the List object
-		 * 
-		 */
 		~List(){
 			cout << "List destructor called" << endl; 	// just for visual clues
 			Node<T> *current = head;					// start deleting at head
@@ -75,6 +65,23 @@ class Array_List{
 		 * @return T 
 		 */
 		T get(int position);
+
+		/**
+		 * @brief find item at position
+		 * 
+		 * @param target 
+		 * @return int index of target
+		 */
+		int find(T target){
+			for( int i = 0; int < size; int++ ){
+				
+			}
+				current = current->next;
+				++index;
+			}
+			return -1;
+		}
+
 
 		/**
 		 * @brief remove and return item at specified position

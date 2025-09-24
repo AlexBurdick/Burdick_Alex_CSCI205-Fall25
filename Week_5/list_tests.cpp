@@ -93,13 +93,19 @@ void testFind(){
     // List of ints
 	LinkedList<int> intList;
     cout << "\nInteger List:\n";
-	intList.append(10);
-	intList.append(11);
-	intList.append(12);
+	intList.insert(10);
+	intList.insert(11);
+	intList.insert(12);
+    intList.insert(13);
+    intList.insert(14);
+    intList.insert(15);
     cout << "Leng: " << intList.length() << "\n";
     cout << "Peek: " << intList.peek() << "\n";
 	cout << "Get0: " << intList.get(0) << "\n";
     cout << "Get1: " << intList.get(1) << "\n";
-	cout << "Get2: " << intList.get(2) << endl;
-
+	cout << "Get2: " << intList.get(2) << "\n";
+    cout << "Find: " << intList.find(10) << "\n";
+    cout << "Find: " << intList.find(12) << "\n";
+    cout << "Find: " << intList.find(15) << "\n";
+    cout << "Find: " << intList.find(16) << endl;
 }

@@ -163,9 +163,28 @@ class LinkedList{
 		}
 
 		/**
+		 * @brief Find an item's first position.
+		 * 
+		 * @param target item to find 
+		 * @return int index of the target
+		 */
+		int find(T target){
+			int index = 0;
+			Node<T>* current = head;
+			while( current != nullptr ){
+				if( current->payload == target ){
+					return index;
+				}
+				current = current->next;
+				++index;
+			}
+			return -1;
+		}
+
+		/**
 		 * @brief remove and return item at specified position
 		 * 
-		 * @param position 
+		 * @param pos index to remove
 		 * @return T 
 		 */
 		void removeAt(int pos){
@@ -195,7 +214,7 @@ class LinkedList{
 		/**
 		 * @brief Remove all instances of item from LinkedList.
 		 * 
-		 * @param item 
+		 * @param target 
 		 */
 		void remove(T target){
 			if( this->empty() ){
