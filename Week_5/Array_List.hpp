@@ -1,57 +1,74 @@
+/*******************************************************************************
+ * @file  main.cpp
+ * 
+ * @brief This class defines an array implemented as a list, templated to allow 
+ * for any type of data to be stored in the list. The array will maintain a 
+ * continuous seriers of elements, and each elements contains an item in the 
+ * list. The ArrayList class tracks the capacity and size of the list. The list 
+ * class contains methods for adding, removing, and finding elements from the 
+ * list, and a method for printing the contents of the list.
+ ******************************************************************************/
+
 #ifndef LIST_ARRAY_HPP
 #define LIST_ARRAY_HPP
 
+#include <iostream>
+#include <stdexcept>
+
 template <class T>
-class Array_List{
+class ArrayList{
 	private:
-		T* array;				// memory allocation for list elements
-		size_t size 	{0};	// variable to hold the size
-		size_t capacity {100};
+		T* array;		// memory allocation for list elements
+		int size;	// variable to hold the size
+		int capacity;
 
 		// Helper function to resize the array
 		void resize(){
-			int newCapacity = capacity * 2; // Double capacity
-			T* newArray = new T[newCapacity];
+			capacity *= 2; // Double capacity
+			T* newArray = new T[capacity];
 
 			// Copy old array into new array
-			for( size_t i = 0; i < size_var; i++ ){
-				newArray[i] = array[ (back_var + i + capacity) % capacity ];
+			for( int i = 0; i < size; i++ ){
+				newArray[i] = array[i];
 			}
 
-			capacity = newCapacity;
-			front_var = size_var - 1; // Reset front
-			back_var = 0; // Reset back
 			delete[] array; // Deallocate memory
 			array = newArray; // Point to new array
 		}
 
 	public:
-		/**
-		 * @brief Construct a new List object withe default values.
-		 * 
-		 */
-		List() { array = new T[capacity]; }
-
+		// CONSTUCTORS
 		/**
 		 * @brief Construct a new List object with the capacity pass in.
 		 * 
-		 * @param cap capacity
+		 * @param cap capacity of the memory set aside, defaults to 100.
 		 */
-		List(size_t cap) : capacity{cap} {
+		ArrayList(int cap = 100) : capacity{cap}, size{0} {
 			array = new T[capacity];
 		}
 
 
-		~List(){
+		~ArrayList(){
 			delete[] array; // deallocate membory
 		}
 
+
+		// MEMBER FUNCTIONS
 		/**
 		 * @brief insert item at beginning of list
 		 * 
 		 * @param item 
 		 */
-		void insert(T item);
+		void insert(T item){
+			if ( length() == capacity ) resize(); // Resize if full
+
+			for( int i = size-1; i >= 0; i-- ){ // iterage backwards
+				array[i+1] = array[i];
+			}
+
+			array[0] = item;
+			++size;
+		}
 
 		/**
 		 * @brief insert item at position
@@ -59,14 +76,38 @@ class Array_List{
 		 * @param item 
 		 * @param pos
 		 */
-		void insert(T item, int pos);
+		void insert(T item, int pos){
+			if( pos > size ) throw std::out_of_range("Position is out of range");
+			if( length() == capacity ) resize(); // Resize if full
+
+			for( int i = size-1; i >= pos; i-- ){ // iterage backwards
+				array[i+1] = array[i];
+			}
+
+			array[pos] = item;
+			++size;
+		}
 
 		/**
 		 * @brief append item to end of list
 		 * 
 		 * @param item 
 		 */
-		void append(T item);
+		void append(T item){
+			if( length() == capacity ) resize(); // Resize if full
+			array[size] = item;
+			++size;
+		}
+
+		/**
+		 * @brief return the item at the head of the list without removing it
+		 * 
+		 * @return T 
+		 */
+		T peek(){
+			if ( empty() ) throw std::out_of_range("Position is out of range.");
+			return array[0];
+		}
 
 		/**
 		 * @brief get item at position
@@ -74,18 +115,21 @@ class Array_List{
 		 * @param pos 
 		 * @return T 
 		 */
-		T get(int pos);
+		T get(int pos){
+			if( pos > size || empty() ) throw std::out_of_range("Position is out of range");
+			return array[pos];
+		}
 
 		/**
-		 * @brief find item at position
+		 * @brief Find the first position of an element in the array.
 		 * 
-		 * @param target 
+		 * @param item 
 		 * @return int index of target
 		 */
-		int find(T target){
-			for( int i = 0; int < size; int++ ){
-				current = current->next;
-				++index;
+		int find(T item){
+			if( empty() ) throw std::out_of_range("Position is out of range");
+			for( int i = 0; i < size; i++ ){
+				if ( array[i] == item ) return i;
 			}
 			return -1;
 		}
@@ -97,18 +141,18 @@ class Array_List{
 		 * @param pos
 		 * @return T 
 		 */
-		T remove(int pos){
-			if( lenght() == 0 || pos > length() ){
+		T erase(int pos){
+			if( pos < 0 || pos >= size || empty() ){
 				throw std::out_of_range("Position is out of range.");
 			}
 
-			if( length() == 1 ){
+			T temp = array[pos];
+			for (int i = pos; i < size - 1; i++) {
+            	array[i] = array[i + 1]; // Shift elements left
+        	}
+			--size;
 
-			}
-			--capacity; // Decrease capacity
-			for( int i = pos; i < capacity; i++ ){ // Copies from beyond new capacity
-				array[i] = array[i+1]
-			}
+			return temp;
 		}
 
 		/**
@@ -116,13 +160,32 @@ class Array_List{
 		 * 
 		 * @param item 
 		 */
-		void remove(T item);
+		void remove(T item){
+			if( empty() ) throw std::out_of_range("Position is out of range.");
+			int index;
+			for (int i = 0; i < size; i++) {
+            	if( array[i] == item ){
+					index = i;
+					for ( int j = index; j < size - 1; j++) {
+            			array[j] = array[j + 1]; // Shift elements left
+        			}
+					--size;
+					i--;
+				}
+        	}
+		}
 
 		/**
 		 * @brief print list in neat format
 		 * 
 		 */
-		void print();
+		void print(){
+			std::cout << "Array_List: [ ";
+			for (int i = 0; i < size; i++) {
+				std::cout << array[i] << "(" << i << ") ";
+        	}
+			std::cout << "]" << std::endl;
+		}
 		
 		/**
 		 * @brief return length of list
@@ -131,6 +194,16 @@ class Array_List{
 		 */
 		int length(){
 			return size;
+		}
+
+		/**
+		 * @brief return true if the list is empty
+		 * 
+		 * @return true 
+		 * @return false 
+		 */
+		bool empty(){
+			return size == 0;
 		}
 };
 #endif

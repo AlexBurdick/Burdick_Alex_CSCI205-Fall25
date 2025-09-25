@@ -4,9 +4,10 @@
  * @brief This class defines a singly linked list, templated to allow for any 
  * type of data to be stored in the list. It list is implemented as a linked 
  * list of nodes. Each node contains a "payload" of templated type and a pointer 
- * to the next node in the list. The List class tracks the head and size of the 
- * list. The list class contains methods for adding and removing nodes from the 
- * list, and a method for printing the contents of the list.
+ * to the next node in the list. The LinkedList class tracks the head and size 
+ * of the list. The LinkedList class contains methods for adding, removing, and 
+ * finding nodes from the list, and a method for printing the contents of the 
+ * list.
  ******************************************************************************/
 
 #ifndef LINKED_LIST_HPP
@@ -187,18 +188,20 @@ class LinkedList{
 		 * @param pos index to remove
 		 * @return T 
 		 */
-		void removeAt(int pos){
+		T erase(int pos){
 			// Check to see if the position is out of range
 			if ( pos >= size || pos < 0 || this->empty() ){
 				throw std::out_of_range("Position is out of range.");
 			}
 			
-			Node<T>* toDelete = head; // Start at the head			
-			if (pos == 0){ // Deal with head
-				head = toDelete->next;
-				delete toDelete;
-				--size;
-				return;
+			T temp; /**< Holder for value to be returned */
+			Node<T>* toDelete = head; /**< Start at the head */
+			if (pos == 0){ 				// Deal with head
+				temp = head->payload;	// Get the value to return
+				head = toDelete->next;	// Set head before deleting it
+				delete toDelete;		// Delete previous head
+				--size;					// Decrease size
+				return temp;			// Return value contained at pos
 			}
 
 			Node<T>* previous = nullptr;
@@ -207,8 +210,11 @@ class LinkedList{
 				toDelete = toDelete->next; // When loop stops, this will be node[pos]
 			}
 			previous->next = toDelete->next; // Set next pointer of node before deleted node
+			temp = toDelete->payload; // Save value of item that is being erased
 			delete toDelete;
+			
 			--size;
+			return temp;
 		}
 
 		/**
@@ -221,9 +227,9 @@ class LinkedList{
 				throw std::out_of_range("Position is out of range.");
 			}
 			
-			Node<T>* current = head;	// Start at the head
+			Node<T>* current = head; /**< Start at the head */
 			while (head->payload == target){
-				current = head->next;			// Make "next" node the new "head"
+				current = head->next;		// Make "next" node the new "head"
 				delete head;				// Delete head node, making next the new head
 				head = current;
 				--size;						// Decrease size
@@ -245,7 +251,7 @@ class LinkedList{
 		 * @brief Print the list in a neat format.
 		 * 
 		 */
-		void printList(){
+		void print(){
 			Node<T> *current = head;		// start at the head
 			int count = 0;					// enumerate just for kicks
 			while(current != nullptr){		// loop until current is null
@@ -274,5 +280,4 @@ class LinkedList{
 			return size == 0;
 		}
 };
-
 #endif

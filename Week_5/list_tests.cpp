@@ -3,110 +3,197 @@
 #include "Student.h"
 using namespace std;
 
-void testRemoveAt(){
+/**
+ * @brief Test the Linked List member functions
+ * 
+ */
+void testLinkedList(){
+    cout << "LINKED LIST";
+    cout << "--Test Erase--";
     // List of ints
 	LinkedList<int> intList;
     cout << "\nInteger List:\n";
 	intList.insert(10, 0);
 	intList.insert(11, 1);
 	intList.insert(12, 2);
-	intList.printList();
-    intList.removeAt(0);
-    intList.printList();
-
+	intList.print();
+    intList.erase(0);
+    intList.print();
 	// List of strings
 	LinkedList<string> stringList;
     cout << "\nString List:\n";
 	stringList.insert("Harry", 0);
 	stringList.insert("Tom", 0);
 	stringList.insert("Dick", 1);
-	stringList.printList();
-    stringList.removeAt(1);
-    stringList.printList();
-
+	stringList.print();
+    stringList.erase(1);
+    stringList.print();
 	// List of doubles
     cout << "\nDouble List:\n";
 	LinkedList<double> doubleList;
 	doubleList.insert(12.12, 0);
 	doubleList.insert(11.11, 0);
 	doubleList.insert(10.10, 0);
-    doubleList.printList();
-    doubleList.removeAt(2);
-	doubleList.printList();
-    
+    doubleList.print();
+    doubleList.erase(2);
+	doubleList.print();
     // Test error catching - negative numbers
-    try{
-        doubleList.removeAt(-1);
-    } catch( const out_of_range& e ) {
-        cerr << "Error: " << e.what() << endl;
-    }
+    try{ doubleList.erase(-1); }
+    catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
     // Test error catching - greater than size
-    try{
-        doubleList.removeAt(100);
-    } catch( const out_of_range& e ) {
-        cerr << "Error: " << e.what() << endl;
-    }
-}
+    try{ doubleList.erase(100); }
+    catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
 
-void testRemove(){
-    // List of ints
+    cout << "--Test Remove--";
+    // List of chars
 	LinkedList<char> charList;
     cout << "\nChar List:\n";
 	charList.insert('a');
     charList.insert('a');
 	charList.insert('b');
 	charList.insert('c');
-	charList.printList();
+	charList.print();
     charList.remove('a');
-    charList.printList();
-
-	// List of strings
+    charList.print();
+	// List of bools
     cout << "\nBoolean List:\n";
 	LinkedList<bool> boolList;
     boolList.insert(true);
 	boolList.insert(false);
     boolList.insert(false);
 	boolList.insert(true);
-	boolList.printList();
+	boolList.print();
     boolList.remove(false);
-    boolList.printList();
-
-	// List of doubles
+    boolList.print();
+	// List of floats
     cout << "\nFloat List:\n";
 	LinkedList<float> floatList;
 	floatList.insert(1.123);
 	floatList.insert(2.456);
 	floatList.insert(3.789);
     floatList.insert(3.789);
-    floatList.printList();
+    floatList.print();
     floatList.remove(3.789);
-	floatList.printList();
-    
-    // Test error catching - invalid value
-    try{
-        floatList.remove(4.001);
-    } catch( const out_of_range& e ) {
-        cerr << "Error: " << e.what() << endl;
-    }
+	floatList.print();
+    // Test error catching - invalid value (should not throw error)
+    try{ floatList.remove(4.001); }
+    catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
+
+    cout << "--Test Find--";
+    // List of size_t
+	LinkedList<size_t> size_tList;
+    cout << "\nInteger List:\n";
+	size_tList.insert(10);
+	size_tList.insert(11);
+	size_tList.insert(12);
+    size_tList.insert(13);
+    size_tList.insert(14);
+    size_tList.insert(15);
+    cout << "Leng: " << size_tList.length() << "\n";
+    cout << "Peek: " << size_tList.peek() << "\n";
+	cout << "Get0: " << size_tList.get(0) << "\n";
+    cout << "Get1: " << size_tList.get(1) << "\n";
+	cout << "Get2: " << size_tList.get(2) << "\n";
+    cout << "Find: " << size_tList.find(10) << "\n";
+    cout << "Find: " << size_tList.find(12) << "\n";
+    cout << "Find: " << size_tList.find(15) << "\n";
+    cout << "Find: " << size_tList.find(16) << endl;
 }
 
-void testFind(){
+/**
+ * @brief Test the Array List member functions
+ * 
+ */
+void testArrayList(){
+    cout << "ARRAY LIST\n";
+    cout << "--Test Erase--";
     // List of ints
-	LinkedList<int> intList;
+	ArrayList<int> intList;
     cout << "\nInteger List:\n";
-	intList.insert(10);
-	intList.insert(11);
-	intList.insert(12);
-    intList.insert(13);
-    intList.insert(14);
-    intList.insert(15);
-    cout << "Leng: " << intList.length() << "\n";
-    cout << "Peek: " << intList.peek() << "\n";
-	cout << "Get0: " << intList.get(0) << "\n";
-    cout << "Get1: " << intList.get(1) << "\n";
-	cout << "Get2: " << intList.get(2) << "\n";
-    cout << "Find: " << intList.find(10) << "\n";
-    cout << "Find: " << intList.find(12) << "\n";
-    cout << "Find: " << intList.find(15) << "\n";
-    cout << "Find: " << intList.find(16) << endl;
+	intList.insert(10, 0);
+	intList.insert(11, 1);
+	intList.insert(13, 2);
+    intList.insert(12, 2);
+	intList.print();
+    intList.erase(0);
+    intList.print();
+	// List of strings
+	ArrayList<string> stringList;
+    cout << "\nString List:\n";
+	stringList.insert("Harry", 0);
+	stringList.insert("Tom", 0);
+	stringList.insert("Dick", 1);
+	stringList.print();
+    stringList.erase(1);
+    stringList.print();
+	// List of doubles
+    cout << "\nDouble List:\n";
+	ArrayList<double> doubleList;
+	doubleList.insert(12.12, 0);
+	doubleList.insert(11.11, 0);
+	doubleList.insert(10.10, 0);
+    doubleList.print();
+    doubleList.erase(2);
+	doubleList.print();
+    // Test error catching - negative numbers
+    try{ doubleList.erase(-1); }
+    catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
+    // Test error catching - greater than size
+    try{ doubleList.erase(100); }
+    catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
+
+    cout << "--Test Remove--";
+    // List of chars
+	ArrayList<char> charList;
+    cout << "\nChar List:\n";
+	charList.insert('a');
+    charList.insert('a');
+	charList.insert('b');
+	charList.insert('c');
+	charList.print();
+    charList.remove('a');
+    charList.print();
+	// List of bools
+    cout << "\nBoolean List:\n";
+	ArrayList<bool> boolList;
+    boolList.insert(true);
+	boolList.insert(false);
+    boolList.insert(false);
+	boolList.insert(true);
+	boolList.print();
+    boolList.remove(false);
+    boolList.print();
+	// List of floats
+    cout << "\nFloat List:\n";
+	ArrayList<float> floatList;
+	floatList.insert(1.123);
+	floatList.insert(2.456);
+	floatList.insert(3.789);
+    floatList.insert(3.789);
+    floatList.print();
+    floatList.remove(1.123);
+	floatList.print();
+    // Test error catching - invalid value (should not throw error)
+    try{ floatList.remove(4.001); }
+    catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
+
+    cout << "--Test Find--";
+    // List of size_t
+	ArrayList<size_t> size_tList;
+    cout << "\nInteger List:\n";
+	size_tList.insert(10);
+	size_tList.insert(11);
+	size_tList.insert(12);
+    size_tList.insert(13);
+    size_tList.insert(14);
+    size_tList.insert(15);
+    cout << "Leng: " << size_tList.length() << "\n";
+    cout << "Peek: " << size_tList.peek() << "\n";
+	cout << "Get0: " << size_tList.get(0) << "\n";
+    cout << "Get1: " << size_tList.get(1) << "\n";
+	cout << "Get2: " << size_tList.get(2) << "\n";
+    cout << "Find: " << size_tList.find(10) << "\n";
+    cout << "Find: " << size_tList.find(12) << "\n";
+    cout << "Find: " << size_tList.find(15) << "\n";
+    cout << "Find: " << size_tList.find(16) << endl;
 }
