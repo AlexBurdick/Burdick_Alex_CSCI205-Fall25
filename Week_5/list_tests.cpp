@@ -1,4 +1,5 @@
-#include "LinkedList.hpp"
+#include "Linked_List.hpp"
+#include "Array_List.hpp"
 #include "Student.h"
 using namespace std;
 
