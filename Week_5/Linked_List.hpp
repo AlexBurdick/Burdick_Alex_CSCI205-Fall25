@@ -308,17 +308,19 @@ class LinkedList{
 			if( empty() ) throw std::out_of_range("Position is out of range");
 
 			Node<T>* current = head; /**< Node object to act as a placeholder, staring at the head */
-			Node<T>* compare = current->next; /**< The next node to be compared to the current node. */
 
-			while( current != nullptr && current->next != nullptr ){
+			while( current->next != nullptr ){
+				Node<T>* runner = current; /**< Holds the node to be compared to the rest of the list. */
+
+				while( runner->next != nullptr ){
 				
-				while( current != nullptr && current->next != nullptr ){
-				
-					if ( current->payload == compare->payload ){
-						current->next = compare->next; // Remove the duplicate
-						--size; 					// Decrement size
+					if ( current->payload == runner->next->payload ){
+						Node<T>* temp = runner->next; // Temp = next node
+						runner->next = temp->next;	// Remove the duplicate
+						delete temp;				// Deallocate memory
+						--size;						// Decrement size
 					} else {
-						compare = compare->next; // Only advance if no duplicate was found
+						runner = runner->next; // Only advance if no duplicate was found
 					}
 				}
 				current = current->next; // Move to next Node

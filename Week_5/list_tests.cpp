@@ -204,11 +204,12 @@ void testFuncs(){
 	intList.add(10);
 	intList.add(11);
 	intList.add(12);
-    intList.add(10);
-    intList.add(13);
-    intList.add(14);
-    intList.add(10);
+    //intList.add(10);
+    //intList.add(13);
+    //intList.add(14);
+    //intList.add(10);
     intList.add(11);
+    intList.print();
     cout << "Count10: " << intList.count(10) << "\n";
     cout << "Count12: " << intList.count(12) << "\n";
     
@@ -221,6 +222,9 @@ void testFuncs(){
     
     cout << "\nAppend List\n";
     LinkedList<int> newList;
+    newList.add(2);
+    newList.add(3);
+    newList.add(4);
     intList.append(newList);
     intList.print();
 }
