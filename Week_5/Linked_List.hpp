@@ -16,6 +16,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <stack>
+#include <string>
 
 // The struct describing the node. This could also be a class
 template <class T>
@@ -41,6 +42,15 @@ class LinkedList{
 	private:
 		Node<T>* head {nullptr}; /**< Pointer to a new node to be the start of the list. */
 		int 	 size {0};		 /**< Counter for the size of the list. */
+
+		// Helper function to find a node at a position
+		Node<T>* getNode(int pos){
+			Node<T>* current = head;
+				for( int i = 0; i < pos; i++ ){
+					current = current->next;
+				}
+			return current;
+		}
 
 	public:
 		/**
@@ -94,23 +104,18 @@ class LinkedList{
 		 * @param position 
 		 */
 		void insert(T item, int pos){
-			if( pos > size || pos < 0 ){ // Check to see if the position is out of range
-				throw std::out_of_range("Position is out of range.");
-			}
+			if( pos > size || pos < 0 ) throw std::out_of_range("Position is out of range");
 
 			Node<T>* newNode = new Node<T>(item);
 			if (pos == 0) { // Insert at the head
         		newNode->next = head;
         		head = newNode;
 			} else {
-				Node<T>* current = head;
-				for( int i = 0; i < pos-1; i++ ){
-					current = current->next;
-				}
+				Node<T>* current = getNode(pos);
 				newNode->next = current->next;
 				current->next = newNode;
 			}
-			++size;					// increase the size
+			++size;	// increase the size
 		}
 
 		/**
@@ -124,10 +129,7 @@ class LinkedList{
 			if( head == nullptr ){ // Deal with head
 				head = newNode;
 			} else {
-				Node<T>* current = head;
-				while( current->next != nullptr ){
-					current = current->next;
-				}
+				Node<T>* current = getNode(size-1);
 				current->next = newNode; // Append new node
 			}
 			++size;
@@ -139,9 +141,7 @@ class LinkedList{
 		 * @return T 
 		 */
 		T peek(){
-			if ( this->empty() ){
-				throw std::out_of_range("Position is out of range.");
-			}
+			if ( this->empty() ) throw std::out_of_range("Position is out of range");
 			return head->payload;
 		}
 
@@ -152,15 +152,8 @@ class LinkedList{
 		 * @return T 
 		 */
 		T get(int pos){
-			if ( this->empty() ){
-				throw std::out_of_range("Position is out of range.");
-			}
-
-			Node<T>* current = head;
-			for (int i = 0; i < pos; i++){
-				current = current->next; // When loop stops, this will be node[pos]
-			}
-
+			if ( this->empty() || pos < 0 || pos > size ) throw std::out_of_range("Position is out of range");
+			Node<T>* current = getNode(pos);
 			return current->payload;
 		}
 
@@ -174,9 +167,7 @@ class LinkedList{
 			int index = 0;
 			Node<T>* current = head;
 			while( current != nullptr ){
-				if( current->payload == target ){
-					return index;
-				}
+				if( current->payload == target ) return index;
 				current = current->next;
 				++index;
 			}
@@ -190,32 +181,28 @@ class LinkedList{
 		 * @return T 
 		 */
 		T erase(int pos){
-			// Check to see if the position is out of range
-			if ( pos >= size || pos < 0 || this->empty() ){
-				throw std::out_of_range("Position is out of range.");
-			}
+			if ( pos >= size || pos < 0 || this->empty() ) throw std::out_of_range("Position is out of range");
 			
-			T temp; /**< Holder for value to be returned */
+			T item; /**< Holder for value to be returned */
 			Node<T>* toDelete = head; /**< Start at the head */
 			if (pos == 0){ 				// Deal with head
-				temp = head->payload;	// Get the value to return
+				item = head->payload;	// Get the value to return
 				head = toDelete->next;	// Set head before deleting it
 				delete toDelete;		// Delete previous head
 				--size;					// Decrease size
-				return temp;			// Return value contained at pos
+				return item;			// Return value contained at pos
 			}
 
-			Node<T>* previous = nullptr;
-			for (int i = 0; i < pos; i++){
-				previous = toDelete;
-				toDelete = toDelete->next; // When loop stops, this will be node[pos]
-			}
+			// Set the node at the correct position, and it's previous node
+			Node<T>* previous = getNode(pos-1);
+			toDelete = previous->next; // This will be node[pos]
 			previous->next = toDelete->next; // Set next pointer of node before deleted node
-			temp = toDelete->payload; // Save value of item that is being erased
-			delete toDelete;
 			
-			--size;
-			return temp;
+			// Retrieve data
+			item = toDelete->payload; // Save value of item that is being erased
+			delete toDelete; // Deallocate memory
+			--size; // Decrement size
+			return item;
 		}
 
 		/**
@@ -224,9 +211,7 @@ class LinkedList{
 		 * @param target 
 		 */
 		void remove(T target){
-			if( this->empty() ){
-				throw std::out_of_range("Position is out of range.");
-			}
+			if( this->empty() ) throw std::out_of_range("Position is out of range");
 			
 			Node<T>* current = head; /**< Start at the head */
 			while (head->payload == target){
@@ -350,8 +335,6 @@ class LinkedList{
 				current = current->next;
 				listStack.pop();
 			}
-
-			delete listStack;
 		}
 
 		/**
@@ -362,7 +345,7 @@ class LinkedList{
 		void append(const LinkedList<T>& otherList){
 			Node<T>* otherCurrent = otherList.head;
 			while (otherCurrent != nullptr) {
-				this->add(otherCurrent->payload); // Use existing append method
+				this->add(otherCurrent->payload); // Use existing add method
 				otherCurrent = otherCurrent->next;
 			}
 		}

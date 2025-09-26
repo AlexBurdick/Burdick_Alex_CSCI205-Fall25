@@ -1,15 +1,15 @@
 #include "Linked_List.hpp"
 #include "Array_List.hpp"
-#include "Student.h"
 using namespace std;
 
 /**
- * @brief Test the Linked List member functions
+ * @brief Tests the Linked List member functions: insert(pos), erase, print, errors.
  * 
  */
-void testLinkedList(){
-    cout << "LINKED LIST";
-    cout << "--Test Erase--";
+void testLinkedListErase(){
+    cout << "\nLINKED LIST\n";
+    cout << "--Test Erase--\n";
+
     // List of ints
 	LinkedList<int> intList;
     cout << "\nInteger List:\n";
@@ -19,6 +19,7 @@ void testLinkedList(){
 	intList.print();
     intList.erase(0);
     intList.print();
+
 	// List of strings
 	LinkedList<string> stringList;
     cout << "\nString List:\n";
@@ -28,6 +29,7 @@ void testLinkedList(){
 	stringList.print();
     stringList.erase(1);
     stringList.print();
+
 	// List of doubles
     cout << "\nDouble List:\n";
 	LinkedList<double> doubleList;
@@ -37,14 +39,23 @@ void testLinkedList(){
     doubleList.print();
     doubleList.erase(2);
 	doubleList.print();
+
     // Test error catching - negative numbers
     try{ doubleList.erase(-1); }
     catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
     // Test error catching - greater than size
     try{ doubleList.erase(100); }
     catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
+}
 
-    cout << "--Test Remove--";
+/**
+ * @brief Tests the Linked List member functions: insert, remove, errors.
+ * 
+ */
+void testLinkedListRemove(){
+    cout << "\nLINKED LIST\n";
+    cout << "--Test Remove--\n";
+    
     // List of chars
 	LinkedList<char> charList;
     cout << "\nChar List:\n";
@@ -55,7 +66,8 @@ void testLinkedList(){
 	charList.print();
     charList.remove('a');
     charList.print();
-	// List of bools
+	
+    // List of bools
     cout << "\nBoolean List:\n";
 	LinkedList<bool> boolList;
     boolList.insert(true);
@@ -65,7 +77,8 @@ void testLinkedList(){
 	boolList.print();
     boolList.remove(false);
     boolList.print();
-	// List of floats
+	
+    // List of floats
     cout << "\nFloat List:\n";
 	LinkedList<float> floatList;
 	floatList.insert(1.123);
@@ -75,11 +88,19 @@ void testLinkedList(){
     floatList.print();
     floatList.remove(3.789);
 	floatList.print();
+    
     // Test error catching - invalid value (should not throw error)
     try{ floatList.remove(4.001); }
     catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
+}
 
-    cout << "--Test Find--";
+/**
+ * @brief Tests the Linked List member functions: length, get, find.
+ * 
+ */
+void testLinkedListFind(){
+    cout << "\nLINKED LIST\n";
+    cout << "--Test Find--\n";
     // List of size_t
 	LinkedList<size_t> size_tList;
     cout << "\nInteger List:\n";
@@ -101,22 +122,60 @@ void testLinkedList(){
 }
 
 /**
- * @brief Test the Array List member functions
+ * @brief Tests the Linked List member functions: add, count, remove_duplicates, reverse, append.
  * 
  */
-void testArrayList(){
-    cout << "ARRAY LIST\n";
-    cout << "--Test Erase--";
+void testLinkedListFuncs(){
+    cout << "\nLINKED LIST\n";
+    cout << "Test Count\n";
+
+    LinkedList<int> intList;
+	intList.add(12);
+    intList.add(10);
+    intList.add(13);
+    intList.add(14);
+    intList.add(10);
+    intList.add(11);
+    intList.print();
+    cout << "Count10: " << intList.count(10) << "\n";
+    cout << "Count12: " << intList.count(12) << "\n";
+    cout << "Count--: " << intList.count(1) << "\n";
+    
+    cout << "\nRemove Duplicates\n";
+    intList.remove_duplicates();
+    intList.print();
+    
+    cout << "\nReverse\n";
+    intList.reverse();
+    intList.print();
+    
+    cout << "\nAppend List\n";
+    LinkedList<int> newList;
+    newList.add(2);
+    newList.add(3);
+    newList.add(4);
+    intList.append(newList);
+    intList.print();
+}
+
+/**
+ * @brief Test the Array List member function: insert(pos), erase, print, errors
+ * 
+ */
+void testArrayListErase(){
+    cout << "\nARRAY LIST\n";
+    cout << "--Test Erase--\n";
+
     // List of ints
 	ArrayList<int> intList;
     cout << "\nInteger List:\n";
 	intList.insert(10, 0);
 	intList.insert(11, 1);
-	intList.insert(13, 2);
-    intList.insert(12, 2);
+	intList.insert(12, 2);
 	intList.print();
     intList.erase(0);
     intList.print();
+
 	// List of strings
 	ArrayList<string> stringList;
     cout << "\nString List:\n";
@@ -126,6 +185,7 @@ void testArrayList(){
 	stringList.print();
     stringList.erase(1);
     stringList.print();
+
 	// List of doubles
     cout << "\nDouble List:\n";
 	ArrayList<double> doubleList;
@@ -135,14 +195,23 @@ void testArrayList(){
     doubleList.print();
     doubleList.erase(2);
 	doubleList.print();
+
     // Test error catching - negative numbers
     try{ doubleList.erase(-1); }
     catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
     // Test error catching - greater than size
     try{ doubleList.erase(100); }
     catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
+}
 
-    cout << "--Test Remove--";
+/**
+ * @brief Test the Array List member function: insert, remove, errors
+ * 
+ */
+void testArrayListRemove(){
+    cout << "\nARRAY LIST\n";
+    cout << "--Test Remove--\n";
+
     // List of chars
 	ArrayList<char> charList;
     cout << "\nChar List:\n";
@@ -153,6 +222,7 @@ void testArrayList(){
 	charList.print();
     charList.remove('a');
     charList.print();
+
 	// List of bools
     cout << "\nBoolean List:\n";
 	ArrayList<bool> boolList;
@@ -163,6 +233,7 @@ void testArrayList(){
 	boolList.print();
     boolList.remove(false);
     boolList.print();
+
 	// List of floats
     cout << "\nFloat List:\n";
 	ArrayList<float> floatList;
@@ -173,11 +244,20 @@ void testArrayList(){
     floatList.print();
     floatList.remove(1.123);
 	floatList.print();
+
     // Test error catching - invalid value (should not throw error)
     try{ floatList.remove(4.001); }
     catch( const out_of_range& e ) { cerr << "Error: " << e.what() << endl; }
+}
 
-    cout << "--Test Find--";
+/**
+ * @brief Tests the Array List member functions: length, get, find.
+ * 
+ */
+void testArrayListFind(){
+    cout << "\nARRAY LIST\n";
+    cout << "--Test Find--\n";
+
     // List of size_t
 	ArrayList<size_t> size_tList;
     cout << "\nInteger List:\n";
@@ -198,33 +278,58 @@ void testArrayList(){
     cout << "Find: " << size_tList.find(16) << endl;
 }
 
-void testFuncs(){
-    cout << "\nTest Count\n";
-    LinkedList<int> intList;
+/**
+ * @brief Tests the Array List member functions: add, count, remove_duplicates, reverse, append.
+ * 
+ */
+void testArrayListFuncs(){
+    cout << "\nARRAY LIST\n";
+    cout << "--Test Erase--\n";
+
+    // List of ints
+	ArrayList<int> intList;
+    cout << "\nInteger List:\n";
 	intList.add(10);
-	intList.add(11);
-	intList.add(12);
-    //intList.add(10);
-    //intList.add(13);
-    //intList.add(14);
-    //intList.add(10);
+    intList.add(11);
+    intList.add(12);
+    intList.add(10);
+    intList.add(13);
+    intList.add(14);
+    intList.add(10);
     intList.add(11);
     intList.print();
     cout << "Count10: " << intList.count(10) << "\n";
     cout << "Count12: " << intList.count(12) << "\n";
+    cout << "Count--: " << intList.count(1) << "\n";
     
     cout << "\nRemove Duplicates\n";
     intList.remove_duplicates();
     intList.print();
     
     cout << "\nReverse\n";
+    intList.reverse();
     intList.print();
     
     cout << "\nAppend List\n";
-    LinkedList<int> newList;
+    ArrayList<int> newList;
     newList.add(2);
     newList.add(3);
     newList.add(4);
-    intList.append(newList);
+    intList.append(newList, newList.length());
     intList.print();
+}
+
+/**
+ * @brief Call all of test functions.
+ * 
+ */
+void runTests(){
+    testLinkedListErase();
+    testLinkedListRemove();
+    testLinkedListFind();
+    testLinkedListFuncs();
+    testArrayListErase();
+    testArrayListRemove();
+    testArrayListFind();
+    testArrayListFuncs();
 }

@@ -19,9 +19,9 @@
 template <class T>
 class ArrayList{
 	private:
-		T* array;		// memory allocation for list elements
-		int size;	// variable to hold the size
-		int capacity;
+		T* array;		/**< Memory allocation for the list. */
+		int size;		/**< Number of elements stored in the list. */
+		int capacity;	/**< Initial size of the array. */
 
 		// Helper function to resize the array
 		void resize(){
@@ -106,7 +106,7 @@ class ArrayList{
 		 * @return T 
 		 */
 		T peek(){
-			if ( empty() ) throw std::out_of_range("Position is out of range.");
+			if ( empty() ) throw std::out_of_range("Position is out of range");
 			return array[0];
 		}
 
@@ -143,9 +143,7 @@ class ArrayList{
 		 * @return T 
 		 */
 		T erase(int pos){
-			if( pos < 0 || pos >= size || empty() ){
-				throw std::out_of_range("Position is out of range.");
-			}
+			if( pos < 0 || pos >= size || empty() ) throw std::out_of_range("Position is out of range");
 
 			T temp = array[pos];
 			for (int i = pos; i < size - 1; i++) {
@@ -157,21 +155,16 @@ class ArrayList{
 		}
 
 		/**
-		 * @brief remove all instances of item from list
+		 * @brief Remove all instances of an item from the list.
 		 * 
 		 * @param item 
 		 */
 		void remove(T item){
-			if( empty() ) throw std::out_of_range("Position is out of range.");
-			int index;
-			for (int i = 0; i < size; i++) {
+			if( empty() ) throw std::out_of_range("Position is out of range");
+			
+			for (int i = 0; i < size; i++){
             	if( array[i] == item ){
-					index = i;
-					for ( int j = index; j < size - 1; j++) {
-            			array[j] = array[j + 1]; // Shift elements left
-        			}
-					--size;
-					i--;
+					erase(i); // Use existing erase function
 				}
         	}
 		}
@@ -227,15 +220,19 @@ class ArrayList{
 		/**
 		 * @brief Remove all duplicates from the list.
 		 * 
+		 * This approach is O(n²) in time complexity, which is fine for small 
+		 * lists but inefficient for large ones.
 		 */
 		void remove_duplicates(){
 			if( empty() ) throw std::out_of_range("Position is out of range");
 
 			for( int i = 0; i < size; i++ ){
-				for( int j = 0; j < size; j++ ){
+				for( int j = i+1; j < size; ){ // Start from i+1 to avoid self comparison
 					if ( array[i] == array[j] ){
-						erase[j];
+						erase(j);
 						--size;
+					} else {
+						j++; // Only increment if duplicate was not found
 					}
 				}
 			}
@@ -260,8 +257,6 @@ class ArrayList{
 				array[i] = listStack.top();
 				listStack.pop();
 			}
-
-			delete listStack;
 		}
 
 		/**
@@ -270,13 +265,10 @@ class ArrayList{
 		 * @param list Reference to a list to be added to this list.
 		 * @param s Size of the list being added.
 		 */
-		void append(ArrayList<T>&list, int s){
-			while( (size + s) > capacity ) resize();
-
-			int index = 0;
-			for( int i = size; i < (size + s); i++ ){
-				array[i] = list[index];
-				index++;
+		void append(ArrayList<T>& list, int s){
+			while( (size + s) > capacity ) resize(); // Increase size to accomodate new list
+			for( int i = 0; i < s; i++ ){ // Iterate through passed in list
+				this->add(list.get(i)); // Append item from passed in list
 			}
 		}
 };
