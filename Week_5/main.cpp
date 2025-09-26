@@ -18,8 +18,9 @@ int main(){
     dorms["Ravenclaw"]  = 2;
     dorms["Hufflepuff"] = 3;
 
-    testLinkedList();
-    testArrayList();
+    //testLinkedList();
+    //testArrayList();
+    testFuncs();
 
     return 0;
 }

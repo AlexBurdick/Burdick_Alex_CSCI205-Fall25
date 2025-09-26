@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <stack>
 
 template <class T>
 class ArrayList{
@@ -89,11 +90,11 @@ class ArrayList{
 		}
 
 		/**
-		 * @brief append item to end of list
+		 * @brief Add an item to the end of the array.
 		 * 
 		 * @param item 
 		 */
-		void append(T item){
+		void add(T item){
 			if( length() == capacity ) resize(); // Resize if full
 			array[size] = item;
 			++size;
@@ -124,7 +125,7 @@ class ArrayList{
 		 * @brief Find the first position of an element in the array.
 		 * 
 		 * @param item 
-		 * @return int index of target
+		 * @return int index of item
 		 */
 		int find(T item){
 			if( empty() ) throw std::out_of_range("Position is out of range");
@@ -204,6 +205,79 @@ class ArrayList{
 		 */
 		bool empty(){
 			return size == 0;
+		}
+
+		/**
+		 * @brief Return the instances of “item” in the list.
+		 * 
+		 * @param item to look for 
+		 * @return int number of items
+		 */
+		int count(T item){
+			if( empty() ) throw std::out_of_range("Position is out of range");
+			
+			int count = 0; // Counter of items to be returned
+			for( int i = 0; i < size; i++ ){
+				if ( array[i] == item ) count++;
+			}
+
+			return count;
+		}
+
+		/**
+		 * @brief Remove all duplicates from the list.
+		 * 
+		 */
+		void remove_duplicates(){
+			if( empty() ) throw std::out_of_range("Position is out of range");
+
+			for( int i = 0; i < size; i++ ){
+				for( int j = 0; j < size; j++ ){
+					if ( array[i] == array[j] ){
+						erase[j];
+						--size;
+					}
+				}
+			}
+		}
+
+		/**
+		 * @brief Reverse the list.
+		 * 
+		 */
+		void reverse(){
+			if( empty() ) throw std::out_of_range("Position is out of range");
+
+			std::stack<int> listStack; /**< Stack to use LIFO behavior to store data */
+			
+			// Get all of the data in the list
+			for( int i = 0; i < size; i++ ){
+				listStack.push(array[i]);
+			}
+
+			// Write all of the data back to the list in the reverse order
+			for( int i = 0; i < size; i++ ){
+				array[i] = listStack.top();
+				listStack.pop();
+			}
+
+			delete listStack;
+		}
+
+		/**
+		 * @brief Appends parameter “list” to “this” list.
+		 * 
+		 * @param list Reference to a list to be added to this list.
+		 * @param s Size of the list being added.
+		 */
+		void append(ArrayList<T>&list, int s){
+			while( (size + s) > capacity ) resize();
+
+			int index = 0;
+			for( int i = size; i < (size + s); i++ ){
+				array[i] = list[index];
+				index++;
+			}
 		}
 };
 #endif

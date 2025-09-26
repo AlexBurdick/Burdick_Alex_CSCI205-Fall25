@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <stack>
 
 // The struct describing the node. This could also be a class
 template <class T>
@@ -117,7 +118,7 @@ class LinkedList{
 		 * 
 		 * @param item 
 		 */
-		void append(T item){
+		void add(T item){
 			Node<T>* newNode = new Node<T>(item); // Create new node
 
 			if( head == nullptr ){ // Deal with head
@@ -252,7 +253,7 @@ class LinkedList{
 		 * 
 		 */
 		void print(){
-			Node<T> *current = head;		// start at the head
+			Node<T>* current = head;		// start at the head
 			int count = 0;					// enumerate just for kicks
 			while(current != nullptr){		// loop until current is null
 				std::cout << "<Node " << count++ << ": " << current->payload << "> ==> ";
@@ -278,6 +279,90 @@ class LinkedList{
 		 */
 		bool empty(){
 			return size == 0;
+		}
+
+		/**
+		 * @brief Return the instances of “item” in the list.
+		 * 
+		 * @param item to look for 
+		 * @return int number of items
+		 */
+		int count(const T item){
+			if( empty() ) throw std::out_of_range("Position is out of range");
+			
+			int count = 0; // Counter of items to be returned
+			Node<T>* current = head; // Start at the head
+			while( current != nullptr ){
+				if ( current->payload == item ) count++;
+				current = current->next;
+			}
+
+			return count;
+		}
+
+		/**
+		 * @brief Remove all duplicates from the list.
+		 * 
+		 */
+		void remove_duplicates(){
+			if( empty() ) throw std::out_of_range("Position is out of range");
+
+			Node<T>* current = head; /**< Node object to act as a placeholder, staring at the head */
+			Node<T>* compare = current->next; /**< The next node to be compared to the current node. */
+
+			while( current != nullptr && current->next != nullptr ){
+				
+				while( current != nullptr && current->next != nullptr ){
+				
+					if ( current->payload == compare->payload ){
+						current->next = compare->next; // Remove the duplicate
+						--size; 					// Decrement size
+					} else {
+						compare = compare->next; // Only advance if no duplicate was found
+					}
+				}
+				current = current->next; // Move to next Node
+			}
+		}
+
+		/**
+		 * @brief Reverse the list.
+		 * 
+		 */
+		void reverse(){
+			if( empty() ) throw std::out_of_range("Position is out of range");
+
+			std::stack<int> listStack; /**< Stack to use LIFO behavior to store data */
+			Node<T>* current = head; /**< Node object to act as a placeholder, staring at the head */
+			
+			// Get all of the data in the list
+			while( current != nullptr ){
+				listStack.push(current->payload); // Store items in the stack in revers order
+				current = current->next;
+			}
+
+			// Write all of the data back to the list in the reverse order
+			current = head;
+			while( current != nullptr ){
+				current->payload = listStack.top();
+				current = current->next;
+				listStack.pop();
+			}
+
+			delete listStack;
+		}
+
+		/**
+		 * @brief Appends parameter “list” to “this” list.
+		 * 
+		 * @param list Reference to a list to be added to this list.
+		 */
+		void append(const LinkedList<T>& otherList){
+			Node<T>* otherCurrent = otherList.head;
+			while (otherCurrent != nullptr) {
+				this->add(otherCurrent->payload); // Use existing append method
+				otherCurrent = otherCurrent->next;
+			}
 		}
 };
 #endif

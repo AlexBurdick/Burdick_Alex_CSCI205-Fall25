@@ -197,3 +197,30 @@ void testArrayList(){
     cout << "Find: " << size_tList.find(15) << "\n";
     cout << "Find: " << size_tList.find(16) << endl;
 }
+
+void testFuncs(){
+    cout << "\nTest Count\n";
+    LinkedList<int> intList;
+	intList.add(10);
+	intList.add(11);
+	intList.add(12);
+    intList.add(10);
+    intList.add(13);
+    intList.add(14);
+    intList.add(10);
+    intList.add(11);
+    cout << "Count10: " << intList.count(10) << "\n";
+    cout << "Count12: " << intList.count(12) << "\n";
+    
+    cout << "\nRemove Duplicates\n";
+    intList.remove_duplicates();
+    intList.print();
+    
+    cout << "\nReverse\n";
+    intList.print();
+    
+    cout << "\nAppend List\n";
+    LinkedList<int> newList;
+    intList.append(newList);
+    intList.print();
+}
