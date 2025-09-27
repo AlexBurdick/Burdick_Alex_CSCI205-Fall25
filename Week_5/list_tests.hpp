@@ -1,3 +1,6 @@
+#ifndef LIST_TESTS_H
+#define LIST_TESTS_H
+
 #include "Linked_List.hpp"
 #include "Array_List.hpp"
 using namespace std;
@@ -333,3 +336,5 @@ void runTests(){
     testArrayListFind();
     testArrayListFuncs();
 }
+
+#endif
