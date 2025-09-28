@@ -83,6 +83,15 @@ class LinkedList{
 		}
 
 		/**
+		 * @brief Returns the head node of the list, for starting iteration.
+		 * 
+		 * @return Node<T>
+		 */
+		Node<T>* getHead(){
+			return head;
+		}
+
+		/**
 		 * @brief insert item at beginning of list
 		 * 
 		 * @param item 

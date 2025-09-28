@@ -38,7 +38,7 @@ int main(){
     newfile.open("studentFile.txt", ios::in);
     if( newfile.is_open() ){
         string record;
-        while( getline(newfile, record )){  //read data from file object and put it into string.
+        while( getline(newfile, record )){
             // Slice string
             int pos = record.find(" "); // Get position of delimiter
             int id = stoi( record.substr(0, pos) ); // Get first part
@@ -49,11 +49,18 @@ int main(){
         newfile.close();   //close the file object.
     }
 
-    // Print dorm lists for testing purposes
+    // Write dorm rosters to files - the_dorm_name.txt
     for( auto& pair : dormMap ){
         string dorm = pair.first;
-        cout << "Pair1: " << dorm << endl;
-        pair.second.print();
+        string filename = dorm + ".txt";
+        ofstream rosterFile(filename);
+        rosterFile << dorm << endl;
+        
+        Node<Student>* current = pair.second.getHead();
+        while( current != nullptr ){
+            rosterFile << current->payload.getID() << " " << current->payload.getName() << endl;
+            current = current->next;
+        }
     }
 
     //runTests();
