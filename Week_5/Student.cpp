@@ -6,10 +6,6 @@ Student::Student(int id, std::string name){
 	this->name 	= name;
 }
 
-Student::~Student(){
-	delete this;
-}
-
 int Student::getID() const{
 	return this->id;
 }

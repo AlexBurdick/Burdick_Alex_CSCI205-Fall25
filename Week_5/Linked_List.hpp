@@ -41,7 +41,7 @@ template <class T>
 class LinkedList{
 	private:
 		Node<T>* head {nullptr}; /**< Pointer to a new node to be the start of the list. */
-		int 	 size {0};		 /**< Counter for the size of the list. */
+		int size	  {0};		 /**< Counter for the size of the list. */
 
 		// Helper function to find a node at a position
 		Node<T>* getNode(int pos){
@@ -64,7 +64,7 @@ class LinkedList{
 		 * 
 		 * @param payload 
 		 */
-		LinkedList(T* payload){
+		LinkedList(T payload){
 			head = new Node<T>(); // instantiate new node to contain item
 			head->payload = payload;
 		}
@@ -111,7 +111,7 @@ class LinkedList{
         		newNode->next = head;
         		head = newNode;
 			} else {
-				Node<T>* current = getNode(pos);
+				Node<T>* current = getNode(pos-1);
 				newNode->next = current->next;
 				current->next = newNode;
 			}
@@ -252,7 +252,7 @@ class LinkedList{
 		 * 
 		 * @return int 
 		 */
-		int length(){
+		const int length(){
 			return size;
 		}
 
@@ -345,7 +345,7 @@ class LinkedList{
 		void append(const LinkedList<T>& otherList){
 			Node<T>* otherCurrent = otherList.head;
 			while (otherCurrent != nullptr) {
-				this->add(otherCurrent->payload); // Use existing add method
+				this->add( T(otherCurrent->payload) ); // Use existing add method
 				otherCurrent = otherCurrent->next;
 			}
 		}
