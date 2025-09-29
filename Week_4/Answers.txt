@@ -1,0 +1,18 @@
+A + B - C                   = A B + C -
+A * B / C                   = A B * C /
+A + B * C                   = A B C * +
+A * B + C                   = A B * C +
+A * (B + C)                 = A B C + *
+A * B + C * D               = A B + C D - *
+((A + B) * C) - D           = A B + C * D -
+A + B * (C - D / (E + F))   = A B C D E F + / - * +
+
+xy*5z*/10+      = (x*y)/(5*z)+10
+xy*2+12/y*x+    = ((x*y+2)/12*y)+x
+ABCD/+*         = A*(B+C/D)
+ABC+D/*         = A*(B+C)/D)
+2ABC+*2-*D/     = 2*(A*(B+C)-2)/D
+2A*B*C+2D/-     = 2*A*B+C-2/D
+2AB*BC-/+CD/+   = 2+A*B/(B-C)+C/D
+ABBC-/+CD/+2+   = A+B/(B-C)/C+D+2
+ABC–DEF+/*+     = A+(B-C)*D/(E+F)
