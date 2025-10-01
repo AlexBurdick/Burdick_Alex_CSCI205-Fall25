@@ -251,7 +251,7 @@ class ArrayList{
 			for( int i = 0; i < size; i++ ){
 				listStack.push(array[i]);
 			}
-
+			
 			// Write all of the data back to the list in the reverse order
 			for( int i = 0; i < size; i++ ){
 				array[i] = listStack.top();

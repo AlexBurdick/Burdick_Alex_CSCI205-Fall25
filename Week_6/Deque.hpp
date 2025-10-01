@@ -6,6 +6,8 @@
 
 #ifndef DEQUE_H
 #define DEQUE_H
+#include <stdexcept>
+#include <iostream>
 
 // Questions: 
 // - what makes it abstract? how is is different from java again?
@@ -44,12 +46,12 @@ class Deque{
 
 		// Can be moved and used to view the contents of the array within the size
 		void print(){
-			cout << "Print from back:" << "\n";
+			std::cout << "Print from back:" << "\n";
 			for( int i = 0; i < size_var ; i++ ){
 				int j = (back_var + i + capacity) % capacity;
-				cout << "Value = " << array[j] << " [" << j << "]" << "\n";
+				std::cout << "Value = " << array[j] << " [" << j << "]" << "\n";
 			}
-			cout << "Size = " << size_var << "\n" << endl;
+			std::cout << "Size = " << size_var << "\n" << std::endl;
 		}
 
 	public:
@@ -87,8 +89,8 @@ class Deque{
 		 */
 		Deque(T* arr, size_t size){
 			// ensure the array is not null. Throw an invalid argument exception if it is
-			if (arr == nullptr) throw invalid_argument("Array cannot be null");
-			if (size == 0) throw invalid_argument("Size cannot be zero");
+			if (arr == nullptr) throw std::invalid_argument("Array cannot be null");
+			if (size == 0) throw std::invalid_argument("Size cannot be zero");
 			
 			// set the capacity to double the size of the array
 			capacity = size * 2;
@@ -151,7 +153,7 @@ class Deque{
 		T pop_front(){
 			// If the deque is empty, throw an out_of_range exception
 			if ( empty() ){
-				throw out_of_range("Deque is empty");
+				throw std::out_of_range("Deque is empty");
 			}
 			T item = array[front_var];
 			front_var = (front_var - 1 + capacity) % capacity;
@@ -167,7 +169,7 @@ class Deque{
 		T pop_back(){
 			// If the deque is empty, throw an out_of_range exceptio
 			if (empty()){
-				throw out_of_range("Deque is empty");
+				throw std::out_of_range("Deque is empty");
 			}
 			T item = array[back_var];
 			back_var = (back_var + 1 + capacity) % capacity;
@@ -182,7 +184,7 @@ class Deque{
 		 */
 		T front(){
 			if (empty()){
-				throw out_of_range("Deque is empty");
+				throw std::out_of_range("Deque is empty");
 			}
 			return array[front_var];
 		}
@@ -194,7 +196,7 @@ class Deque{
 		 */
 		T back(){
 			if (empty()){
-				throw out_of_range("Deque is empty");
+				throw std::out_of_range("Deque is empty");
 			}
 			return array[back_var];
 		}
