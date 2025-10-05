@@ -9,6 +9,7 @@
 
 using namespace std;
 
+// Function prototypes
 int recursive_gcd(int a, int b);
 int iterative_gcd(int a, int b);
 long fibonacci(const long n);
@@ -17,11 +18,15 @@ string recursive_reverse(string s);
 int triangular_number_50(int n = 50);
 int sum(ArrayList<int>& array);
 int recursive_sum(ArrayList<int>&, int index);
+int len(int n);
+int numEars(int n);
+string strip(string text, char letter);
 
 int main(){
+    /** 
     // Fibonacci
     int n;
-    cout << "--Testing Fibonacci function--\n";
+    cout << "--Testing Fibonacci Function--\n";
     cout << "Enter a number: ";
     cin >> n;
     cout << "The " << n << "th Fibonacci number is " << fibonacci(n) << endl;
@@ -35,26 +40,50 @@ int main(){
     cin >> d;
     cout << "The GCD of " << n << "/" << d << " is " << recursive_gcd(n, d) << endl;
 
-    // String reverse
+    // 1. String reverse (iterative)
     string s;
     cout << "\n--Testing Iterative String Reverse Function--\n";
     cout << "Enter a string: ";
     cin >> s;
     cout << "Reversed string: " << iterative_reverse(s) << endl;
-
+    
+    // 2. String reverse (recursive)
     cout << "\n--Testing Recursive String Reverse Function--\n";
     cout << "Enter a string: ";
     cin >> s;
     cout << "Reversed string: " << recursive_reverse(s) << endl;
 
-    // Triangular number
-    cout << "\n--Testing Recursive Triangular number Function--\n";
+    // 3. Triangular number
+    cout << "\n--Testing Triangular number Function--\n";
     cout << "Triangular number of 50 = " << triangular_number_50() << endl;
 
-    // Array sum
+    // 4. Array sum
+    cout << "--Testing Array Sum Function--\n";
     ArrayList<int> intList = {1, 2, 3, 4}; // list for testing, sum = 10
     cout << "\n--Testing Recursive Array Sum--\n";
     cout << "The sum of the array is " << sum(intList) << endl;
+    
+    // 5. Number of digits
+    cout << "--Testing Number of Digits Function--\n";
+    cout << "Enter a number: ";
+    cin >> n;
+    cout << "There are " << len(n) << " digits in " << n << endl;
+
+    // 6. Puppies ears
+    cout << "--Testing Ears Counting function--\n";
+    cout << "Enter the number of puppies: ";
+    cin >> n;
+    cout  << n << " puppies have " << numEars(n) << " ears " << endl;
+*/
+    // 7. String strip
+    string s;
+    char c;
+    cout << "\n--Testing Strip String Function--\n";
+    cout << "Enter a string: ";
+    cin >> s;
+    cout << "Enter a character: ";
+    cin >> c;
+    cout << "Stripped string: " << strip(s, c) << endl;
 }
 
 /** 1.
@@ -151,6 +180,76 @@ int recursive_sum(ArrayList<int>& array, int index){ // Using a helper funtion t
     // Call function recursively to add next numbers in list, similar to Fibonacci
     // although Fibonacci function adds previous number together
     return array.get(index) + recursive_sum(array, index + 1);
+}
+
+
+/** 5.
+ * @brief Write a recursive method len(int n) to count the digits of a given integer. 
+ * Do not treat it as a String.
+ * Time complexity = O(n)
+ * Spacial complexity = O(n)
+ * 
+ * @param n number to be sized
+ * @return int size of input
+ */
+int len(int n){
+    // Base case if n is a single digit (<10)
+    if ( n < 10 ) return 1;
+
+    // Each call should return 1, added together for total number of digits
+    return 1 + len( n/10 );
+}
+
+
+/** 6.
+ * @brief Puppies standing in a line, numbered 1, 2,...N. Odd puppies (1, 3,...) have 
+ * 2 ears. Even puppies (2, 4,...) have 3 ears. Recursively return the number of "ears" 
+ * in the puppy line 1, 2,...N.
+ * Time complexity = O(n)
+ * Spacial complexity = O(n)
+ * 
+ * @param n number of puppies
+ * @return int total number of ears
+ */
+int numEars(int n){
+    // Base case is n == 1
+    if ( n <= 1 ) return 2;
+
+    if ( n % 2 == 0 ) return 3 + numEars(n-1); // If even
+    else return 2 + numEars(n-1);              // Else must be odd
+}
+
+
+/** 7.
+ * @brief Write the recursive method that accepts a String and a  character and 
+ * recursively “cleanses” the string of that character.
+ * Example: strip(“123-45-6789”, ‘-‘) => “123456789”
+ * Time complexity = O(n)
+ * Spacial complexity = O(n)
+ * 
+ * @param n number of puppies
+ * @return int total number of ears
+ */
+string strip(string text, char c) {
+    // Base case: empty , to test validate inpupt (from Le Chat 10/05/2025)
+    if( text.empty() ) return "";
+    
+    // Base case 1 character in string
+    if (text.length() == 1) {
+        if (text[0] == c) {
+            return "";
+        } else {
+            return string(1, text[0]);
+        }
+    }
+
+    // Get the first character
+    char firstChar = text[0];
+    // Choose operator from Le Chat (10/05/2025)
+    string firstCharStr = (firstChar == c) ? "" : string(1, firstChar);
+
+    // Recursively process the rest of the string
+    return firstCharStr + strip(text.substr(1), c);
 }
 
 
