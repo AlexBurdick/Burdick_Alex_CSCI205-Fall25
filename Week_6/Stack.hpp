@@ -7,6 +7,8 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include "Deque.hpp"
+
 template <typename T>
 class Stack{
     

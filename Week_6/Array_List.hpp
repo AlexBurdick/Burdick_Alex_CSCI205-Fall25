@@ -1,13 +1,3 @@
-/*******************************************************************************
- * @file  main.cpp
- * 
- * @brief This class defines an array implemented as a list, templated to allow 
- * for any type of data to be stored in the list. The array will maintain a 
- * continuous seriers of elements, and each elements contains an item in the 
- * list. The ArrayList class tracks the capacity and size of the list. The list 
- * class contains methods for adding, removing, and finding elements from the 
- * list, and a method for printing the contents of the list.
- ******************************************************************************/
 
 #ifndef LIST_ARRAY_HPP
 #define LIST_ARRAY_HPP
@@ -40,14 +30,42 @@ class ArrayList{
 	public:
 		// CONSTUCTORS
 		/**
-		 * @brief Construct a new List object with the capacity pass in.
+		 * @brief Construct a new List object from an existing array.
 		 * 
-		 * @param cap capacity of the memory set aside, defaults to 100.
+		 * @param arr existing array to be turned into an ArrayList
+		 * @param size of the list being passed in, necesary to know the size and capacity.
 		 */
-		ArrayList(int cap = 100) : capacity{cap}, size{0} {
-			array = new T[capacity];
+		ArrayList(T arr[], int size) : capacity{size}, size{size} {
+			array = new T[capacity]; // Allocate new memory
+			for (int i = 0; i < size; i++) {
+				array[i] = arr[i]; // Copy elements
+			}
 		}
 
+		/**
+		 * @brief Construct a new List object from an initializer list. The 
+		 * initializer_list.size() function returns an int, causing a narrowing 
+		 * conversion
+		 * 
+		 * @param init initializer list to make into an array list
+		 * Created by LeChat, 10/03/2025
+		 */
+		ArrayList(std::initializer_list<T> init) : capacity{init.size()}, size{init.size()} {
+			array = new T[capacity];
+			int i = 0;
+			for (const T& item : init) { // Range based for loop to go through entire initializer list
+				array[i++] = item;
+			}
+		}
+
+		/**
+		 * @brief Construct a new List object with an existing array.
+		 * 
+		 * @param cap size of the list being passed in.
+		 */
+		ArrayList(int cap = 100) : capacity{cap} {
+			array = new T[capacity];
+		}
 
 		~ArrayList(){
 			delete[] array; // deallocate membory
@@ -213,7 +231,6 @@ class ArrayList{
 			for( int i = 0; i < size; i++ ){
 				if ( array[i] == item ) count++;
 			}
-
 			return count;
 		}
 
