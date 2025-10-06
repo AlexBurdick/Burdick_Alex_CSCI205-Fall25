@@ -23,7 +23,7 @@ class Stack{
 		 * 
 \		 */
         Stack(){
-            d = Deque<T>();
+            d = new Deque<T>();
         }
 
         /**
@@ -32,7 +32,11 @@ class Stack{
 		 * @param cap The capacity of the stack
 		 */
         Stack(size_t cap){
-            d = Deque<T>(cap);
+            d = new Deque<T>(cap);
+        }
+
+        ~Stack(){
+            delete d;
         }
 
         // MEMBER FUNCTIONS
