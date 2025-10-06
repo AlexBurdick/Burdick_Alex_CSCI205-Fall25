@@ -37,6 +37,8 @@ class Stack{
             d = new Deque<T>(cap);
         }
 
+        ~Stack() delete[] array;
+
         // MEMBER FUNCTIONS
         void push(const T& item){
             d->push_front(item);

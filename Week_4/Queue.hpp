@@ -20,11 +20,11 @@ class Queue{
     public:
         // CONSTRUCTORS 
         Queue(){
-            d = new Deque<T>();
+            d = Deque<T>();
         };
 
         Queue(size_t cap){
-            d = new Deque<T>(cap);
+            d = Deque<T>(cap);
         }
 
         // MEMBER FUNCTIONS

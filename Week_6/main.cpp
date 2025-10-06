@@ -21,6 +21,7 @@ int recursive_sum(ArrayList<int>&, int index);
 int len(int n);
 int numEars(int n);
 string strip(string text, char letter);
+bool parens(string s);
 
 int main(){
     /** 
@@ -74,9 +75,8 @@ int main(){
     cout << "Enter the number of puppies: ";
     cin >> n;
     cout  << n << " puppies have " << numEars(n) << " ears " << endl;
-*/
+
     // 7. String strip
-    string s;
     char c;
     cout << "\n--Testing Strip String Function--\n";
     cout << "Enter a string: ";
@@ -84,6 +84,20 @@ int main(){
     cout << "Enter a character: ";
     cin >> c;
     cout << "Stripped string: " << strip(s, c) << endl;
+    
+    // 8. Parentheses
+    cout << "\n--Testing Parentheses Function--\n";
+    cout << "Enter a string: ";
+    cin >> s;
+    cout << "Parentheses balanced = " << parens(s) << endl;
+    */
+
+    // 9. Linked List Print
+    cout << "\n--Testing Linked List Print Function--\n";
+    cout << "Enter a string: ";
+    cin >> s;
+    cout << "Parentheses balanced = " << parens(s) << endl;
+
 }
 
 /** 1.
@@ -223,7 +237,6 @@ int numEars(int n){
 /** 7.
  * @brief Write the recursive method that accepts a String and a  character and 
  * recursively “cleanses” the string of that character.
- * Example: strip(“123-45-6789”, ‘-‘) => “123456789”
  * Time complexity = O(n)
  * Spacial complexity = O(n)
  * 
@@ -250,6 +263,31 @@ string strip(string text, char c) {
 
     // Recursively process the rest of the string
     return firstCharStr + strip(text.substr(1), c);
+}
+
+
+/** 8.
+ * @brief Given a string, return true if it is a nesting of zero or more pairs of 
+ * parentheses, like "(())" or "((()))".
+ * Time complexity = O(n)
+ * Spacial complexity = O(n)
+ * 
+ * @param n number of puppies
+ * @return int total number of ears
+ */
+bool parens(string s){
+    // Base case string length 0
+    if( s.empty() ) return true;
+
+    // Get the first and last characters to compare
+    char firstChar = s.front();
+    char lastChar  = s.back();
+    
+    // Test to see if paranetheses are proper, if so recurse
+    if( firstChar == '(' && lastChar == ')' ){
+        return parens( s.substr( 1, s.length()-2) );
+    // Any other outcome is considered false
+    } else return false;
 }
 
 

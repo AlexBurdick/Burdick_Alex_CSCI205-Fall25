@@ -111,9 +111,7 @@ class Deque{
 		 * @brief Destroy the Deque object and de-allocate dynamic memory
 		 * 
 		 */
-		~Deque(){
-			delete[] array;
-		}				
+		~Deque() delete[] array;
 
 		/**
 		 * @brief Inserts an item at the front of the deque
