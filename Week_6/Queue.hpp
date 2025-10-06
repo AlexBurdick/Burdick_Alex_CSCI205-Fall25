@@ -1,34 +1,32 @@
 /*********************************************************************
- * @file  Stack.hpp
+ * @file  Queue.hpp
  * 
- * @brief Implementation of the class Stack.
+ * @brief Implementation of the class Queue.
  *********************************************************************/
 
-#ifndef STACK_H
-#define STACK_H
-
-#include "Deque.hpp"
+#ifndef QUEUE_H
+#define QUEUE_H
 
 template <typename T>
-class Stack{
-    
+class Queue{
+
     private:
         Deque<T> d;
 
     public:
-        // CONSTRUCTORS
+        // CONSTRUCTORS 
         /**
 		 * @brief Default constructor.
 		 * 
 \		 */
-        Stack()
+        Queue()
 
         /**
-		 * @brief Construct a new Stack object with a given capacity
+		 * @brief Construct a new Queue object with a given capacity
 		 * 
 		 * @param cap The capacity of the stack
 		 */
-        Stack(size_t cap){
+        Queue(size_t cap){
             d = Deque<T>(cap);
         }
 
@@ -36,13 +34,14 @@ class Stack{
 		 * @brief Explicity delete copy constructor
 		 * 
 		 */
-        Stack(const Stack&) = delete;
+        Queue(const Queue&) = delete;
 
         // MEMBER FUNCTIONS
-        void push(const T& item)    d.push_front(item);
-        T pop()                     return d.pop_front();
-        T peek()                    return d.front();
-        bool full()                 return d.full();     
+        void enqueue(const T& item) d.push_front(item);
+        T dequeue()                 return d.pop_back();
+        T front()                   return d.front();
+        T back()                    return d.back();
+        bool full()                 return d.full();
         bool empty()                return d.empty();
         size_t size()               return d.size();
 };

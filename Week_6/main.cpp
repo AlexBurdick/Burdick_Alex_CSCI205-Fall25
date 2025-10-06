@@ -90,14 +90,14 @@ int main(){
     cout << "Enter a string: ";
     cin >> s;
     cout << "Parentheses balanced = " << parens(s) << endl;
-    */
+    
 
     // 9. Linked List Print
     cout << "\n--Testing Linked List Print Function--\n";
     cout << "Enter a string: ";
     cin >> s;
     cout << "Parentheses balanced = " << parens(s) << endl;
-
+    */
 }
 
 /** 1.

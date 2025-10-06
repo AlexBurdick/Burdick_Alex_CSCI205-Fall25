@@ -44,16 +44,6 @@ class Deque{
 			// - O(n), n is the number of elements in the array. It would be O(1) if we didn't copy the old array.
 		}
 
-		// Can be moved and used to view the contents of the array within the size
-		void print(){
-			std::cout << "Print from back:" << "\n";
-			for( int i = 0; i < size_var ; i++ ){
-				int j = (back_var + i + capacity) % capacity;
-				std::cout << "Value = " << array[j] << " [" << j << "]" << "\n";
-			}
-			std::cout << "Size = " << size_var << "\n" << std::endl;
-		}
-
 	public:
 		/**
 		 * @brief Construct a new Deque object
