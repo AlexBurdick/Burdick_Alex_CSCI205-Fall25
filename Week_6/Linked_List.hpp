@@ -270,7 +270,8 @@ class LinkedList{
 
 		/**
 		 * @brief Overloaded output operator.
-		 * 
+		 * Time complexity = O(n)
+		 * Spacial complexity = O(n)
 		 */
 		friend std::ostream& operator<< (std::ostream& out_stream, const LinkedList<T>& l){
 			Node<T>* current = l.head;  /**< The current node to add to the stream */
@@ -390,6 +391,19 @@ class LinkedList{
 				current = current->next;
 				listStack.pop();
 			}
+		}
+
+		/**
+		 * @brief Reverse the list recursivley.
+		 * 
+		 */
+		void recurse_reverse(){
+			if( empty() ) throw std::out_of_range("Position is out of range");
+
+			Node<T>* current = head; /**< Node object to act as a placeholder, staring at the head */
+
+			
+
 		}
 
 		/**
