@@ -110,7 +110,7 @@ class LinkedList{
 		 */
 		void insert(T item){
 			Node<T>* newNode = new Node<T>(item);
-			if( this->empty() ) head = newNode; // Deal with first element in the list
+			if( empty() ) head = newNode; // Deal with first element in the list
 			else{
 				newNode->next = head;
 				head = newNode;
@@ -162,7 +162,7 @@ class LinkedList{
 		 * @return T 
 		 */
 		T peek(){
-			if ( this->empty() ) throw std::out_of_range("Position is out of range");
+			if ( empty() ) throw std::out_of_range("Position is out of range");
 			return head->payload;
 		}
 
@@ -173,7 +173,7 @@ class LinkedList{
 		 * @return T 
 		 */
 		T get(int pos){
-			if ( this->empty() || pos < 0 || pos > size ) throw std::out_of_range("Position is out of range");
+			if ( empty() || pos < 0 || pos > size ) throw std::out_of_range("Position is out of range");
 			Node<T>* current = getNode(pos);
 			return current->payload;
 		}
@@ -232,7 +232,7 @@ class LinkedList{
 		 * @param target 
 		 */
 		void remove(T target){
-			if( this->empty() ) throw std::out_of_range("Position is out of range");
+			if( empty() ) throw std::out_of_range("Position is out of range");
 			
 			Node<T>* current = head; /**< Start at the head */
 			while (head->payload == target){
@@ -270,8 +270,7 @@ class LinkedList{
 
 		/**
 		 * @brief Overloaded output operator.
-		 * Time complexity = O(n)
-		 * Spacial complexity = O(n)
+		 * 
 		 */
 		friend std::ostream& operator<< (std::ostream& out_stream, const LinkedList<T>& l){
 			Node<T>* current = l.head;  /**< The current node to add to the stream */
@@ -285,7 +284,8 @@ class LinkedList{
 
 		/**
 		 * @brief Returns a string object that can be used inserted into the stream.
-		 * 
+		 * Time complexity = O(n)
+		 * Spacial complexity = O(n)
 		 */
 		std::string recursivePrint(Node<T> *current) const {
 			// Check for empty list
@@ -329,15 +329,12 @@ class LinkedList{
 		 * @return int number of items
 		 */
 		int count(const T item){
-			if( empty() ) throw std::out_of_range("Position is out of range");
-			
 			int count = 0; // Counter of items to be returned
 			Node<T>* current = head; // Start at the head
 			while( current != nullptr ){
 				if ( current->payload == item ) count++;
 				current = current->next;
 			}
-
 			return count;
 		}
 
@@ -372,8 +369,9 @@ class LinkedList{
 		 * @brief Reverse the list.
 		 * 
 		 */
-		void reverse(){
-			if( empty() ) throw std::out_of_range("Position is out of range");
+		void stackReverse(){
+			// Base case: empty list or single node
+			if (head == nullptr || head->next == nullptr)  return;
 
 			std::stack<int> listStack; /**< Stack to use LIFO behavior to store data */
 			Node<T>* current = head; /**< Node object to act as a placeholder, staring at the head */
@@ -394,16 +392,29 @@ class LinkedList{
 		}
 
 		/**
-		 * @brief Reverse the list recursivley.
+		 * @brief Helper function for recurse_reverse.
 		 * 
 		 */
-		void recurse_reverse(){
-			if( empty() ) throw std::out_of_range("Position is out of range");
+		void reverse(){
+			head = recurseReverse(head);
+		}
 
-			Node<T>* current = head; /**< Node object to act as a placeholder, staring at the head */
+		/**
+		 * @brief Reverse the list recursivley.
+		 * Time complexity = O(n)
+		 * Spacial complexity = O(n)
+		 */
+		Node<T>* recurseReverse(Node<T> *current){
+			// Base case: empty list or single node
+			if (current == nullptr || current->next == nullptr)  return current;
 
+			// Recursively reverse the rest of the list
+        	Node<T>* newHead = recurseReverse(current->next);
 			
-
+			// Reverse the pointer
+			current->next->next = current;
+			current->next = nullptr;		
+			return newHead;
 		}
 
 		/**
