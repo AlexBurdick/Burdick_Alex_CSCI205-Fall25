@@ -411,7 +411,7 @@ class LinkedList{
 			// Recursively reverse the rest of the list
         	Node<T>* newHead = recurseReverse(current->next);
 			
-			// Reverse the pointer
+			// Reverse the pointer (LeChat, 10/07/2025)
 			current->next->next = current;
 			current->next = nullptr;		
 			return newHead;
