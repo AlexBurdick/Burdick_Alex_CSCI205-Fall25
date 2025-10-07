@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <array>
 #include <string>
@@ -22,6 +23,7 @@ int len(int n);
 int numEars(int n);
 string strip(string text, char letter);
 bool parens(string s);
+stringstream printList(LinkedList<char>&);
 
 int main(){
     /** 
@@ -90,14 +92,11 @@ int main(){
     cout << "Enter a string: ";
     cin >> s;
     cout << "Parentheses balanced = " << parens(s) << endl;
-    
-
-    // 9. Linked List Print
-    cout << "\n--Testing Linked List Print Function--\n";
-    cout << "Enter a string: ";
-    cin >> s;
-    cout << "Parentheses balanced = " << parens(s) << endl;
     */
+    // 9. Recursive Linked List Print
+    LinkedList<char> list = {'a', 'b', 'c', 'd'};
+    cout << "\n--Testing Linked List Print Function--\n";
+    cout << "Printing list: " << list << endl;
 }
 
 /** 1.
@@ -290,6 +289,17 @@ bool parens(string s){
     } else return false;
 }
 
+
+/** 9.
+ * @brief Modify the print() method from your Linked List class to use recursion 
+ * instead of iteration. Found in the overloaded output operator and it's helper 
+ * function (recursivePrint).
+ * Time complexity = O(n)
+ * Spacial complexity = O(n)
+ * 
+ * @param n number of puppies
+ * @return int total number of ears
+ */
 
 /**
  * @brief Recursively finds the greatest common devisor of two numbers.

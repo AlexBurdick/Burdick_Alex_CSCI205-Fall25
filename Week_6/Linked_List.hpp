@@ -14,6 +14,7 @@
 #define LINKED_LIST_HPP
 
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <stack>
 #include <string>
@@ -67,6 +68,17 @@ class LinkedList{
 		LinkedList(T payload){
 			head = new Node<T>(); // instantiate new node to contain item
 			head->payload = payload;
+		}
+
+		/**
+		 * @brief Construct a new List object from an initializer list
+		 * 
+		 * @param payload 
+		 */
+		LinkedList(std::initializer_list<T> init){
+			for (const auto& item : init) { // Copilot, 10/09/2025
+				this->add(item);
+			}
 		}
 
 		/**
@@ -254,6 +266,40 @@ class LinkedList{
 				current = current->next;	// step the reference down the list
 			}
 			std::cout << "NULL" << std::endl;
+		}
+
+		/**
+		 * @brief Overloaded output operator.
+		 * 
+		 */
+		friend std::ostream& operator<< (std::ostream& out_stream, const LinkedList<T>& l){
+			Node<T>* current = l.head;  /**< The current node to add to the stream */
+
+			// Create an output string (string conversion in recursivePrint)
+			std::string output = l.recursivePrint(current);
+
+			out_stream << output << "> => NULL";
+			return out_stream;
+		}
+
+		/**
+		 * @brief Returns a string object that can be used inserted into the stream.
+		 * 
+		 */
+		std::string recursivePrint(Node<T> *current) const {
+			// Check for empty list
+			if( current == nullptr ) return "";
+			
+			// Base case end of list
+			if( current->next == nullptr ){
+				std::ostringstream oss;
+				oss << current->payload;
+				return oss.str(); // Return the last value as a string (LeChat, 10/06/2025)
+			}
+
+			std::ostringstream oss;
+			oss << current->payload;
+			return oss.str() + " => " + recursivePrint(current->next);
 		}
 		
 		/**

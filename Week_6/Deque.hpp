@@ -101,7 +101,9 @@ class Deque{
 		 * @brief Destroy the Deque object and de-allocate dynamic memory
 		 * 
 		 */
-		~Deque() delete[] array;
+		~Deque() {
+			delete[] array;
+		}
 
 		/**
 		 * @brief Inserts an item at the front of the deque
@@ -156,9 +158,8 @@ class Deque{
 		 */
 		T pop_back(){
 			// If the deque is empty, throw an out_of_range exceptio
-			if (empty()){
-				throw std::out_of_range("Deque is empty");
-			}
+			if (empty()) throw std::out_of_range("Deque is empty");
+
 			T item = array[back_var];
 			back_var = (back_var + 1 + capacity) % capacity;
 			size_var--;

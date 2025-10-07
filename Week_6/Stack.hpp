@@ -21,7 +21,7 @@ class Stack{
 		 * @brief Default constructor.
 		 * 
 \		 */
-        Stack()
+        Stack() = default;
 
         /**
 		 * @brief Construct a new Stack object with a given capacity
@@ -39,11 +39,28 @@ class Stack{
         Stack(const Stack&) = delete;
 
         // MEMBER FUNCTIONS
-        void push(const T& item)    d.push_front(item);
-        T pop()                     return d.pop_front();
-        T peek()                    return d.front();
-        bool full()                 return d.full();     
-        bool empty()                return d.empty();
-        size_t size()               return d.size();
+        void push(const T& item){
+            d.push_front(item);
+        }
+
+        T pop(){
+            return d.pop_front();
+        }
+
+        T peek(){
+            return d.front();
+        }
+
+        bool full(){
+            return d.full();
+        }
+
+        bool empty(){
+            return d.empty();
+        }
+
+        size_t size(){
+            return d.size();
+        }
 };
 #endif
