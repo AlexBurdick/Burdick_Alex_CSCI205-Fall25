@@ -405,4 +405,5 @@ class LinkedList{
 			}
 		}
 };
-#endif
+
+#endif // LINKED_LIST_HPP
