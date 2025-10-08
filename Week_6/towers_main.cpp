@@ -14,11 +14,16 @@ void moveTower(int height, char fromPole, char toPole, char withPole){
     }
 }
 
-void move(int height, LinkedList<Disk>& A, LinkedList<Disk>& B, LinkedList<Disk>& C){
-    // Base case is no disks left on stack1
+void move(  int height,
+            LinkedList<Disk>& fromPole, 
+            LinkedList<Disk>& toPole,
+            LinkedList<Disk>& withPole
+         )
+{   // Base case is no disks left on stack1
     if( height >= 1 ){
-        B.insert(A.pop());
-        --height;
+        move(height-1, fromPole, withPole, toPole);
+        toPole.insert( fromPole.pop() );
+        move(height-1, withPole, toPole, fromPole);
     }
 }
 
@@ -28,11 +33,13 @@ void towers_of_hanoi(int height = 3){
     LinkedList<Disk> B;
     LinkedList<Disk> C;
 
-    for( int i = 1; i <= height; i++ ){
-        A.insert(Disk(i));
-        C.insert(Disk(i));
-    }
+    for( int i=height; i>=1; i-- ) A.insert(Disk(i));
 
     move(height, A, B, C);
-    std::cout << C;
+    std::cout << "\n Stack A: ";
+    A.print();
+    std::cout << "\n Stack B: ";
+    B.print();
+    std::cout << "\n Stack C: ";
+    C.print();
 }

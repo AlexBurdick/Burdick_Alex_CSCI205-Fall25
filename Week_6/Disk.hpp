@@ -9,6 +9,16 @@ struct Disk{
 	 * 
 	 */
 	Disk(int n) : size(n) {}
+
+	/**
+	 * @brief Overloaded output operator.
+	 * 
+	 */
+	friend std::ostream& operator<<(std::ostream& os, const Disk& disk){
+		os << "Disk " << disk.size;
+		return os;
+	}
+	
 };
 
 # endif //DISH_HPP
