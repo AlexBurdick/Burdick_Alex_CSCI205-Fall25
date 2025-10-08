@@ -19,7 +19,8 @@ void move(  int height,
             LinkedList<Disk>& toPole,
             LinkedList<Disk>& withPole
          )
-{   // Base case is no disks left on stack1
+{   
+    // Base case is no disks left on stack1
     if( height >= 1 ){
         move(height-1, fromPole, withPole, toPole);
         toPole.insert( fromPole.pop() );
@@ -32,10 +33,14 @@ void towers_of_hanoi(int height = 3){
     LinkedList<Disk> A;
     LinkedList<Disk> B;
     LinkedList<Disk> C;
-
+    
+    // Using LIFO logic, because we are treating this as a stack
     for( int i=height; i>=1; i-- ) A.insert(Disk(i));
 
+    // Start tower of Hanio solve
     move(height, A, B, C);
+
+    // Print out results
     std::cout << "\n Stack A: ";
     A.print();
     std::cout << "\n Stack B: ";
