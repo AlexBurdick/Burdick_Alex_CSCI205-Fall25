@@ -5,8 +5,9 @@
 #include <string>
 #include "Deque.hpp"
 #include "Stack.hpp"
-#include "Array_List.hpp"
-#include "Linked_List.hpp"
+#include "ArrayList.hpp"
+#include "LinkedList.hpp"
+#include "towers_main.cpp"
 
 using namespace std;
 
@@ -92,7 +93,7 @@ int main(){
     cout << "Enter a string: ";
     cin >> s;
     cout << "Parentheses balanced = " << parens(s) << endl;
-    */
+    
     // 9. Recursive Linked List Print (in Linked_List.hpp)
     LinkedList<char> list = {'a', 'b', 'c', 'd'};
     cout << "\n--Testing Linked List Print Function--\n";
@@ -102,6 +103,8 @@ int main(){
     cout << "\n--Testing Linked List Reverse Function--\n";
     list.reverse();
     cout << "Reversed list: " << list << endl;
+    */
+    towers_of_hanoi();
 }
 
 /** 1.

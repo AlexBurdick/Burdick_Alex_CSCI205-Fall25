@@ -196,6 +196,19 @@ class LinkedList{
 		}
 
 		/**
+		 * @brief remove and return item at the beginning
+		 * 
+		 * @return T 
+		 */
+		T pop(){
+			Node<T>* current = head; /**< Start at the head */
+			T value = current->payload;
+			head = current->next;
+			delete current;
+			return value;
+		}
+
+		/**
 		 * @brief remove and return item at specified position
 		 * 
 		 * @param pos index to remove
