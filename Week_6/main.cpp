@@ -34,16 +34,13 @@ int main(){
     cout << "Enter a number: ";
     cin >> n;
     cout << "The " << n << "th Fibonacci number is " << fibonacci(n) << endl;
-
+    */
     // GCD
-    int d;
-    cout << "\n--Testing GCD Function--\n";
-    cout << "Enter the numerator: ";
-    cin >> n;
-    cout << "Enter the denominator: ";
-    cin >> d;
-    cout << "The GCD of " << n << "/" << d << " is " << recursive_gcd(n, d) << endl;
-
+    int a = 12;
+    int b = 8;
+    cout << "\n--Testing recursive GCD Function--\n";
+    recursive_gcd(a, b);
+    /**
     // 1. String reverse (iterative)
     string s;
     cout << "\n--Testing Iterative String Reverse Function--\n";
@@ -319,6 +316,7 @@ bool parens(string s){
  * @return int 
  */
 int recursive_gcd(int a, int b){
+    cout << a << "/" << b << "\n";
     if (b == 0) return a;
     else return recursive_gcd(b, a % b);
 }

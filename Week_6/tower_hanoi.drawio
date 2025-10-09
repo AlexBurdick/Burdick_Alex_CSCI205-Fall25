@@ -1,0 +1,44 @@
+<mxfile host="65bd71144e">
+    <diagram id="nG9erccGwj45zhFZ86Qq" name="Page-1">
+        <mxGraphModel dx="718" dy="375" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" value="Tower of Hanoi" style="swimlane;startSize=20;horizontal=0;childLayout=treeLayout;horizontalTree=1;sortEdges=1;resizable=0;containerType=tree;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry width="460" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="A -&amp;nbsp; 1, 2, 3&lt;div&gt;B -&amp;nbsp;&lt;/div&gt;&lt;div&gt;C -&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="4" vertex="1">
+                    <mxGeometry x="40" y="54.125" width="100" height="51.75" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Child 1" style="whiteSpace=wrap;html=1;" parent="4" vertex="1">
+                    <mxGeometry x="190" y="20" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;" parent="4" source="5" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Child 2" style="whiteSpace=wrap;html=1;" parent="4" vertex="1">
+                    <mxGeometry x="190" y="100" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;" parent="4" source="5" target="8" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;" parent="4" source="8" target="13" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="140" y="84.125" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="13" value="Child 2" style="whiteSpace=wrap;html=1;" parent="4" vertex="1">
+                    <mxGeometry x="340" y="100" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Child 2" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="170" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;" parent="1" source="8" target="11" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="140" y="80" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
