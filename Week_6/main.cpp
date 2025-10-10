@@ -101,7 +101,9 @@ int main(){
     list.reverse();
     cout << "Reversed list: " << list << endl;
     */
-    towers_of_hanoi();
+    cout << "--Testing Towers of Hanoi Function--\n";
+    //towers_of_hanoi();
+    moveTower(3, 'A', 'B', 'C');
 }
 
 /** 1.
