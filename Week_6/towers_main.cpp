@@ -5,13 +5,13 @@
 void moveDisk(char fp, char tp){
     std::cout << "moving disk from " << fp << " to " << tp << std::endl;
 }
-
+                                 // A          // B         // C
 void moveTower(int height, char fromPole, char toPole, char withPole){
-    if (height >= 1){
+    if (height >= 1){        // A      // C     // B
         moveTower(height-1, fromPole, withPole, toPole); //Recursive call
-        moveDisk(fromPole, toPole);
+        moveDisk(fromPole, toPole); // A  // B
         moveTower(height-1, withPole, toPole, fromPole); //Recursive call
-    }
+    }                        // C     // B     // A
 }
 
 void move(  int height,
@@ -20,7 +20,7 @@ void move(  int height,
             LinkedList<Disk>& withPole
          )
 {   
-    // Base case is no disks left on stack1
+    // Base case is one disk left on stack
     if( height >= 1 ){
         move(height-1, fromPole, withPole, toPole);
         toPole.insert( fromPole.pop() );
