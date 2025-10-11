@@ -91,12 +91,12 @@ int main(){
     cin >> s;
     cout << "Parentheses balanced = " << parens(s) << endl;
     
-    // 9. Recursive Linked List Print (in Linked_List.hpp)
+    // 9. Recursive Linked List Print (in LinkedList.hpp, overloaded output operator)
     LinkedList<char> list = {'a', 'b', 'c', 'd'};
     cout << "\n--Testing Linked List Print Function--\n";
     cout << "Printing list: " << list << endl;
 
-    //10. Recursive Reverse Linked List (in Linked_List.hpp)
+    // 10. Recursive Reverse Linked List (in LinkedList.hpp)
     cout << "\n--Testing Linked List Reverse Function--\n";
     list.reverse();
     cout << "Reversed list: " << list << endl;
