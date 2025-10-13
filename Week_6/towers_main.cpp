@@ -5,13 +5,13 @@
 void moveDisk(char fp, char tp){
     std::cout << "moving disk from " << fp << " to " << tp << std::endl;
 }
-                                 // A          // B         // C
+
 void moveTower(int height, char fromPole, char toPole, char withPole){
-    if (height >= 1){        // A      // C     // B
+    if (height >= 1){
         moveTower(height-1, fromPole, withPole, toPole); //Recursive call
-        moveDisk(fromPole, toPole); // A  // B
+        moveDisk(fromPole, toPole);
         moveTower(height-1, withPole, toPole, fromPole); //Recursive call
-    }                        // C     // B     // A
+    }
 }
 
 void move(  int height,

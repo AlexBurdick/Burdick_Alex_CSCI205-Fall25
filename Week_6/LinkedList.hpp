@@ -284,6 +284,9 @@ class LinkedList{
 		/**
 		 * @brief Overloaded output operator.
 		 * 
+		 * @param ostream
+		 * @param LinkedList<T>&
+		 * @return output stream
 		 */
 		friend std::ostream& operator<< (std::ostream& out_stream, const LinkedList<T>& l){
 			Node<T>* current = l.head;  /**< The current node to add to the stream */
@@ -299,6 +302,8 @@ class LinkedList{
 		 * @brief Returns a string object that can be used inserted into the stream.
 		 * Time complexity = O(n)
 		 * Spacial complexity = O(n)
+		 * 
+		 * @param Node<T>* current node in the list
 		 */
 		std::string recursivePrint(Node<T> *current) const {
 			// Check for empty list
@@ -416,6 +421,8 @@ class LinkedList{
 		 * @brief Reverse the list recursivley.
 		 * Time complexity = O(n)
 		 * Spacial complexity = O(n)
+		 * 
+		 * @param Node<T>* current node of the list
 		 */
 		Node<T>* recurseReverse(Node<T> *current){
 			// Base case: empty list or single node

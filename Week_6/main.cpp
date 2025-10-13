@@ -27,54 +27,63 @@ bool parens(string s);
 stringstream printList(LinkedList<char>&);
 
 int main(){
-    /** 
+    
     // Fibonacci
     int n;
     cout << "--Testing Fibonacci Function--\n";
     cout << "Enter a number: ";
     cin >> n;
     cout << "The " << n << "th Fibonacci number is " << fibonacci(n) << endl;
-    */
+    cout << "Time complexity = O(n^2) before memoization\nO(n) after memoization\n";
+    cout << "Spacial complexity = O(n) before memoization\nO(n) after memoization\n";
+    
     // GCD
     int a = 12;
     int b = 8;
     cout << "\n--Testing recursive GCD Function--\n";
     recursive_gcd(a, b);
-    /**
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
+    
     // 1. String reverse (iterative)
     string s;
     cout << "\n--Testing Iterative String Reverse Function--\n";
     cout << "Enter a string: ";
     cin >> s;
     cout << "Reversed string: " << iterative_reverse(s) << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(1)\n";
     
     // 2. String reverse (recursive)
     cout << "\n--Testing Recursive String Reverse Function--\n";
     cout << "Enter a string: ";
     cin >> s;
     cout << "Reversed string: " << recursive_reverse(s) << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
 
     // 3. Triangular number
     cout << "\n--Testing Triangular number Function--\n";
     cout << "Triangular number of 50 = " << triangular_number_50() << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
 
     // 4. Array sum
     cout << "--Testing Array Sum Function--\n";
     ArrayList<int> intList = {1, 2, 3, 4}; // list for testing, sum = 10
     cout << "\n--Testing Recursive Array Sum--\n";
     cout << "The sum of the array is " << sum(intList) << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
     
     // 5. Number of digits
     cout << "--Testing Number of Digits Function--\n";
     cout << "Enter a number: ";
     cin >> n;
     cout << "There are " << len(n) << " digits in " << n << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
 
     // 6. Puppies ears
     cout << "--Testing Ears Counting function--\n";
     cout << "Enter the number of puppies: ";
     cin >> n;
     cout  << n << " puppies have " << numEars(n) << " ears " << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
 
     // 7. String strip
     char c;
@@ -84,25 +93,31 @@ int main(){
     cout << "Enter a character: ";
     cin >> c;
     cout << "Stripped string: " << strip(s, c) << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
     
     // 8. Parentheses
     cout << "\n--Testing Parentheses Function--\n";
     cout << "Enter a string: ";
     cin >> s;
     cout << "Parentheses balanced = " << parens(s) << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
     
-    // 9. Recursive Linked List Print (in LinkedList.hpp, overloaded output operator)
+    // 9. Recursive Linked List Print (LinkedList.hpp, line 303)
     LinkedList<char> list = {'a', 'b', 'c', 'd'};
     cout << "\n--Testing Linked List Print Function--\n";
     cout << "Printing list: " << list << endl;
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
 
-    // 10. Recursive Reverse Linked List (in LinkedList.hpp)
+    // 10. Recursive Linked List Reverse (LinkedList.hpp, line 422)
     cout << "\n--Testing Linked List Reverse Function--\n";
     list.reverse();
     cout << "Reversed list: " << list << endl;
-    */
+    cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
+    
     cout << "--Testing Towers of Hanoi Function--\n";
-    //towers_of_hanoi();
+    
+    // Towers of Hanoi (towers_main.cpp)
+    towers_of_hanoi();
     moveTower(3, 'A', 'B', 'C');
 }
 
@@ -296,18 +311,6 @@ bool parens(string s){
     } else return false;
 }
 
-
-/** 9.
- * @brief Modify the print() method from your Linked List class to use recursion 
- * instead of iteration. Found in the overloaded output operator and it's helper 
- * function (recursivePrint).
- * Time complexity = O(n)
- * Spacial complexity = O(n)
- * 
- * @param n number of puppies
- * @return int total number of ears
- */
-
 /**
  * @brief Recursively finds the greatest common devisor of two numbers.
  * Time complexity = O(n)
@@ -347,7 +350,8 @@ int iterative_gcd(int a, int b){
 /**
  * @brief Finds the fibonacci number at the Nth position. It could be improved with 
  * cache memory. - Improved with memoization
- * Time complexity = O(2^n)
+ * Time complexity = O(n^2) before memoization
+ *                   O(n) after memoization
  * Spacial complexity = O(n)
  * 
  * @param n 
