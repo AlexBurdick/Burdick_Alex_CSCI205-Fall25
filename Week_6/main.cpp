@@ -27,7 +27,7 @@ bool parens(string s);
 stringstream printList(LinkedList<char>&);
 
 int main(){
-    /** 
+    
     // Fibonacci
     int n;
     cout << "--Testing Fibonacci Function--\n";
@@ -113,11 +113,10 @@ int main(){
     list.reverse();
     cout << "Reversed list: " << list << endl;
     cout << "Time complexity = O(n)\n" << "Spacial complexity = O(n)\n";
-    */
     
     // Towers of Hanoi (towers_main.cpp)
     cout << "--Testing Towers of Hanoi Function--\n";
-    towers_of_hanoi();
+    towers_of_hanoi(6);
 }
 
 /** 1.
