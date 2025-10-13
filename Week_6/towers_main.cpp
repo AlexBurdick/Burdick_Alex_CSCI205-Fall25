@@ -2,19 +2,12 @@
 #include "LinkedList.hpp"
 #include "Disk.hpp"
 
-void moveDisk(char fp, char tp){
-    std::cout << "moving disk from " << fp << " to " << tp << std::endl;
-}
-
-void moveTower(int height, char fromPole, char toPole, char withPole){
-    if (height >= 1){
-        moveTower(height-1, fromPole, withPole, toPole); //Recursive call
-        moveDisk(fromPole, toPole);
-        moveTower(height-1, withPole, toPole, fromPole); //Recursive call
-    }
+void moveDisk(int counter, LinkedList<Disk>& fp, LinkedList<Disk>& tp){
+    std::cout << "moving disk from " << fp << " to " << tp << " counter = " << counter << std::endl;
 }
 
 void move(  int height,
+            int& counter,
             LinkedList<Disk>& fromPole, 
             LinkedList<Disk>& toPole,
             LinkedList<Disk>& withPole
@@ -22,9 +15,11 @@ void move(  int height,
 {   
     // Base case is one disk left on stack
     if( height >= 1 ){
-        move(height-1, fromPole, withPole, toPole);
+        move(height-1, counter, fromPole, withPole, toPole);
+        counter++;
         toPole.insert( fromPole.pop() );
-        move(height-1, withPole, toPole, fromPole);
+        moveDisk(counter, fromPole, toPole);
+        move(height-1, counter, withPole, toPole, fromPole);
     }
 }
 
@@ -33,18 +28,27 @@ void towers_of_hanoi(int height = 3){
     LinkedList<Disk> A;
     LinkedList<Disk> B;
     LinkedList<Disk> C;
+    int counter = 0;
     
-    // Using LIFO logic, because we are treating this as a stack
+    // Using LIFO logic, because we are treating this as a stack, fill stack
     for( int i=height; i>=1; i-- ) A.insert(Disk(i));
 
-    // Start tower of Hanio solve
-    move(height, A, B, C);
-
-    // Print out results
+    // Print the starting state
     std::cout << "\n Stack A: ";
     A.print();
     std::cout << "\n Stack B: ";
     B.print();
     std::cout << "\n Stack C: ";
+    C.print();
+
+    // Start towers of Hanio solve
+    move(height, counter, A, B, C);
+
+    // Print out results
+    std::cout << "Stack A: ";
+    A.print();
+    std::cout << "Stack B: ";
+    B.print();
+    std::cout << "Stack C: ";
     C.print();
 }
