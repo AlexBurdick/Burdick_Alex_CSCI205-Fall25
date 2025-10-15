@@ -10,9 +10,18 @@
  * @param key
  * @return int
  */
-int division(int input) {
-    int hashValue = (abs(input) % 552283);
-    return hashValue;
+long division(const std::string input) {
+    
+    // Convert string to int value
+    long strVal = 1; /*<< Holds the value of the accumulated ascii values */
+    for (char c : input) {
+        int asciiValue = c;
+        strVal += pow(asciiValue, 2); // Make the number big
+    }
+
+    // abs() isn't necesary for string inputs, but could be for numbers
+    strVal = (abs(strVal) % 552283);
+    return strVal;
 }
 
 /**
@@ -20,41 +29,53 @@ int division(int input) {
  * number of bits or digits from the middle of the square. The same positions must be 
  * used for all products
  * 
+ * @param double that is converted to int
+ * @return long
  */
-int midSquare(std::string input) {
-    int hashValue = 1;
+int midSquare(const double input) {
 
-    // Convert string to int value
-    for (char c : input) {
-        int asciiValue = c;
-        hashValue *= pow(asciiValue, 2);
-    }
+    // Convert to int
+    int num = static_cast<long>(std::round(input));
 
     // Get number of digits in hashValue (from LeChat, 10/15/2025)
-    int numDigits = static_cast<int>(std::log10(hashValue)) + 1;
+    int numDigits = static_cast<int>(std::log10(num)) + 1;
 
     // Return if hashValue is 3 digits of less
-    if (numDigits <= 3) return hashValue;
+    if (numDigits <= 3) return num;
 
-    // Devisor (from LeChat, 10/15/2025)
+    // Divisor (from LeChat, 10/15/2025)
     int divisor = pow(10, (numDigits - 3) / 2 + 1);
 
     // Get middle three digits (from LeChat, 10/15/2025)
-    int middleThree = (hashValue / (divisor / 10)) % 1000;
+    int middleThree = (num / (divisor / 10)) % 1000;
 
     return middleThree;
 }
 
-3. Digit Analysis: This approach forms an address by selecting and shifting digits or bits 
-from the original key
-a. Example:
-i. Key → 7546123
-ii. Select digits 3 to 6 and reverse the order
-iii. Hash →2164
-b. For a given key space the same positions and techniques should be used 
-consistently
-c. Ideally some analysis is performed before hand to determine which digits have the
-most uniform distribution across the key space
+/**
+ * @brief Digit Analysis: This approach forms an address by selecting and shifting 
+ * digits or bits from the original key
+ * 
+ * @param int 
+ */
+int digitAnalysis(const int input) {
+    
+    // Convert number to string
+    std::string str = std::to_string(input);
+
+    // Remove the first character
+    if (str.length() >= 2)   str.erase(0, 1);
+    // Remove the last character
+    if (str.length() >= 2)   str.erase(str.length() - 1, 1);
+    // Swap first and last characters
+    if (str.length() >= 2) {
+        std::swap(str.front(), str.back());
+    }
+
+    // Convert string back to number
+    return std::stoi(str);
+}
+
 
 4. Length Dependence: The length of the key along with some predetermined portion of 
 the key is used to form a table address directly or often an intermediary key which is 
