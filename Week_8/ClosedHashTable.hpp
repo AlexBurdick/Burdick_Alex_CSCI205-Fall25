@@ -24,13 +24,13 @@ Assume we insert the following key-value pairs in order
 	9: ⑨ 
 */
 
-
 #ifndef CLOSED_HASH_TABLE_HPP
 #define CLOSED_HASH_TABLE_HPP
 
 #include <iostream>
 #include <string>
 #include "LinkedList.hpp"
+#include "HashFunctions.cpp"
 
 template<typename V>
 class ClosedHashTable {
@@ -131,4 +131,5 @@ class ClosedHashTable {
 			}
 		}
 };
+
 #endif

@@ -5,17 +5,6 @@ The simplest probing method is linear probing, where we simply check the next bu
 If that bucket is occupied, we check the next one, and so on, until we find an empty bucket.
 Another probing method is quadratic probing, where we check buckets at increasing intervals (e.g. 1, 4, 9, 16, ...).
 This can help to reduce clustering of key collisions.
-
-	0:
-	1: ①
-	2: ②
-	3: ②
-	4: ②
-	5: ④
-	6:
-	7: ⑦
-	8: ⑦
-	9: ⑨ 
 */
 
 #ifndef OPEN_HASH_TABLE_HPP
@@ -24,6 +13,7 @@ This can help to reduce clustering of key collisions.
 #include <string>
 #include <iomanip>
 #include <iostream>
+#include "HashFunctions.cpp"
 
 template<typename V>
 class OpenHashTable{
@@ -34,9 +24,12 @@ class OpenHashTable{
 		// If a HashNode is deleted, it should be skipped during searching. Why?
 		// The key is also stored along with the value in the HashNode. Why?
 		struct HashNode {
+			// Member variables
 			std::string key;
 			V value;
 			bool deleted;
+
+			// Constructors
 			HashNode() : key(""), value(V()), deleted(false) {}
 			HashNode(std::string& k, V& v) : key(k), value(v), deleted(false) {}
 		};
@@ -47,23 +40,6 @@ class OpenHashTable{
 		HashNode* table;	// dynamically allocated array of HashNodes
 		int size;			// number of key-value pairs in the hash table
 		int capacity;		// number of slots in the hash table
-
-		// 
-		/**
-		 * @brief Helper function to compute hash value - Division Method: This 
-		 * function performs well at preserving the uniformity that exists in a key 
-		 * space. Keys that are closely related or clustered are mapped to unique 
-		 * indices.
-		 * Seems better suited to keys that are numbers, other data types would have
-		 * to be converted to a number value.
-		 * 
-		 * @param key 
-		 * @return int 
-		 */
-		int divisionHash(std::string key) {
-			h = (Math.abs(key) % 552283) % capacity;
-			return h;
-		}
 
 		/**
 		 * @brief Helper function to determine load factor (𝜆)
@@ -78,28 +54,40 @@ class OpenHashTable{
 		// helper function to determine if we should resize
 		
 		bool should_resize() {
-			if loadFactor() > 0.75{
-				return true;
-			}
-			return false;
+			if (loadFactor() > 0.75)  return true;
+			else  return false;
 		}
 
 		/**
-		 * @brief Helper function to resize the table
+		 * @brief Helper function to resize the table. This will rehash and put all 
+		 * key-value pairs. Why is this necessary? We need to do this because when 
+		 * the capacity changes the hash values for all keys will also change.
 		 * 
 		 */
 		void resize() {
-			int newSize = size * 1.5;
-			while (!(is_prime(newSize)))  ++newSize;
-
-			// rehash and put all key-value pairs. Why is this necessary?
-			for (){
-				
+			// Get a new capacity and make sure it's prime
+			int newCapacity = capacity * 1.5;
+			if ( !(is_prime(newCapacity)) ){
+				newCapacity = find_next_prime(newCapacity);
 			}
+
+			// Create a new hash map
+			OpenHashTable<V> newHashTable = new OpenHashTable<V>;
+
+			// Fill new hash map
+			for (int node : this) put(key);
+
 			// clean up memory from old table
+			delete oldHashMap;
 		}
 
-		// helper function to determine if a number is prime
+		/**
+		 * @brief Helper function to determine if a number is prime
+		 * 
+		 * @param n 
+		 * @return true if the n is prime
+		 * @return false if n is not prime
+		 */
 		bool is_prime(int n) {
 			if (n <= 1) return false;
 			if (n <= 3) return true;
