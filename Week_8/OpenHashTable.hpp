@@ -110,9 +110,10 @@ class OpenHashTable{
 		void put_with_quadratic_probe(std::string& key, V& value){/* TO DO */}
 
 	public:
-		OpenHashTable(int capacity) : 
-						size(0), 
-						capacity(capacity)	{/*TO DO*/}	// constructor
+		// Constructor
+		OpenHashTable(int capacity) : size(0), capacity(capacity) {
+			
+		}
 		~OpenHashTable()					{/*TO DO*/}	// destructor
 
 		void put(std::string& key, V& value){/*TO DO*/}	// insert key-value pair into the hash table using a put-helper

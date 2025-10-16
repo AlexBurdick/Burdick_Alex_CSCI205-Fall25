@@ -29,12 +29,6 @@ int midSquare(int hashValue) {
 }
 
 int main() {
-    cout << "1: " << midSquare(1) << "\n";
-    cout << "22: " << midSquare(22) << "\n";
-    cout << "333: " << midSquare(333) << "\n";
-    cout << "4321: " << midSquare(4321) << "\n";
-    cout << "51235: " << midSquare(51235) << "\n";
-    cout << "612346: " << midSquare(612346) << "\n";
-    cout << "7123457: " << midSquare(7123457) << "\n";
-    cout << "81234568: " << midSquare(81234568) << "\n";
+    int 𝜆 = 1;
+    cout << 𝜆;
 }

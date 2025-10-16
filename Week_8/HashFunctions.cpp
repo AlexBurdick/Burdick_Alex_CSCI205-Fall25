@@ -10,7 +10,7 @@
  * @param key
  * @return int
  */
-long division(const int input) {
+long divisionHash(const int input) {
     int num = (abs(input) % 61);
     return num;
 }
@@ -82,7 +82,7 @@ int lengthDependence(const std::string input) {
     if ( !(input.empty()) ) {
         // Get the first and last characters
         int num =  int(input.front()) + int(input.back()) + (input.length() << 4);
-        num = division(num);
+        num = divisionHash(num);
         return num;
     } else {
         return 0;
