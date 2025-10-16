@@ -18,8 +18,6 @@ This can help to reduce clustering of key collisions.
 template<typename V>
 class OpenHashTable{
 	private:
-		// Each element in the hash table is a HashNode
-		// Each HashNode contains a key-value pair and a flag to indicate if it is deleted
 		// The key is a string, and the value is of type V
 		// If a HashNode is deleted, it should be skipped during searching. Why?
 		// The key is also stored along with the value in the HashNode. Why?
@@ -34,9 +32,6 @@ class OpenHashTable{
 			HashNode(std::string& k, V& v) : key(k), value(v), deleted(false) {}
 		};
 
-		// So that you can focus on the details of hash table implementation, we will
-		// implement the hash table using a fixed size array instead of a vector
-		// this will allow you to focus on the details of resizing
 		HashNode* table;	// dynamically allocated array of HashNodes
 		int size;			// number of key-value pairs in the hash table
 		int capacity;		// number of slots in the hash table
@@ -98,9 +93,15 @@ class OpenHashTable{
 			return true;
 		}
 
-		// helper function to find the next prime number
+		/**
+		 * @brief helper function to find the next prime number
+		 * 
+		 * @param n 
+		 * @return int 
+		 */
 		int find_next_prime(int n) {
-			// TO DO
+			while (!isPrint(n))  n++;
+			return n;
 		}
 
 		// helper function to put key-value pairs into the hash table using linear probing
@@ -112,11 +113,22 @@ class OpenHashTable{
 	public:
 		// Constructor
 		OpenHashTable(int capacity) : size(0), capacity(capacity) {
+			table = new HashNode[capacity];
+		}
+
+		// Destructor
+		~OpenHashTable() delete table;
+
+		/**
+		 * @brief insert key-value pair into the hash table using a linear probing
+		 * 
+		 * @param key 
+		 * @param value 
+		 */
+		void put(std::string& key, V& value) {
 			
 		}
-		~OpenHashTable()					{/*TO DO*/}	// destructor
 
-		void put(std::string& key, V& value){/*TO DO*/}	// insert key-value pair into the hash table using a put-helper
 		bool remove(std::string& key)		{/*TO DO*/}	// remove key-value pair from the hash table
 		V get(std::string& key)				{/*TO DO*/}	// get value associated with key
 		bool contains(std::string& key)		{/*TO DO*/}	// check if key is in the hash table
