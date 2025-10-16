@@ -10,18 +10,9 @@
  * @param key
  * @return int
  */
-long division(const std::string input) {
-    
-    // Convert string to int value
-    long strVal = 1; /*<< Holds the value of the accumulated ascii values */
-    for (char c : input) {
-        int asciiValue = c;
-        strVal += pow(asciiValue, 2); // Make the number big
-    }
-
-    // abs() isn't necesary for string inputs, but could be for numbers
-    strVal = (abs(strVal) % 552283);
-    return strVal;
+long division(const int input) {
+    int num = (abs(input) % 61);
+    return num;
 }
 
 /**
@@ -56,7 +47,8 @@ int midSquare(const double input) {
  * @brief Digit Analysis: This approach forms an address by selecting and shifting 
  * digits or bits from the original key
  * 
- * @param int 
+ * @param int
+ * @return int
  */
 int digitAnalysis(const int input) {
     
@@ -64,27 +56,35 @@ int digitAnalysis(const int input) {
     std::string str = std::to_string(input);
 
     // Remove the first character
-    if (str.length() >= 2)   str.erase(0, 1);
+    if (str.length() >= 2)  str.erase(0, 1);
     // Remove the last character
-    if (str.length() >= 2)   str.erase(str.length() - 1, 1);
+    if (str.length() >= 2)  str.erase(str.length() - 1, 1);
     // Swap first and last characters
-    if (str.length() >= 2) {
-        std::swap(str.front(), str.back());
-    }
+    if (str.length() >= 2)  std::swap(str.front(), str.back());
 
     // Convert string back to number
     return std::stoi(str);
 }
 
-
-4. Length Dependence: The length of the key along with some predetermined portion of 
-the key is used to form a table address directly or often an intermediary key which is 
-further hashed by the division method to form the table address.
-a. One string approach that has performed well sums the binary representation of the
-first and last characters, added to the length of the key, shifted left 4 bits. In 
-decimal parlance this is akin to multiplying the value by 16
-b. STUDENT becomes 
-i. int(‘S’) + int(‘T’) + (key.length() << 4)
-ii. 83 + 84 + (7 << 4) or 83 + 84 + (7 x 16) 
-iii. This yields 279 as an intermediate key
-iv. Apply the division method with a large-ish prime divisor: 279 % 61   →35
+/**
+ * @brief The length of the key along with some predetermined portion of the key is 
+ * used to form a table address directly or often an intermediary key which is 
+ * further hashed by the division method to form the table address. One string 
+ * approach that has performed well sums the binary representation of the first and 
+ * last characters, added to the length of the key, shifted left 4 bits. In decimal 
+ * parlance this is akin to multiplying the value by 16
+ * 
+ * @param input 
+ * @return int 
+ */
+int lengthDependence(const std::string input) {
+    // Data validation, if string is not empty
+    if ( !(input.empty()) ) {
+        // Get the first and last characters
+        int num =  int(input.front()) + int(input.back()) + (input.length() << 4);
+        num = division(num);
+        return num;
+    } else {
+        return 0;
+    }
+}
