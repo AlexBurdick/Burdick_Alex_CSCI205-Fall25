@@ -104,8 +104,20 @@ class OpenHashTable{
 			return n;
 		}
 
+		/**
+		 * @brief Helper function to put key-value pairs into the hash table using 
+		 * linear probing, from Runestone
+		 * 
+		 * @param key 
+		 * @param value 
+		 */
+		void rehash(int h) {
+			return (h + 1) % size;
+		}
+		
 		// helper function to put key-value pairs into the hash table using linear probing
-		void put_with_linear_probe(std::string& key, V& value)	{/* TO DO */}
+		int put_with_linear_probe(std::string& key, V& value, int h) {
+		}
 
 		// helper function to put key-value pairs into the hash table using quadratic probing
 		void put_with_quadratic_probe(std::string& key, V& value){/* TO DO */}
@@ -117,25 +129,138 @@ class OpenHashTable{
 		}
 
 		// Destructor
-		~OpenHashTable() delete table;
-
-		/**
-		 * @brief insert key-value pair into the hash table using a linear probing
-		 * 
-		 * @param key 
-		 * @param value 
-		 */
-		void put(std::string& key, V& value) {
-			
+		~OpenHashTable() {
+			// Delete all HashNodes
+			for (int i = 0; i < capacity; i++)  delete table[i];
+			delete table;
 		}
 
-		bool remove(std::string& key)		{/*TO DO*/}	// remove key-value pair from the hash table
-		V get(std::string& key)				{/*TO DO*/}	// get value associated with key
-		bool contains(std::string& key)		{/*TO DO*/}	// check if key is in the hash table
-		void operator[](std::string& key)	{/*TO DO*/}	// overload the [] operator to access elements in hash table
+		/**
+		 * @brief Insert key-value pair into the hash table using linear probing, 
+		 * from Runestone.
+		 * 
+		 * @param key
+		 * @param value
+		 */
+		void put(std::string& key, V& value) {
+			int h = lengthDependent(key, capacity);
+			int count = 0;
+			
+			if (table[h].deleted) {
+				table[h].deleted = false;
+				table[h].key = key;
+				table[h].value = value;
+			}
+			else if (!(table[h])) {
+				table[h] = new HashNode(key, value);
+			}
+			else {
+				int counter = 0
+				int nextSlot = rehash(h);
 
-		int size()	{return size;}			// return the number of key-value pairs in the hash table
-		bool empty(){return size == 0;}		// check if the hash table is empty
+				// Loop until next availalbe slot is found
+				while ( (table[nextSlot]) && 
+						!(table[nextSlot].deleted) &&
+						table[nextSlot] != key )
+				{
+					nextslot = rehash(nextslot);
+					counter++;
+					if (counter > size) { // resize if needed
+						resize();
+						nextSlot = rehash(nextSlot);
+					}
+				}
+				
+				// Empty slot
+				if ( !(table[nextSlot]) ) { 
+					table[nextSlot] = new HashNode(key, value);
+				// Deleted slot
+				} else if ((table[nextSlot].deleted)) {
+					table[nextSlot].deleted = false;
+					table[nextSlot].key 	= key;
+					table[nextSlot].value 	= value;
+				// Key alrady in table
+				} else {
+					table[nextSlot].value = value;
+				}
+			}
+		}
+
+		/**
+		 * @brief Remove key-value pair from the hash table
+		 * 
+		 * @param key to look for
+		 * @return bool whether or not key was found
+		 */
+		bool remove(std::string& key) {
+			int h = lengthDependent(key, capacity);
+			
+			if (table[h].key == key) {
+				table[h].deleted = true;
+				return true;
+			} else {
+				int counter = 0
+				int nextSlot = rehash(h);
+
+				// Loop until next availalbe slot is found
+				while ( table[nextSlot] && table[nextSlot] != key ) {
+					nextslot = rehash(nextslot);
+					counter++;
+					if (counter > size) { // resize if needed
+						resize();
+						nextSlot = rehash(nextSlot);
+					}
+				}
+
+				if (!table[nextSlot]) { // Empty slot
+					return false;
+				} else { // Key found
+					table[nextSlot].deleted = true;
+					return true;
+				}
+			}
+		}
+
+		/**
+		 * @brief get value associated with key
+		 * 
+		 * @param key 
+		 * @return V 
+		 */
+		V get(std::string& key) {
+			int h = lengthDependent(key, capacity);
+
+			if ( table[h].key == key && !table[h].deleted ) {
+				return table[h].value;
+			} else {
+				int counter = 0
+				int nextSlot = rehash(h);
+
+				// Loop until next availalbe slot is found
+				while ( table[nextSlot] &&
+					  ( table[nextSlot] != key || table[nextSlot].deleted) )
+				{
+					nextslot = rehash(nextslot);
+					counter++;
+					if (counter == size - 1)  return; // Key not found
+				}
+
+				if (!table[nextSlot]) { // Empty slot
+					return;
+				} else { // Key found
+					return table[nextSlot].value;
+				}
+			}
+		}
+
+		// check if key is in the hash table
+		bool contains(std::string& key)		{/*TO DO*/}
+
+		// overload the [] operator to access elements in hash table
+		void operator[](std::string& key)	{/*TO DO*/}
+
+		int size()	 {return size;}		// return the number of key-value pairs in the hash table
+		bool empty() {return size == 0;}// check if the hash table is empty
 
 		// print out all the key-value pairs in the hash table
 		// use this function to help you debug your code
@@ -160,7 +285,7 @@ class OpenHashTable{
 		 */
 		ostream& operator<<(ostream& stream, HashTable& hash) {
 			for (int i=0; i<hash.size; i++) {
-				stream<<hash.slots[i]<<": "<<hash.data[i]<<endl;
+				stream << hash.table[i] << ": "<< hash.table[i] << endl;
 			}
 			return stream;
 		}

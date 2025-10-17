@@ -10,9 +10,9 @@
  * @param key
  * @return int
  */
-long divisionHash(const int input) {
-    int num = (abs(input) % 61);
-    return num;
+long divisionHash(const int key, int cap) {
+    int hashVal = (abs(key) % 61) % cap;
+    return hashVal;
 }
 
 /**
@@ -23,10 +23,10 @@ long divisionHash(const int input) {
  * @param double that is converted to int
  * @return long
  */
-int midSquare(const double input) {
+int midSquare(const double key, int cap) {
 
     // Convert to int
-    int num = static_cast<long>(std::round(input));
+    int num = static_cast<long>(std::round(key));
 
     // Get number of digits in hashValue (from LeChat, 10/15/2025)
     int numDigits = static_cast<int>(std::log10(num)) + 1;
@@ -39,8 +39,9 @@ int midSquare(const double input) {
 
     // Get middle three digits (from LeChat, 10/15/2025)
     int middleThree = (num / (divisor / 10)) % 1000;
-
-    return middleThree;
+    
+    int hashVal = middleThree % cap;
+    return hashVal;
 }
 
 /**
@@ -50,10 +51,10 @@ int midSquare(const double input) {
  * @param int
  * @return int
  */
-int digitAnalysis(const int input) {
+int digitAnalysis(const int key, int cap) {
     
     // Convert number to string
-    std::string str = std::to_string(input);
+    std::string str = std::to_string(key);
 
     // Remove the first character
     if (str.length() >= 2)  str.erase(0, 1);
@@ -63,7 +64,8 @@ int digitAnalysis(const int input) {
     if (str.length() >= 2)  std::swap(str.front(), str.back());
 
     // Convert string back to number
-    return std::stoi(str);
+    int hashVal = std::stoi(str) % cap;
+    return hashVal;
 }
 
 /**
@@ -74,15 +76,15 @@ int digitAnalysis(const int input) {
  * last characters, added to the length of the key, shifted left 4 bits. In decimal 
  * parlance this is akin to multiplying the value by 16
  * 
- * @param input 
+ * @param key 
  * @return int 
  */
-int lengthDependence(const std::string input) {
+int lengthDependent(const std::string key, int cap) {
     // Data validation, if string is not empty
-    if ( !(input.empty()) ) {
+    if ( !(key.empty()) ) {
         // Get the first and last characters
-        int num =  int(input.front()) + int(input.back()) + (input.length() << 4);
-        num = divisionHash(num);
+        int num =  int(key.front()) + int(key.back()) + (key.length() << 4);
+        int hashVal = divisionHash(num, cap);
         return num;
     } else {
         return 0;
