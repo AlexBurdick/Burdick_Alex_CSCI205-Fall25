@@ -11,7 +11,7 @@
  * @return int
  */
 long divisionHash(const int key, int cap) {
-    int hashVal = (abs(key) % 61) % cap;
+    int hashVal = (abs(key) % cap);
     return hashVal;
 }
 
