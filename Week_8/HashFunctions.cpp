@@ -10,7 +10,7 @@
  * @param key
  * @return int
  */
-long divisionHash(const int key, int cap) {
+int divisionHash(const int key, int cap) {
     int hashVal = (abs(key) % cap);
     return hashVal;
 }
@@ -85,7 +85,7 @@ int lengthDependent(const std::string key, int cap) {
         // Get the first and last characters
         int num =  int(key.front()) + int(key.back()) + (key.length() << 4);
         int hashVal = divisionHash(num, cap);
-        return num;
+        return hashVal;
     } else {
         return 0;
     }
