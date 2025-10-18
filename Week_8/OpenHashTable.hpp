@@ -13,6 +13,7 @@ This can help to reduce clustering of key collisions.
 #include <string>
 #include <iomanip>
 #include <iostream>
+#include <stdexcept>
 #include "HashFunctions.cpp"
 
 template<typename V>
@@ -30,17 +31,17 @@ class OpenHashTable{
 			HashNode(std::string& k, V& v) : key(k), value(v), deleted(false) {}
 		};
 
-		int size;	  // number of key-value pairs in the hash table
-		int capacity; // number of slots in the hash table
-		HashNode* table[capacity] = {nullptr}; // Default value is nullptr to determine existence
+		int size {0};	  // number of key-value pairs in the hash table
+		int capacity {61}; // number of slots in the hash table
+		HashNode* table; // Default value is nullptr to determine existence
 
 		/**
 		 * @brief Helper function to determine load factor (𝜆)
 		 * 
 		 * @return double 
 		 */
-		int loadFactor() {
-			int 𝜆 = size / capacity;
+		double loadFactor() {
+			double 𝜆 = size / capacity;
 			return 𝜆 ;
 		}
 
@@ -64,14 +65,12 @@ class OpenHashTable{
 			// Create a new hash map
 			HashNode* newTable = new HashNode[newCapacity];
 
-			for (i = 0; i < capacity; i++) {
-				if table[i] = 
-			}
-
 			// Fill new hash map
-			for (i = 0; i < capacity; i++) {
-				int h = lengthDependent(table[i].key, newCapacity);
-            	newTable[h] = table[i];
+			for (int i = 0; i < capacity; i++) {
+				if (table[i] && !table[i].deleted) {
+            		int h = lengthDependent(table[i].key, newCapacity);
+            		newTable[h]->put(table[i].key, table[i].value);
+       			}
 			}
 
 			// clean up memory from old table
@@ -116,48 +115,22 @@ class OpenHashTable{
 		 * @param value 
 		 */
 		int rehash(int h) {
-			int newHash = (h + 1) % capacity;
-			return;
+			return (h + 1) % capacity;
 		}
 		
 		// helper function to put key-value pairs into the hash table using linear probing
-		void put_with_linear_probe(std::string& key, V& value) {
+		int linear_probe(std::string& key) {
 			int h = lengthDependent(key, capacity);
-			int count = 0;
+			int count = 1;
 			
-			if (table[h].deleted) {
-				table[h].deleted = false;
-				table[h].key = key;
-				table[h].value = value;
+			// Loop until next availalbe slot is found
+			while (table[h].key != "" && table[h].key != key ) {
+				h = rehash(h);
 			}
-			else if (!(table[h])) {
-				table[h] = new HashNode(key, value);
-			}
-			else {
-				int counter = 0;
-				int next = rehash(h);
-
-				// Loop until next availalbe slot is found
-				while ( table[next] && table[next] != key ) {
-					next = rehash(next);
-					counter++;
-					if (counter > size) { // resize if needed
-						resize();
-						next = rehash(next);
-					}
-				}
 				
-				// Empty slot
-				if ( !(table[next]) ) { 
-					table[next] = new HashNode(key, value);
-					size++;
-				// Key is found, deleted or not
-				} else {
-					table[next].deleted = false;
-					table[next].key 	= key;
-					table[next].value 	= value;
-				}
-			}
+			// Empty slot
+			if (table[h].key == "") return -1;
+			else return h;
 		}
 
 		// helper function to put key-value pairs into the hash table using quadratic probing
@@ -165,8 +138,6 @@ class OpenHashTable{
 
 	public:
 		// Constructor
-		OpenHashTable() = default;
-	
 		OpenHashTable(int capacity) : size(0), capacity(capacity) {
 			table = new HashNode[capacity];
 		}
@@ -186,8 +157,16 @@ class OpenHashTable{
 		 * @param value
 		 */
 		void put(std::string& key, V& value) {
-			put_with_linear_probe(key, V& value);
-			//void put_with_quadratic_probe(std::string& key, V& value){/* TO DO */}
+			if (should_resize()) resize();
+			int h = linear_probe(key);
+
+			// If key was not found
+			if (h == -1) {
+				table[h] = HashNode(key, value);
+			} else { // Key was found
+				table[h].deleted = false;
+				table[h].value = value;
+			}
 		}
 
 		/**
@@ -197,31 +176,14 @@ class OpenHashTable{
 		 * @return bool whether or not key was found
 		 */
 		bool remove(std::string& key) {
-			int h = lengthDependent(key, capacity);
-			
-			if (table[h].key == key) {
+			int h = linear_probe(key);
+
+			// If key was not found
+			if (h == -1) {
+				return false;
+			} else { // Key was found
 				table[h].deleted = true;
 				return true;
-			} else {
-				int counter = 0;
-				int next = rehash(h);
-
-				// Loop until next availalbe slot is found
-				while ( table[next] && table[next] != key ) {
-					next = rehash(next);
-					counter++;
-					if (counter > size) { // resize if needed
-						resize();
-						next = rehash(next);
-					}
-				}
-
-				if (!table[next]) { // Empty slot
-					return false;
-				} else { // Key found
-					table[next].deleted = true;
-					return true;
-				}
 			}
 		}
 
@@ -232,38 +194,43 @@ class OpenHashTable{
 		 * @return V 
 		 */
 		V get(std::string& key) {
-			int h = lengthDependent(key, capacity);
+			int h = linear_probe(key);
 
-			if ( table[h].key == key && !table[h].deleted ) {
-				return table[h].value;
+			if (h == -1) { // If key was not found
+				throw std::runtime_error("Key '" + key + "' not found in hash table");
+			// Key found
+			} else if (table[h].deleted == true ) {
+				throw std::runtime_error("Key '" + key + "' not found in hash table");
 			} else {
-				int counter = 0;
-				int next = rehash(h);
-
-				// Loop until next availalbe slot is found
-				while ( table[next] &&
-					  ( table[next] != key || table[next].deleted) )
-				{
-					next = rehash(next);
-					counter++;
-					if (counter == size - 1)  return; // Key not found
-				}
-
-				if (!table[next]) { // Empty slot
-					return;
-				} else { // Key found
-					return table[next].value;
-				}
+				return table[h].value;
 			}
 		}
 
 		// check if key is in the hash table
-		bool contains(std::string& key)		{/*TO DO*/}
+		bool contains(std::string& key)	{
+			int h = linear_probe(key);
+
+			if (h == -1) { // If key was not found
+				return false;
+			} else if (table[h].deleted == true ) { // Been deleted
+				return false;
+			} else { // Key found
+				return true;
+			}
+		}
 
 		// overload the [] operator to access elements in hash table
 		void operator[](std::string& key)	{/*TO DO*/}
 
-		int size()	 return size;	   // return the number of key-value pairs in the hash table
+		/**
+		 * @brief Return the number of key-value pairs in the hash table
+		 * 
+		 * @return int 
+		 */
+		int size() {
+			return size;
+		}
+
 		bool empty() return size == 0; // check if the hash table is empty
 
 		// print out all the key-value pairs in the hash table
@@ -278,20 +245,6 @@ class OpenHashTable{
 				else 
 				 	std::cout << i << " ]\t= EMPTY" << std::endl;
 			}
-		}
-		
-		/**
-		 * @brief Overloaded output operator
-		 * 
-		 * @param stream 
-		 * @param hash 
-		 * @return ostream& 
-		 */
-		ostream& operator<<(ostream& stream, HashTable& hash) {
-			for (int i=0; i<hash.size; i++) {
-				stream << hash.table[i] << ": "<< hash.table[i] << endl;
-			}
-			return stream;
 		}
 
 	};
