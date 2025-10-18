@@ -8,6 +8,9 @@
 using namespace std;
 
 int main() {
-    OpenHashTable<int>* ht = new OpenHashTable<int>;
-    
+    int cap = 11;
+    OpenHashTable<int> ht(cap);
+    string str = "test";
+    ht.put("test", 0);
+    ht.print();
 }
