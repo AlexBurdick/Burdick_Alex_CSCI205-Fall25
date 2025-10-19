@@ -103,18 +103,6 @@ class OpenHashTable {
 			}								  		// for put or resize, but needed  
 			return h;								// for remove, get, and contains.
 		}
-		/*
-		int find_empty_slot(const std::string& key, int cap) {
-			int h = lengthDependent(key, cap);
-			int start = h;
-			do {
-				if (newTable[h].key == "") { // Find an empty slot
-					return h;
-				}
-				h = (h + 1) % cap;
-			} while (h != start);
-			return -1; // Table is full (should not happen if newCapacity is correct)
-		} */
 
 		// helper function to put key-value pairs into the hash table using quadratic probing
 		void put_with_quadratic_probe(std::string& key, V& value){/* TO DO */}

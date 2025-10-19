@@ -3,6 +3,18 @@
 #include <cmath>   // For floats
 
 /**
+ * @brief Converts a string to a number by summing the ASCII values of its characters.
+ *
+ * @param str The input string to convert.
+ * @return int The resulting number (sum of ASCII values).
+ */
+int stringNum(const std::string& str) {
+    int sum = 0;
+    for (char c : str)  sum += static_cast<int>(c);
+    return sum;
+}
+
+/**
  * @brief Division Method: This function performs well at preserving the uniformity 
  * that exists in a key space. Keys that are closely related or clustered are mapped 
  * to unique indices.
@@ -23,11 +35,8 @@ int divisionHash(const int key, int cap) {
  * @param double that is converted to int
  * @return long
  */
-int midSquare(const double key, int cap) {
-
-    // Convert to int
-    int num = static_cast<long>(std::round(key));
-
+int midSquare(const std::string& key, int cap) {
+    long num = stringNum(key);
     // Get number of digits in hashValue (from LeChat, 10/15/2025)
     int numDigits = static_cast<int>(std::log10(num)) + 1;
 
@@ -48,23 +57,21 @@ int midSquare(const double key, int cap) {
  * @brief Digit Analysis: This approach forms an address by selecting and shifting 
  * digits or bits from the original key
  * 
- * @param int
- * @return int
+ * @param key string to be used in the hash
+ * @param cap capacity of the hash map
+ * @return int hash value
  */
-int digitAnalysis(const int key, int cap) {
-    
-    // Convert number to string
-    std::string str = std::to_string(key);
-
+int digitAnalysis(const std::string& key, int cap) {
+    std::string localKey = key; // Create a local copy
     // Remove the first character
-    if (str.length() >= 2)  str.erase(0, 1);
+    if (key.length() >= 2)  localKey.erase(0, 1);
     // Remove the last character
-    if (str.length() >= 2)  str.erase(str.length() - 1, 1);
+    if (key.length() >= 2)  localKey.erase(localKey.length() - 1, 1);
     // Swap first and last characters
-    if (str.length() >= 2)  std::swap(str.front(), str.back());
+    if (key.length() >= 2)  std::swap(localKey.front(), localKey.back());
 
     // Convert string back to number
-    int hashVal = std::stoi(str) % cap;
+    int hashVal = std::stoi(localKey) % cap;
     return hashVal;
 }
 
