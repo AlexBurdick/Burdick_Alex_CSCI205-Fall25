@@ -14,7 +14,7 @@ This can help to reduce clustering of key collisions.
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
-#include "HashFunctions.cpp"
+#include "HashFunctions.hpp"
 
 template<typename V>
 class OpenHashTable {
@@ -103,9 +103,6 @@ class OpenHashTable {
 			}								  		// for put or resize, but needed  
 			return h;								// for remove, get, and contains.
 		}
-
-		// helper function to put key-value pairs into the hash table using quadratic probing
-		void put_with_quadratic_probe(std::string& key, V& value){/* TO DO */}
 
 	public:
 		/**

@@ -1,3 +1,6 @@
+#ifndef HASH_FUCNTIONS_HPP
+#define HASH_FUCNTIONS_HPP
+
 #include <string>
 #include <cstdlib> // For integers
 #include <cmath>   // For floats
@@ -97,3 +100,5 @@ int lengthDependent(const std::string key, int cap) {
         return 0;
     }
 }
+
+#endif

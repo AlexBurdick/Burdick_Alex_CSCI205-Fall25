@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
-#include "HashFunctions.cpp"
+#include "HashFunctions.hpp"
 
 template<typename V>
 class QuadHashMap {
@@ -39,12 +39,12 @@ class QuadHashMap {
             HashNode* newTable = new HashNode[newCapacity];
             for (int i = 0; i < capacity; i++) {
                 if (table[i].key != "" && !table[i].deleted) {
-                    int h = lengthDependent(table[i].key, newCapacity);
-                    int j = 1;
+                    int h = digitAnalysis(table[i].key, newCapacity);
+                    int counter = 1;
                     // Quadratic probing for insertion
                     while (newTable[h].key != "") {
-                        h = (h + j * j) % newCapacity;
-                        j++;
+                        h = (h + counter * counter) % newCapacity;
+                        counter++;
                     }
                     newTable[h] = table[i]; // Insert key into the empty slot
                 }
@@ -74,15 +74,13 @@ class QuadHashMap {
 
         // Helper function to find a slot using quadratic probing
         int quadratic_probe(const std::string& key) {
-            int h = lengthDependent(key, capacity);
-            int j = 1;
-            int counter = 0;
+            int h = digitAnalysis(key, capacity);
+            int counter = 1;
             // Loop until next available slot is found
             while (table[h].key != "" && table[h].key != key) {
-                h = (h + j * j) % capacity;
-                j++;
+                h = (h + counter * counter) % capacity;
                 counter++;
-                if (counter >= capacity) return -1; // Table is full
+                if (counter >= capacity-1) return -1; // Table is full
             }
             return h;
         }

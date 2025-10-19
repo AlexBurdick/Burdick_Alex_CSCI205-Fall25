@@ -19,10 +19,40 @@ int find_empty_slot(const std::string& key, int cap) {
 #include <string>
 #include <cmath>
 #include "OpenHashTable.hpp"
+#include "QuadHashMap.hpp"
 
 using namespace std;
 
+// Function prototypes
+void testLinearOpen();
+void testQuadOpen();
+
 int main() {
+    // testLinearOpen();
+    testQuadOpen();
+}
+
+void testQuadOpen() {
+    std::string testStrings[] = {
+        "a", "b", "c", "d", "e",
+        "apple", "banana", "cherry", "date", "elderberry",
+        "strawberry", "watermelon", "pineapple", "blueberry", "raspberry",
+        "cat", "car", "cart", "caterpillar", "category",
+        "dog", "door", "dorm", "dragon", "dragonfruit",
+        "aaa", "bbb", "ccc", "ddd", "eee",
+    };
+    int numStrings = sizeof(testStrings) / sizeof(testStrings[0]);
+
+    QuadHashMap<int> qhm(10); 
+    for (int i = 0; i < numStrings; i++) {
+        qhm.put(testStrings[i], i); // Insert each string with a dummy value
+    }
+
+    // Print the hash map (optional)
+    qhm.print();
+}
+
+void testLinearOpen() {
     // Array of strings for testing OpenHashTable
     std::string testStrings[] = {
         "apple", "banana", "cherry", "date", "elderberry",
@@ -33,17 +63,19 @@ int main() {
         "blueberry", "cantaloupe", "dragonfruit", "eggfruit", "fruit1",
         "fruit2", "fruit3", "fruit4", "fruit5", "fruit6"
     };
-
     // Number of test strings
     int cap = sizeof(testStrings) / sizeof(testStrings[0]);
     OpenHashTable<int> ht(cap);
 
+    // Test empty and print
     if (ht.empty())  ht.print();
 
+    // Test put
     for (int i = 0; i < cap; i++) {
         ht.put(testStrings[i], i);
     }
     
+    // Test get
     for (int i = 0; i < cap; i++) {
         try {
             cout << "get: " << ht.get(testStrings[i]) << endl;
@@ -52,14 +84,17 @@ int main() {
         }
     }
 
+    // Test remove
     for (int i = 0; i < cap; i++) {
         ht.remove(testStrings[i]);
     }
 
+    // Test contains
     for (int i = 0; i < cap; i++) {
         ht.contains(testStrings[i]);
     }
 
+    // Test results
     for (int i = 0; i < cap; i++) {
         try {
             cout << "get: " << ht.get(testStrings[i]) << endl;
@@ -70,11 +105,12 @@ int main() {
 
     ht.print();
     
+    // Test subscript operator
     OpenHashTable<char> openHT(3);
     openHT.put("test", 'A');
     openHT.print();
     openHT["test"] = 'B';
+    char testVal = openHT["test"];
     openHT.print();
-
-    return 0;
+    cout << "testVal:  " << testVal;
 }
