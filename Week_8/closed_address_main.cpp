@@ -50,7 +50,7 @@ int main() {
         cout << keysToRemove[i] << " : " << (removed ? "Success" : "Failed") << endl;
     }
     ht.print();
-/*
+
     // Test subscript operator
     cout << "\nTesting subscript operator\n";
     try {
@@ -59,7 +59,7 @@ int main() {
     } catch (const std::runtime_error& e) {
         std::cerr << e.what() << endl;
     }
-*/
+
     // Test size and empty
     cout << "\nTest size and empty\n";
     cout << "Size of hash table: " << ht.size() << endl;

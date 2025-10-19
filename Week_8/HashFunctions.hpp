@@ -44,7 +44,7 @@ int midSquare(const std::string& key, int cap) {
     int numDigits = static_cast<int>(std::log10(num)) + 1;
 
     // Return if hashValue is 3 digits of less
-    if (numDigits <= 3) return num;
+    if (numDigits <= 3) return num % cap;
 
     // Divisor (from LeChat, 10/15/2025)
     int divisor = pow(10, (numDigits - 3) / 2 + 1);
