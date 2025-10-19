@@ -110,13 +110,14 @@ class ClosedHashTable {
 		}
 
 		// insert key-value pair
-		void put(std::string& key, V& value, unsigned int& counter = 0) {
+		void put(std::string& key, V& value, int& tester = 0) {
 			if (should_resize()) resize();
 			int h = hash(key, capacity);
 
 			// Check if key already exists
 			Node<HashNode>* current = table[h].getHead();
 			while (current != nullptr) {
+				tester++;
 				if (current->payload.key == key) {
 					current->payload.value = value; // Update value
 					return;
@@ -131,10 +132,11 @@ class ClosedHashTable {
 		}
 		
 		// get value associated with key
-		V get(std::string& key, unsigned int& counter) {
+		V get(std::string& key, int& tester) {
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
 			while (current != nullptr) {
+				tester++;
 				if (current->payload.key == key) {
 					return current->payload.value;
 				}
@@ -144,11 +146,12 @@ class ClosedHashTable {
 		}
 
 		// remove key-value pair from hash table
-		bool remove(std::string& key, unsigned int& counter) {
+		bool remove(std::string& key, int& tester) {
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
 			int pos = 0;
 			while (current != nullptr) {
+				tester++;
 				if (current->payload.key == key) {
 					table[h].erase(pos);
 					_size--;
