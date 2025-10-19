@@ -43,9 +43,9 @@ void graphTests() {
     ofstream closedRem("closedRem.txt");
     
     // Initialize hash maps
-    QuadHashMap<int> qhm(LIMIT);
-    LinearHashTable<int> ht(LIMIT);
-    ClosedHashTable<int> ct(LIMIT);
+    QuadHashMap<int> qhm(1);
+    LinearHashTable<int> ht(1);
+    ClosedHashTable<int> ct(1);
 
     for (int i = 1; i <= 100; i++) {
         // Put
@@ -61,7 +61,7 @@ void graphTests() {
         // Get
         
         // Rem
-        
+
     }
 
     //system("python grapher.py");

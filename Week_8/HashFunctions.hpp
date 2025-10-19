@@ -65,6 +65,12 @@ int midSquare(const std::string& key, int cap) {
  * @return int hash value
  */
 int digitAnalysis(const std::string& key, int cap) {
+    // Account for empty string
+    if (key.empty()) {
+        std::cerr << "ERROR: digitAnalysis called with empty key!" << std::endl;
+        return 0;
+    }
+
     std::string localKey = key; // Create a local copy
     // Remove the first character
     if (key.length() >= 2)  localKey.erase(0, 1);
