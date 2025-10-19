@@ -1,6 +1,3 @@
-/* g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
- * valgrind --tool=memcheck --leak-check=full ./a.out
- */
 /*
 int find_empty_slot(const std::string& key, int cap) {
     int h = lengthDependent(key, cap);
@@ -17,7 +14,6 @@ int find_empty_slot(const std::string& key, int cap) {
 //#include "Contact.h"
 #include <iostream>
 #include <string>
-#include <cmath>
 #include "OpenHashTable.hpp"
 #include "QuadHashMap.hpp"
 
@@ -41,7 +37,7 @@ void testQuadOpen() {
         "dog", "door", "dorm", "dragon", "dragonfruit",
         "aaa", "bbb", "ccc", "ddd", "eee",
     };
-    int numStrings = sizeof(testStrings) / sizeof(testStrings[0]);
+    int numStrings = sizeof(testStrings) / sizeof(testStrings[0]); // from LeChat 10/18/2025
 
     QuadHashMap<int> qhm(10); 
     for (int i = 0; i < numStrings; i++) {
@@ -113,4 +109,6 @@ void testLinearOpen() {
     char testVal = openHT["test"];
     openHT.print();
     cout << "testVal:  " << testVal;
+
+    //system("python grapher.py");
 }

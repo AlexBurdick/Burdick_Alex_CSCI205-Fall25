@@ -31,7 +31,7 @@ class OpenHashTable {
 			HashNode(const std::string& k, const V& v) : key(k), value(v), deleted(false) {}
 		};
 
-		double _size;	  // number of key-value pairs in the hash table
+		double _size;	 // number of key-value pairs in the hash table
 		double capacity; // number of slots in the hash table
 		HashNode* table; // Default value is nullptr to determine existence
 
@@ -48,11 +48,10 @@ class OpenHashTable {
 			else return false;
 		}
 
-		/*	helper function to resize the table. This will rehash and put all 
-			key-value pairs. Why is this necessary?
-			We need to do this because when the capacity changes the hash values for 
-			all keys will also change. */
-		
+		// helper function to resize the table. This will rehash and put all 
+		// key-value pairs. Why is this necessary?
+		// - We need to do this because when the capacity changes the hash values for 
+		// - all keys will also change.
 		void resize() {
 			int newCapacity = find_next_prime(capacity * 2);
 			HashNode* newTable = new HashNode[newCapacity];

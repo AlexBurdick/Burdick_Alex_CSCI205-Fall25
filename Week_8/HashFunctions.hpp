@@ -74,7 +74,7 @@ int digitAnalysis(const std::string& key, int cap) {
     if (key.length() >= 2)  std::swap(localKey.front(), localKey.back());
 
     // Convert string back to number
-    int hashVal = std::stoi(localKey) % cap;
+    int hashVal = stringNum(localKey) % cap;
     return hashVal;
 }
 

@@ -1,27 +1,12 @@
 /*
 Closed Hash Table: A key is ALWAYS stored in the bucket it is hashed to. 
 Collisions are dealt with using separate data structures (e.g. linked lists) in each bucket.
-The best structure to use here is a self-balancing binary search tree (e.g. AVL tree, red-black tree) ... but we will use a linked list for simplicity.
-And because we have not studied trees yet.
 
 In this assignment, you will implement a closed hash table using a linked list to handle collisions.
 You will implement the hash table using a fixed size array instead of a vector.
-This will allow you to focus on the details of resizing.
 
-Here is an example of a closed hash table with 10 slots (0-9).
-Assume the hash function is hash(key) = (length of key) % 10
+Assume the hash function is midSquare(key, capacity)
 Assume the load factor threshold is 0.7 (i.e. if load factor > 0.7, resize the table)
-Assume we insert the following key-value pairs in order
-	0:
-	1: ①
-	2: ②②②②②
-	3:
-	4: ④④④
-	5:
-	6:
-	7: ⑦⑦
-	8:
-	9: ⑨ 
 */
 
 #ifndef CLOSED_HASH_TABLE_HPP
@@ -30,28 +15,26 @@ Assume we insert the following key-value pairs in order
 #include <iostream>
 #include <string>
 #include "LinkedList.hpp"
-#include "HashFunctions.cpp"
+#include "HashFunctions.hpp"
 
 template<typename V>
 class ClosedHashTable {
 	private:
-		// Each element in the hash table is a list of HashNodes (linked list)
-		// Each HashNode contains a key-value pair
-		// The key is a string, and the value is of type V
-
-		// Things to think about:
-			// Why do we need to store the key in the HashNode?
-			// Why do we not need to track nodes as deleted?
-			// What happens when we resize the table? Why is this necessary?
-			// What is a good load factor threshold? Why?
-		
 		struct HashNode {
 			std::string key;
 			V value;
-			HashNode(const std::string& k, const V& v) : key(k), value(v){}
+
+			// Constructors
+			HashNode() : key(""), value(V()) {}
+			HashNode(const std::string& k, const V& v) : key(k), value(v) {}
+			
 			// overload the == operator so we can easily compare HashNodes
 			// This is for linked list comparisons. Why do we need this?
-			bool operator==(const HashNode& rhs) {return key == rhs.key;}
+			// - 
+			bool operator==(const HashNode& rhs) {
+				return key == rhs.key;
+			}
+			
 			// overload the << operator so we can easily print HashNodes
 			friend std::ostream& operator<<(std::ostream& os, const HashNode& node) {
 				os << node.key << ": " << node.value;
@@ -65,29 +48,38 @@ class ClosedHashTable {
 		int capacity;					// number of slots in the hash table
 
 		// helper function to compute hash value
-		int hash(const std::string& key) {
-			// TO DO
-			// You will be experimenting here with varous hashing approaches
-			// You will be asked to report on your findings
+		int hash(const std::string& key, int cap) {
+			return midSquare(key, cap);
 		}
 
 		// helper function to determine load factor
 		double loadFactor() {
-			// TO DO
-			// You will be experimenting here with varous load factors
-			// You will be asked to report on your findings
+			return static_cast<double>(_size) / capacity;
 		}
 
 		// helper function to determine if we should resize
 		bool should_resize() {
-			// TO DO
+			return loadFactor() > 0.7;
 		}
 
+		// resize the hash table when it exceeds the load factor
 		void resize() {
-			// TO DO
-			// resize capacity to 50% larger, then find next prime number
-			// rehash and put all key-value pairs. Why is this necessary?
-			// clean up memory from old table
+			int newCapacity = find_next_prime(static_cast<int>(capacity * 1.5));
+			LinkedList<HashNode>* newTable = new LinkedList<HashNode>[newCapacity];
+
+			for (int i = 0; i < capacity; ++i) {
+				Node<HashNode>* current = table[i].getHead();
+				while (current != nullptr) {
+					int h = hash(current->payload.key, newCapacity);
+					newTable[h].add(current->payload);
+					current = current->next;
+				}
+			}
+
+			// Clean up memory from old table
+			delete[] table;
+			table = newTable;
+			capacity = newCapacity;
 		}
 
 		// helper function to determine if a number is prime
@@ -103,31 +95,110 @@ class ClosedHashTable {
 
 		// helper function to find the next prime number
 		int find_next_prime(int n) {
-			// TO DO
+			while (!is_prime(n)) n += 1;
+            return n;
 		}
 
 	public:
-		ClosedHashTable(int capacity) : 
-					_size(0), 
-					capacity(capacity)		{/*TO DO*/}	// constructor
-		~ClosedHashTable() 					{/*TO DO*/}	// destructor
-
-		void put(std::string& key, V& value){/*TO DO*/}	// insert key-value pair
-		V get(std::string& key) 			{/*TO DO*/}	// get value associated with key
-		bool remove(std::string& key)		{/*TO DO*/}	// remove key-value pair from hash table
-		bool contains(std::string& key)		{/*TO DO*/}	// check if key is in the hash table
-		void operator[](std::string& key)	{/*TO DO*/}	// overload the [] operator to access elements in hash table
+		// constructor
+		ClosedHashTable(int capacity) : _size(0), capacity(capacity) {
+			table = new LinkedList<HashNode>[capacity];
+		}
 		
-		int size()	{return _size;}			// return the number of key-value pairs in the hash table
-		bool empty(){return _size == 0;}		// check if the hash table is empty
+		~ClosedHashTable() {
+			delete[] table;
+		}
+
+		// insert key-value pair
+		void put(std::string& key, V& value) {
+			if (should_resize()) resize();
+			int h = hash(key, capacity);
+
+			// Check if key already exists
+			Node<HashNode>* current = table[h].getHead();
+			while (current != nullptr) {
+				if (current->payload.key == key) {
+					current->payload.value = value; // Update value
+					return;
+				}
+				current = current->next;
+			}
+
+			// Key not found, add new node
+			HashNode newNode(key, value);
+			table[h].add(newNode);
+			_size++;
+		}
+		
+		// get value associated with key
+		V get(std::string& key) {
+			int h = hash(key, capacity);
+			Node<HashNode>* current = table[h].getHead();
+			while (current != nullptr) {
+				if (current->payload.key == key) {
+					return current->payload.value;
+				}
+				current = current->next;
+			}
+			throw std::runtime_error("Key not found");
+		}
+
+		// remove key-value pair from hash table
+		bool remove(std::string& key) {
+			int h = hash(key, capacity);
+			Node<HashNode>* current = table[h].getHead();
+			int pos = 0;
+			while (current != nullptr) {
+				if (current->payload.key == key) {
+					table[h].erase(pos);
+					_size--;
+					return true;
+				}
+				current = current->next;
+				pos++;
+			}
+			return false;
+		}
+		
+		// check if key is in the hash table
+		bool contains(std::string& key) {
+			int h = hash(key, capacity);
+			Node<HashNode>* current = table[h].getHead();
+			while (current != nullptr) {
+				if (current->payload.key == key) return true;
+				current = current->next;
+			}
+			return false;
+		}
+
+		// overload the [] operator to access elements in hash table (from LeChat, 10/19/2025)
+		V& operator[](std::string& key) {
+			int h = hash(key, capacity);
+			Node<HashNode>* current = table[h].getHead();
+			while (current != nullptr) {
+				if (current->payload.key == key) {
+					return current->payload.value;
+				}
+				current = current->next;
+			}
+			throw std::runtime_error("Key not found");
+		}
+
+		
+		int size()	 {return _size;}	  // return the number of key-value pairs in the hash table
+		bool empty() {return _size == 0;} // check if the hash table is empty
 
 		// print the contents of the hash table
 		// In order to use this your LinkedList class must have a print() and size() function
 		void print() const {
 			for (int i = 0; i < capacity; ++i) {
+				Node<HashNode>* current = table[i].getHead();
 				std::cout << "table[" << i << "]: ";
-				if (table[i].size() == 0) std::cout << "EMPTY" << std::endl; // is slot empty?
-				else table[i].print();		// you'll need to implement the print() function for LinkedList
+				if (table[i].empty()) {
+					std::cout << "EMPTY" << std::endl; // is slot empty?
+				} else {
+					std::cout << current->payload.key << " = " << current->payload.value << std::endl;
+				}
 			}
 		}
 };
