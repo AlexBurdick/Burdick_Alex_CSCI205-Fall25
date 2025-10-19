@@ -21,16 +21,15 @@ void graphTests();
 int main() {
     // testLinearOpen(); // Test object Contact data type, uses lengthDependent and division hash
     // testQuadOpen(); // Test char data type, uses digitAnalysis hash
-    testClosed(); // Test float data type, uses midSquare hash
-    // graphTests();
+    // testClosed(); // Test float data type, uses midSquare hash
+    graphTests();
 }
 
 void graphTests() {
 
     // Delcare a test limit
-    unsigned int LIMIT = 100;
+    const unsigned int LIMIT = 100;
     int counter = 0; // counter for operations
-    string base = "key_";
     // how to use counter: V value = ht.get(key, &counter);
 
     // Create files for graphing
@@ -44,22 +43,21 @@ void graphTests() {
     ofstream closedGet("closedGet.txt");
     ofstream closedRem("closedRem.txt");
     
-    for (int i = 0; i < LIMIT; i++) {
-        string key = base + to_string(i);
+    for (int i = 1; i <= LIMIT; i++) {
         QuadHashMap<int> qhm(i);
 
         // Get
         counter = 0; // reset counter
-        qhm.put(key, i, &counter);
-        quadPut << qhm.size() << " " << counter << "\n";
+        qhm.put(to_string(i), i, &counter);
+        cout << "Counter = " << counter << " - s(i): " << to_string(i) << endl;
+        quadPut << qhm.size() << " " << counter << endl;
 
         // Put
         
         // Rem
     }
-    
-    //system("python grapher.py");
 
+    //system("python grapher.py");
 }
 
 void testQuadOpen() {
