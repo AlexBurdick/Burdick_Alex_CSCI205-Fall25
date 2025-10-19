@@ -17,7 +17,7 @@ This can help to reduce clustering of key collisions.
 #include "HashFunctions.cpp"
 
 template<typename V>
-class OpenHashTable{
+class OpenHashTable {
 	private:
 		// The key is a string, and the value is of type V
 		struct HashNode {
@@ -65,41 +65,12 @@ class OpenHashTable{
 					newTable[h] = table[i]; // Insert key into the empty slot
 				}
 			}
+			// clean up memory from old table
 			delete[] table;
 			table = newTable;
 			capacity = newCapacity;
 		}
-		/*
-		void resize() {
-			int newCapacity = find_next_prime(capacity * 2);
-			HashNode* newTable = new HashNode[newCapacity];
-
-			// Fill new hash map
-			for (int i = 0; i < capacity; i++) {
-				if (table[i].key != "" && !table[i].deleted) {
-            		// Generate new hash key and handle collisions
-					int h = linear_probe(table[i].key, newCapacity);
-					// Table is full and key was not found (something went wrong with sizing)
-					if ( h == -1) {
-						throw std::runtime_error("Resize: sizing error");
-					// Key was not found (empty slot)
-					} else if ( table[h].key == "" ) {
-						newTable[h].key   = table[i].key;
-						newTable[h].value = table[i].value;
-						_size++;
-					// Key was found
-					} else { 
-						table[h].value = value;
-					}
-       			}
-			}
-
-			// clean up memory from old table
-			delete[] table;
-			table = newTable;
-    		capacity = newCapacity;
-		}
-		*/
+		
 		// helper function to determine if a number is prime
 		bool is_prime(int n) {
 			if (n <= 1) return false;
@@ -117,6 +88,7 @@ class OpenHashTable{
 			return n;
 		}
 		
+		
 		// helper function to put key-value pairs into the hash table using
 		// linear probing. The resize is called before this in the put function.
 		int linear_probe(const std::string& key) {
@@ -131,6 +103,18 @@ class OpenHashTable{
 			}								  		// for put or resize, but needed  
 			return h;								// for remove, get, and contains.
 		}
+		/*
+		int find_empty_slot(const std::string& key, int cap) {
+			int h = lengthDependent(key, cap);
+			int start = h;
+			do {
+				if (newTable[h].key == "") { // Find an empty slot
+					return h;
+				}
+				h = (h + 1) % cap;
+			} while (h != start);
+			return -1; // Table is full (should not happen if newCapacity is correct)
+		} */
 
 		// helper function to put key-value pairs into the hash table using quadratic probing
 		void put_with_quadratic_probe(std::string& key, V& value){/* TO DO */}
@@ -228,17 +212,45 @@ class OpenHashTable{
 		 * @return true 
 		 * @return false 
 		 */
-		bool contains(const std::string& key)	{
+		bool contains(const std::string& key) {
 			int h = linear_probe(key);
 
 			// If key was not found (or was deleted)
-			if ( h == -1 || table[h].deleted || table[h].key == "" )  return false;
+			if ( h == -1 || table[h].deleted || table[h].key == "" ) {
+				return false;
 			// Key found
-			else  return true;
+			} else {
+				return true;
+			}  
 		}
 
-		// overload the [] operator to access elements in hash table
-		void operator[](std::string& key)	{/*TO DO*/}
+		/**
+		 * @brief overload the [] operator to access elements in hash table 
+		 * (from LeChat, 10/18/2025)
+		 * 
+		 * @param key 
+		 * @return V& needs to be returnes as a referenced so it can be accessed
+		 */
+		V& operator[](const std::string& key) {
+			if (should_resize()) resize();
+			int h = linear_probe(key);
+			if (h == -1) {
+				throw std::runtime_error("Subscript: sizing error");
+			// Key not found: insert a default-constructed value
+			} else if (table[h].key == "") {
+				table[h].key = key;
+				table[h].value = V(); // Default-constructed value
+				table[h].deleted = false;
+				_size++;
+			// Key was deleted: reinsert with a default-constructed value
+			} else if (table[h].deleted) {
+				table[h].deleted = false;
+				table[h].value = V(); // Default-constructed value
+				_size++;
+			}
+			// Return a reference to the value
+			return table[h].value;
+		}
 
 		/**
 		 * @brief Return the number of key-value pairs in the hash table
@@ -260,17 +272,20 @@ class OpenHashTable{
 		 * 
 		 */
 		void print() {
-			for (int i = 0; i < capacity; i++) {
-				std::cout << "table[ ";
-				if (table[i].deleted)
-					std::cout << i << " ]\t= DELETED" << std::endl; 
-				else if (table[i].key != "")
-					std::cout << table[i].key << " ]\t= " << table[i].value << std::endl;
-				else 
-				 	std::cout << i << " ]\t= EMPTY" << std::endl;
+			if (empty()) {
+				std::cout << "Empty" << std::endl;
+			} else {
+				for (int i = 0; i < capacity; i++) {
+					std::cout << "table[ ";
+					if (table[i].deleted)
+						std::cout << i << " ]\t= DELETED" << std::endl; 
+					else if (table[i].key != "")
+						std::cout << table[i].key << " ]\t= " << table[i].value << std::endl;
+					else 
+						std::cout << i << " ]\t= EMPTY" << std::endl;
+				}
 			}
 		}
-
 	};
 
 #endif

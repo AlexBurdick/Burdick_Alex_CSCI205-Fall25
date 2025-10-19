@@ -26,6 +26,8 @@ int main() {
     int cap = sizeof(testStrings) / sizeof(testStrings[0]);
     OpenHashTable<int> ht(cap);
 
+    if (ht.empty())  ht.print();
+
     for (int i = 0; i < cap; i++) {
         ht.put(testStrings[i], i);
     }
@@ -37,6 +39,30 @@ int main() {
             cout << e.what() << endl;
         }
     }
-    
+
+    for (int i = 0; i < cap; i++) {
+        ht.remove(testStrings[i]);
+    }
+
+    for (int i = 0; i < cap; i++) {
+        ht.contains(testStrings[i]);
+    }
+
+    for (int i = 0; i < cap; i++) {
+        try {
+            cout << "get: " << ht.get(testStrings[i]) << endl;
+        } catch (const exception& e) {
+            cout << e.what() << endl;
+        }
+    }
+
     ht.print();
+    
+    OpenHashTable<char> openHT(3);
+    openHT.put("test", 'A');
+    openHT.print();
+    openHT["test"] = 'B';
+    openHT.print();
+
+    return 0;
 }
