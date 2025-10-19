@@ -7,8 +7,8 @@ Another probing method is quadratic probing, where we check buckets at increasin
 This can help to reduce clustering of key collisions.
 */
 
-#ifndef OPEN_HASH_TABLE_HPP
-#define OPEN_HASH_TABLE_HPP
+#ifndef LINEAR_HASH_TABLE_HPP
+#define LINEAR_HASH_TABLE_HPP
 
 #include <string>
 #include <iomanip>
@@ -17,7 +17,7 @@ This can help to reduce clustering of key collisions.
 #include "HashFunctions.hpp"
 
 template<typename V>
-class OpenHashTable {
+class LinearHashTable {
 	private:
 		// The key is a string, and the value is of type V
 		struct HashNode {
@@ -103,21 +103,35 @@ class OpenHashTable {
 			return h;								// for remove, get, and contains.
 		}
 
+		/* int find_empty_slot(const string& key, int cap) {
+			int h = lengthDependent(key, cap);
+			int start = h;
+			do {
+				if (newTable[h].key == "") { // Find an empty slot
+					return h;
+				}
+				h = (h + 1) % cap;
+			} while (h != start);
+			return -1; // Table is full (should not happen if newCapacity is correct)
+		}
+	*/
+
 	public:
 		/**
-		 * @brief Construct a new Open Hash Table object
+		 * @brief Construct a new Linear Hash Table object
 		 * 
 		 * @param capacity 
 		 */
-		OpenHashTable(int capacity) : _size(0), capacity(capacity) {
+		LinearHashTable
+		(int capacity) : _size(0), capacity(capacity) {
 			table = new HashNode[capacity];
 		}
 
 		/**
-		 * @brief Destroy the Open Hash Table object
+		 * @brief Destroy the Linear Hash Table object
 		 * 
 		 */
-		~OpenHashTable()  { delete[] table; }
+		~LinearHashTable()  { delete[] table; }
 
 		/**
 		 * @brief Insert key-value pair into the hash table using linear probing. 

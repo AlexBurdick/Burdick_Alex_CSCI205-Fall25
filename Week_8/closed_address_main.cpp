@@ -1,6 +1,4 @@
-/* g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
- * valgrind --tool=memcheck --leak-check=full ./a.out
- */
+
 
 #include <iostream>
 #include <string>
