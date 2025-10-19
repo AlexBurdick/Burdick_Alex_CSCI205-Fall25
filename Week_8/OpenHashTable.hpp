@@ -52,6 +52,24 @@ class OpenHashTable{
 			key-value pairs. Why is this necessary?
 			We need to do this because when the capacity changes the hash values for 
 			all keys will also change. */
+		
+		void resize() {
+			int newCapacity = find_next_prime(capacity * 2);
+			HashNode* newTable = new HashNode[newCapacity];
+			for (int i = 0; i < capacity; i++) {
+				if (table[i].key != "" && !table[i].deleted) {
+					int h = lengthDependent(table[i].key, newCapacity);
+					while (newTable[h].key != "") { // Handle collisions
+						h = (h + 1) % newCapacity;
+					}
+					newTable[h] = table[i]; // Insert key into the empty slot
+				}
+			}
+			delete[] table;
+			table = newTable;
+			capacity = newCapacity;
+		}
+		/*
 		void resize() {
 			int newCapacity = find_next_prime(capacity * 2);
 			HashNode* newTable = new HashNode[newCapacity];
@@ -66,15 +84,11 @@ class OpenHashTable{
 						throw std::runtime_error("Resize: sizing error");
 					// Key was not found (empty slot)
 					} else if ( table[h].key == "" ) {
-						table[h].key = key;
-						table[h].value = value;
+						newTable[h].key   = table[i].key;
+						newTable[h].value = table[i].value;
 						_size++;
 					// Key was found
 					} else { 
-						if ( table[h].deleted == true ) {
-							table[h].deleted = false;
-							_size++;
-						}
 						table[h].value = value;
 					}
        			}
@@ -85,7 +99,7 @@ class OpenHashTable{
 			table = newTable;
     		capacity = newCapacity;
 		}
-
+		*/
 		// helper function to determine if a number is prime
 		bool is_prime(int n) {
 			if (n <= 1) return false;
@@ -105,17 +119,17 @@ class OpenHashTable{
 		
 		// helper function to put key-value pairs into the hash table using
 		// linear probing. The resize is called before this in the put function.
-		int linear_probe(const std::string& key, int cap) {
-			int h = lengthDependent(key, cap);
+		int linear_probe(const std::string& key) {
+			int h = lengthDependent(key, capacity);
 			int counter = 0;
 
 			// Loop until next availalbe slot is found
 			while ( table[h].key != "" && table[h].key != key ) {
-				h = (h + 1) % cap;
+				h = (h + 1) % static_cast<int>(capacity);
 				counter++;
-				if (counter >= cap) return -1;	// This should not be encountered for
-			}								  	// put or resize, but needed for 
-			return h;							// remove, get, and contains.
+				if (counter >= capacity) return -1;	// This should not be encountered 
+			}								  		// for put or resize, but needed  
+			return h;								// for remove, get, and contains.
 		}
 
 		// helper function to put key-value pairs into the hash table using quadratic probing
@@ -146,7 +160,7 @@ class OpenHashTable{
 		 */
 		void put(const std::string& key, const V& value) {
 			if (should_resize()) resize();
-			int h = linear_probe(key, capacity);
+			int h = linear_probe(key);
 
 			// Table is full and key was not found (something went wrong with sizing)
 			if ( h == -1) {
@@ -173,7 +187,7 @@ class OpenHashTable{
 		 * @return bool whether or not key was found
 		 */
 		bool remove(const std::string& key) {
-			int h = linear_probe(key, capacity);
+			int h = linear_probe(key);
 
 			// If key was not found
 			if (h == -1 || table[h].key == "") {
@@ -193,7 +207,7 @@ class OpenHashTable{
 		 * @return V 
 		 */
 		V get(const std::string& key) {
-			int h = linear_probe(key, capacity);
+			int h = linear_probe(key);
 
 			// If key was not found
 			if ( h == -1 || table[h].key == "" ) {
@@ -215,7 +229,7 @@ class OpenHashTable{
 		 * @return false 
 		 */
 		bool contains(const std::string& key)	{
-			int h = linear_probe(key, capacity);
+			int h = linear_probe(key);
 
 			// If key was not found (or was deleted)
 			if ( h == -1 || table[h].deleted || table[h].key == "" )  return false;

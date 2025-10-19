@@ -24,7 +24,7 @@ int main() {
 
     // Number of test strings
     int cap = sizeof(testStrings) / sizeof(testStrings[0]);
-    OpenHashTable<int> ht(71);
+    OpenHashTable<int> ht(cap);
 
     for (int i = 0; i < cap; i++) {
         ht.put(testStrings[i], i);
