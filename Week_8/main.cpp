@@ -30,7 +30,6 @@ void graphTests() {
     // Delcare a test limit
     const unsigned int LIMIT = 100;
     int counter = 0; // counter for operations
-    // how to use counter: V value = ht.get(key, &counter);
 
     // Create files for graphing
     ofstream quadPut("quadPut.txt");
@@ -43,16 +42,24 @@ void graphTests() {
     ofstream closedGet("closedGet.txt");
     ofstream closedRem("closedRem.txt");
     
-    for (int i = 1; i <= LIMIT; i++) {
-        QuadHashMap<int> qhm(i);
+    // Initialize hash maps
+    QuadHashMap<int> qhm(LIMIT);
+    LinearHashTable<int> ht(LIMIT);
+    ClosedHashTable<int> ct(LIMIT);
+
+    for (int i = 1; i <= 100; i++) {
+        // Put
+        try {
+            qhm.put(to_string(i), i, &counter);
+            quadPut << qhm.size() << " " << counter << endl;
+            cout << "Counter = " << counter << " - s(i): " << to_string(i) << " > Size = " << qhm.size() << endl;
+        } catch (const runtime_error& e) {
+            cerr << "Error at i=" << i << ": " << e.what() << endl;
+            break;  // This will show you where it fails
+        }
+        
 
         // Get
-        counter = 0; // reset counter
-        qhm.put(to_string(i), i, &counter);
-        cout << "Counter = " << counter << " - s(i): " << to_string(i) << endl;
-        quadPut << qhm.size() << " " << counter << endl;
-
-        // Put
         
         // Rem
     }

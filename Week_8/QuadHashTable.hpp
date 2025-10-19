@@ -76,6 +76,10 @@ class QuadHashMap {
         int quadratic_probe(const std::string& key, int* tester = nullptr) {
             int h = digitAnalysis(key, capacity);
             int counter = 1;
+
+            // Always count the first probe attempt
+            if (tester != nullptr) (*tester)++;
+
             // Loop until next available slot is found
             while (table[h].key != "" && table[h].key != key) {
                 if (tester != nullptr) (*tester)++;
@@ -109,7 +113,7 @@ class QuadHashMap {
          */
         void put(const std::string& key, const V& value, int* tester = nullptr) {
             if (should_resize()) resize();
-            int h = quadratic_probe(key);
+            int h = quadratic_probe(key, tester);
             if (h == -1) {
                 throw std::runtime_error("Resize: sizing error");
             } else if (table[h].key == "") {
@@ -135,7 +139,7 @@ class QuadHashMap {
          * @return bool whether or not key was found
          */
         bool remove(const std::string& key, int* tester = nullptr) {
-            int h = quadratic_probe(key);
+            int h = quadratic_probe(key, tester);
             if (h == -1 || table[h].key == "") {
                 return false; // Key not found
             } else {
@@ -152,7 +156,7 @@ class QuadHashMap {
          * @return V
          */
         V get(const std::string& key, int* tester = nullptr) {
-            int h = quadratic_probe(key);
+            int h = quadratic_probe(key, tester);
             if (h == -1 || table[h].key == "") {
                 throw std::runtime_error("Key '" + key + "' not found in hash table");
             } else if (table[h].deleted) {

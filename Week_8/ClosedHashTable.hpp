@@ -114,6 +114,9 @@ class ClosedHashTable {
 			if (should_resize()) resize();
 			int h = hash(key, capacity);
 
+			// Always count the first probe attempt
+    		if (tester != nullptr) (*tester)++;
+
 			// Check if key already exists
 			Node<HashNode>* current = table[h].getHead();
 			while (current != nullptr) {
@@ -133,8 +136,12 @@ class ClosedHashTable {
 		
 		// get value associated with key
 		V get(std::string& key, int* tester = nullptr) {
+			// Always count the first probe attempt
+    		if (tester != nullptr) (*tester)++;
+			
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
+
 			while (current != nullptr) {
 				if (tester != nullptr) (*tester)++;
 				if (current->payload.key == key) {
@@ -147,8 +154,12 @@ class ClosedHashTable {
 
 		// remove key-value pair from hash table
 		bool remove(std::string& key, int* tester = nullptr) {
+			// Always count the first probe attempt
+    		if (tester != nullptr) (*tester)++;
+			
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
+
 			int pos = 0;
 			while (current != nullptr) {
 				if (tester != nullptr) (*tester)++;
