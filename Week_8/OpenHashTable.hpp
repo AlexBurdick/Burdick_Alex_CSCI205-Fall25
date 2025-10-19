@@ -31,20 +31,21 @@ class OpenHashTable{
 			HashNode(const std::string& k, const V& v) : key(k), value(v), deleted(false) {}
 		};
 
-		int _size;	  // number of key-value pairs in the hash table
-		int capacity; // number of slots in the hash table
+		double _size;	  // number of key-value pairs in the hash table
+		double capacity; // number of slots in the hash table
 		HashNode* table; // Default value is nullptr to determine existence
 
 		// helper function to determine load factor (𝜆)
 		double loadFactor() {
-			double 𝜆 = _size / capacity;
-			return 𝜆 ;
+			double lf = _size / capacity;
+			return lf ;
 		}
 
 		// helper function to determine if we should resize
 		bool should_resize() {
-			if (loadFactor() > 0.5)  return true;
-			else  return false;
+			double lf = loadFactor();
+			if (lf > 0.5) return true;
+			else return false;
 		}
 
 		/*	helper function to resize the table. This will rehash and put all 
@@ -60,10 +61,21 @@ class OpenHashTable{
 				if (table[i].key != "" && !table[i].deleted) {
             		// Generate new hash key and handle collisions
 					int h = linear_probe(table[i].key, newCapacity);
-					if (h == -1) {
+					// Table is full and key was not found (something went wrong with sizing)
+					if ( h == -1) {
 						throw std::runtime_error("Resize: sizing error");
-					} else {
-						newTable[h] = table[i];
+					// Key was not found (empty slot)
+					} else if ( table[h].key == "" ) {
+						table[h].key = key;
+						table[h].value = value;
+						_size++;
+					// Key was found
+					} else { 
+						if ( table[h].deleted == true ) {
+							table[h].deleted = false;
+							_size++;
+						}
+						table[h].value = value;
 					}
        			}
 			}
@@ -141,11 +153,15 @@ class OpenHashTable{
 				throw std::runtime_error("Resize: sizing error");
 			// Key was not found (empty slot)
 			} else if ( table[h].key == "" ) {
-				table[h] = HashNode(key, value);
+				table[h].key = key;
+				table[h].value = value;
 				_size++;
 			// Key was found
 			} else { 
-				table[h].deleted = false;
+				if ( table[h].deleted == true ) {
+					table[h].deleted = false;
+					_size++;
+				}
 				table[h].value = value;
 			}
 		}
@@ -215,7 +231,7 @@ class OpenHashTable{
 		 * 
 		 * @return int 
 		 */
-		int size() const { return _size; }
+		double size() const { return _size; }
 
 		/**
 		 * @brief Check if the hash table is empty

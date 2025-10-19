@@ -61,7 +61,7 @@ class ClosedHashTable {
 
 		// The open hash tables are collections of lists of HashNodes
 		LinkedList<HashNode>* table;	// dynamically allocated array of LinkedLists
-		int size;						// number of key-value pairs in the hash table
+		int _size;						// number of key-value pairs in the hash table
 		int capacity;					// number of slots in the hash table
 
 		// helper function to compute hash value
@@ -108,7 +108,7 @@ class ClosedHashTable {
 
 	public:
 		ClosedHashTable(int capacity) : 
-					size(0), 
+					_size(0), 
 					capacity(capacity)		{/*TO DO*/}	// constructor
 		~ClosedHashTable() 					{/*TO DO*/}	// destructor
 
@@ -118,8 +118,8 @@ class ClosedHashTable {
 		bool contains(std::string& key)		{/*TO DO*/}	// check if key is in the hash table
 		void operator[](std::string& key)	{/*TO DO*/}	// overload the [] operator to access elements in hash table
 		
-		int size()	{return size;}			// return the number of key-value pairs in the hash table
-		bool empty(){return size == 0;}		// check if the hash table is empty
+		int size()	{return _size;}			// return the number of key-value pairs in the hash table
+		bool empty(){return _size == 0;}		// check if the hash table is empty
 
 		// print the contents of the hash table
 		// In order to use this your LinkedList class must have a print() and size() function

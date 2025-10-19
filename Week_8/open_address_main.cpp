@@ -1,4 +1,7 @@
-//#include "OpenHashTable.hpp"
+/* g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
+ * valgrind --tool=memcheck --leak-check=full ./a.out
+ */
+
 //#include "Contact.h"
 #include <iostream>
 #include <string>
@@ -8,12 +11,32 @@
 using namespace std;
 
 int main() {
-    int cap = 5;
-    string arr[5] = {"string1", "string2", "string3", "string4", "string5"};
+    // Array of strings for testing OpenHashTable
+    std::string testStrings[] = {
+        "apple", "banana", "cherry", "date", "elderberry",
+        "fig", "grape", "honeydew", "kiwi", "lemon",
+        "mango", "nectarine", "orange", "papaya", "quince",
+        "raspberry", "strawberry", "tangerine", "ugli", "vanilla",
+        "watermelon", "ximenia", "yellowfruit", "zucchini", "avocado",
+        "blueberry", "cantaloupe", "dragonfruit", "eggfruit", "fruit1",
+        "fruit2", "fruit3", "fruit4", "fruit5", "fruit6"
+    };
 
-    OpenHashTable<int> ht(cap);
+    // Number of test strings
+    int cap = sizeof(testStrings) / sizeof(testStrings[0]);
+    OpenHashTable<int> ht(71);
+
     for (int i = 0; i < cap; i++) {
-        ht.put("test", i);
+        ht.put(testStrings[i], i);
     }
+    
+    for (int i = 0; i < cap; i++) {
+        try {
+            cout << "get: " << ht.get(testStrings[i]) << endl;
+        } catch (const exception& e) {
+            cout << e.what() << endl;
+        }
+    }
+    
     ht.print();
 }
