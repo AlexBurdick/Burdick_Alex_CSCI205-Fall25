@@ -73,11 +73,12 @@ class QuadHashMap {
         }
 
         // Helper function to find a slot using quadratic probing
-        int quadratic_probe(const std::string& key) {
+        int quadratic_probe(const std::string& key, int* tester = nullptr) {
             int h = digitAnalysis(key, capacity);
             int counter = 1;
             // Loop until next available slot is found
             while (table[h].key != "" && table[h].key != key) {
+                if (tester != nullptr) (*tester)++;
                 h = (h + counter * counter) % capacity;
                 counter++;
                 if (counter >= capacity-1) return -1; // Table is full
@@ -106,7 +107,7 @@ class QuadHashMap {
          * @param key
          * @param value
          */
-        void put(const std::string& key, const V& value) {
+        void put(const std::string& key, const V& value, int* tester = nullptr) {
             if (should_resize()) resize();
             int h = quadratic_probe(key);
             if (h == -1) {
@@ -133,7 +134,7 @@ class QuadHashMap {
          * @param key to look for
          * @return bool whether or not key was found
          */
-        bool remove(const std::string& key) {
+        bool remove(const std::string& key, int* tester = nullptr) {
             int h = quadratic_probe(key);
             if (h == -1 || table[h].key == "") {
                 return false; // Key not found
@@ -150,7 +151,7 @@ class QuadHashMap {
          * @param key
          * @return V
          */
-        V get(const std::string& key) {
+        V get(const std::string& key, int* tester = nullptr) {
             int h = quadratic_probe(key);
             if (h == -1 || table[h].key == "") {
                 throw std::runtime_error("Key '" + key + "' not found in hash table");
