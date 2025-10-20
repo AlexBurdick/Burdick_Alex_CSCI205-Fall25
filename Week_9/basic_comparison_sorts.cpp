@@ -2,9 +2,13 @@
 #include "stdlib.h"
 #include <vector>
 
-/* Questions:
-- What reading is there for Database?
-- 
+/*
+Notes:
+- Reading for Database - 3.3
+- study merge sort and quick sort
+Questions:
+- why did we need to overload the = operator for hash nodes?
+- when are finals?
 */
 
 using namespace std;

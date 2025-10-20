@@ -29,6 +29,7 @@ class ClosedHashTable {
 			HashNode(const std::string& k, const V& v) : key(k), value(v) {}
 			
 			// overload the == operator so we can easily compare HashNode. Why do we need this?
+			// This allows us to compare the keys easily by just doing node == node
 			bool operator==(const HashNode& rhs) {
 				return key == rhs.key;
 			}
