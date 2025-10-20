@@ -19,9 +19,9 @@ void testClosed();
 void graphTests();
 
 int main() {
-    // testLinearOpen(); // Test object Contact data type, uses lengthDependent and division hash
-    // testQuadOpen(); // Test char data type, uses digitAnalysis hash
-    // testClosed(); // Test float data type, uses midSquare hash
+    testLinearOpen(); // Test object Contact data type, uses lengthDependent and division hash
+    testQuadOpen(); // Test char data type, uses digitAnalysis hash
+    testClosed(); // Test float data type, uses midSquare hash
     graphTests();
 }
 
@@ -29,7 +29,6 @@ void graphTests() {
 
     // Delcare a test limit
     const unsigned int LIMIT = 100;
-    int counter = 0; // counter for operations
 
     // Create files for graphing
     ofstream quadPut("quadPut.txt");
@@ -41,30 +40,71 @@ void graphTests() {
     ofstream closedPut("closedPut.txt");
     ofstream closedGet("closedGet.txt");
     ofstream closedRem("closedRem.txt");
-    
-    // Initialize hash maps
+
+    // QUAD HASH MAP
     QuadHashMap<int> qhm(1);
-    LinearHashTable<int> ht(1);
-    ClosedHashTable<int> ct(1);
-
-    for (int i = 1; i <= 100; i++) {
-        // Put
-        try {
-            qhm.put(to_string(i), i, &counter);
-            quadPut << qhm.size() << " " << counter << endl;
-            cout << "Counter = " << counter << " - s(i): " << to_string(i) << " > Size = " << qhm.size() << endl;
-        } catch (const runtime_error& e) {
-            cerr << "Error at i=" << i << ": " << e.what() << endl;
-            break;  // This will show you where it fails
-        }
-        
-        // Get
-        
-        // Rem
-
+    // Put
+    int counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        qhm.put(to_string(i), i, &counter);
+        quadPut << qhm.size() << " " << counter << endl;
+    }
+    // Get
+    counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        qhm.get(to_string(i), &counter);
+        quadGet << qhm.size() << " " << counter << endl;
+    }
+    // Put
+    counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        qhm.remove(to_string(i), &counter);
+        quadRem << qhm.size() << " " << counter << endl;
     }
 
-    //system("python grapher.py");
+    // LINEAR HASH TABLE
+    LinearHashTable<int> lht(1);
+    // Put
+    counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        lht.put(to_string(i), i, &counter);
+        linearPut << lht.size() << " " << counter << endl;
+    }
+    // Get
+    counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        lht.get(to_string(i), &counter);
+        linearGet << lht.size() << " " << counter << endl;
+    }
+    // Remove
+    counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        lht.remove(to_string(i), &counter);
+        linearRem << lht.size() << " " << counter << endl;
+    }
+
+    // CLOSED HASH TABLE
+    ClosedHashTable<int> cht(1);
+    // Put
+    counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        cht.put(to_string(i), i, &counter);
+        closedPut << cht.size() << " " << counter << endl;
+    }
+    // Get
+    counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        cht.get(to_string(i), &counter);
+        closedGet << cht.size() << " " << counter << endl;
+    }
+    // Remove
+    counter = 0; // counter for operations
+    for (int i = 1; i <= LIMIT; i++) {
+        cht.remove(to_string(i), &counter);
+        closedRem << cht.size() << " " << counter << endl;
+    }
+
+    system("python grapher.py");
 }
 
 void testQuadOpen() {

@@ -28,9 +28,7 @@ class ClosedHashTable {
 			HashNode() : key(""), value(V()) {}
 			HashNode(const std::string& k, const V& v) : key(k), value(v) {}
 			
-			// overload the == operator so we can easily compare HashNodes
-			// This is for linked list comparisons. Why do we need this?
-			// - 
+			// overload the == operator so we can easily compare HashNode. Why do we need this?
 			bool operator==(const HashNode& rhs) {
 				return key == rhs.key;
 			}
@@ -110,7 +108,7 @@ class ClosedHashTable {
 		}
 
 		// insert key-value pair
-		void put(std::string& key, V& value, int* tester = nullptr) {
+		void put(const std::string& key, V& value, int* tester = nullptr) {
 			if (should_resize()) resize();
 			int h = hash(key, capacity);
 
@@ -135,7 +133,7 @@ class ClosedHashTable {
 		}
 		
 		// get value associated with key
-		V get(std::string& key, int* tester = nullptr) {
+		V get(const std::string& key, int* tester = nullptr) {
 			// Always count the first probe attempt
     		if (tester != nullptr) (*tester)++;
 			
@@ -153,7 +151,7 @@ class ClosedHashTable {
 		}
 
 		// remove key-value pair from hash table
-		bool remove(std::string& key, int* tester = nullptr) {
+		bool remove(const std::string& key, int* tester = nullptr) {
 			// Always count the first probe attempt
     		if (tester != nullptr) (*tester)++;
 			
@@ -175,7 +173,7 @@ class ClosedHashTable {
 		}
 		
 		// check if key is in the hash table
-		bool contains(std::string& key) {
+		bool contains(const std::string& key) {
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
 			while (current != nullptr) {
@@ -186,7 +184,7 @@ class ClosedHashTable {
 		}
 
 		// overload the [] operator to access elements in hash table (from LeChat, 10/19/2025)
-		V& operator[](std::string& key) {
+		V& operator[](const std::string& key) {
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
 			while (current != nullptr) {

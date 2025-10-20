@@ -90,12 +90,16 @@ class LinearHashTable {
 		
 		// helper function to put key-value pairs into the hash table using
 		// linear probing. The resize is called before this in the put function.
-		int linear_probe(const std::string& key) {
+		int linear_probe(const std::string& key, int* tester = nullptr) {
 			int h = lengthDependent(key, capacity);
 			int counter = 0;
 
+			// Always count the first probe attempt
+            if (tester != nullptr) (*tester)++;
+
 			// Loop until next availalbe slot is found
 			while ( table[h].key != "" && table[h].key != key ) {
+            	if (tester != nullptr) (*tester)++;
 				h = (h + 1) % static_cast<int>(capacity);
 				counter++;
 				if (counter >= capacity) return -1;	// This should not be encountered 
@@ -140,9 +144,9 @@ class LinearHashTable {
 		 * @param key
 		 * @param value
 		 */
-		void put(const std::string& key, const V& value) {
+		void put(const std::string& key, const V& value, int* tester = nullptr) {
 			if (should_resize()) resize();
-			int h = linear_probe(key);
+			int h = linear_probe(key, tester);
 
 			// Table is full and key was not found (something went wrong with sizing)
 			if ( h == -1) {
@@ -168,8 +172,8 @@ class LinearHashTable {
 		 * @param key to look for
 		 * @return bool whether or not key was found
 		 */
-		bool remove(const std::string& key) {
-			int h = linear_probe(key);
+		bool remove(const std::string& key, int* tester = nullptr) {
+			int h = linear_probe(key, tester);
 
 			// If key was not found
 			if (h == -1 || table[h].key == "") {
@@ -188,8 +192,8 @@ class LinearHashTable {
 		 * @param key 
 		 * @return V 
 		 */
-		V get(const std::string& key) {
-			int h = linear_probe(key);
+		V get(const std::string& key, int* tester = nullptr) {
+			int h = linear_probe(key, tester);
 
 			// If key was not found
 			if ( h == -1 || table[h].key == "" ) {

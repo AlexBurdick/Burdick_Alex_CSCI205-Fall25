@@ -58,7 +58,7 @@ int midSquare(const std::string& key, int cap) {
 
 /**
  * @brief Digit Analysis: This approach forms an address by selecting and shifting 
- * digits or bits from the original key
+ * digits or bits from the original key. Empty testing logic from DeepSeek, 10/19/2025.
  * 
  * @param key string to be used in the hash
  * @param cap capacity of the hash map
@@ -67,17 +67,28 @@ int midSquare(const std::string& key, int cap) {
 int digitAnalysis(const std::string& key, int cap) {
     // Account for empty string
     if (key.empty()) {
-        std::cerr << "ERROR: digitAnalysis called with empty key!" << std::endl;
         return 0;
     }
 
     std::string localKey = key; // Create a local copy
-    // Remove the first character
-    if (key.length() >= 2)  localKey.erase(0, 1);
-    // Remove the last character
-    if (key.length() >= 2)  localKey.erase(localKey.length() - 1, 1);
-    // Swap first and last characters
-    if (key.length() >= 2)  std::swap(localKey.front(), localKey.back());
+
+    // Only manipulate if the string has at least 2 characters
+    if (localKey.length() >= 2) {
+        // Remove the first character
+        localKey.erase(0, 1);
+        // Remove the last character  
+        localKey.erase(localKey.length() - 1, 1);
+        
+        // Only swap if we still have at least 2 characters after erasing
+        if (localKey.length() >= 2) {
+            std::swap(localKey.front(), localKey.back());
+        }
+    }
+
+    // If localKey became empty during manipulation, use original key
+    if (localKey.empty()) {
+        localKey = key;
+    }
 
     // Convert string back to number
     int hashVal = stringNum(localKey) % cap;
