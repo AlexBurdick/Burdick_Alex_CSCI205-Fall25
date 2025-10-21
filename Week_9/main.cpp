@@ -44,35 +44,61 @@ Shell Sort
 - optimized insertion sort
 */
 
-/* g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
+/************************************************************************************
+ * 8. Main should: Run each of the algorithms with various sizes of the array and 
+ * 	  different types of arrays (random, inverse, partial sort).
+ * 
+ * g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
  * valgrind --tool=memcheck --leak-check=full ./a.out
- */
+ ***********************************************************************************/
+
 #include <iostream>
 #include "stdlib.h"
 #include <vector>
+#include "basic_comparison_sorts.cpp"
+#include "sort_experiments.cpp"
 
 using namespace std;
 
-// Lab i- design experiments for sorting algorithms
-
-// Function prototypes
+// Function Prototypes
+vector<int> generate_vector(int size, char type);
 void print_vector(vector<int>&);
-void swap(vector<int>&, int, int);
 
 int main() {
-    return 0;
+	const int SIZE = 50;
+
+	cout << "\nCOMB SORT\n";
+	vector<int> avector = generate_vector(SIZE, 'r');
+	print_vector(avector);
+	combSort(avector);
+	print_vector(avector);
+
+	cout << "\nSHELL SORT\n";
+	avector = generate_vector(SIZE, 'r');
+	vector<int> sequence = {701, 301, 132, 57, 23, 10, 4, 1};
+	print_vector(avector);
+	shellSort(avector, sequence);
+	print_vector(avector);
+
+	cout << "\nINSERTION SORT\n";
+	avector = generate_vector(SIZE, 'r');
+	print_vector(avector);
+	insertionSort(avector);
+	print_vector(avector);
+
+	cout << "\nSHELL SORT WITH N/2 GAP SEQUENCE\n";
+	avector = generate_vector(SIZE, 'r');
+	print_vector(avector);
+	shellSort(avector);
+	print_vector(avector);
+	
+	cout << "\nSHELL SORT WITH KNUTH GAP SEQUENCE\n";
+	avector = generate_vector(SIZE, 'r');
+	vector<int> gaps = knuth_sequence(avector.size());
+	print_vector(avector);
+	shellSort(avector, gaps);
+	print_vector(avector);
+
+	return 0;
 }
 
-// nicely formatted print function
-void print_vector(vector<int>& vec){
-	for (unsigned int i = 0; i < vec.size(); i++)
-		cout<< vec[i] << " ";
-	cout << endl;
-}
-
-// helper function to swap two vector elements
-void swap(vector<int>& vec, int a, int b){
-	int temp	= vec[a];
-	vec[a]		= vec[b];
-	vec[b]		= temp;
-}

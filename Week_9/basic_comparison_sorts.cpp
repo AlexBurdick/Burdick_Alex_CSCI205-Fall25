@@ -2,15 +2,6 @@
 #include "stdlib.h"
 #include <vector>
 
-/*
-Notes:
-- Reading for Database - 3.3
-- study merge sort and quick sort
-Questions:
-- why did we need to overload the = operator for hash nodes?
-- when are finals?
-*/
-
 using namespace std;
 
 vector<int> generate_vector(int size, char type);
@@ -28,51 +19,7 @@ void shellSort(vector<int>&);
 void shellSort(vector<int>&, vector<int>&);
 vector<int> knuth_sequence(int);
 
-int main() {
-
-	const int SIZE = 50;
-
-	cout << "BUBBLE SORT" << endl;
-	vector<int> avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	bubbleSort(avector);
-	print_vector(avector);
-
-	cout << endl;
-
-	cout << "SELECTION SORT" << endl;
-	avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	selectionSort(avector);
-	print_vector(avector);
-
-	cout << endl;
-
-	cout << "INSERTION SORT" << endl;
-	avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	insertionSort(avector);
-	print_vector(avector);
-
-	cout << endl;
-
-	cout << "SHELL SORT WITH N/2 GAP SEQUENCE" << endl;
-	avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	shellSort(avector);
-	print_vector(avector);
-
-	cout << endl;
-	
-	cout << "SHELL SORT WITH KNUTH GAP SEQUENCE" << endl;
-	avector = generate_vector(SIZE, 'r');
-	vector<int> gaps = knuth_sequence(avector.size());
-	print_vector(avector);
-	shellSort(avector, gaps);
-	print_vector(avector);
-
-	return 0;
-}
+// ==========================================================
 
 // nicely formatted print function
 void print_vector(vector<int>& vec){
@@ -233,7 +180,7 @@ vector<int> knuth_sequence(int size){
 }
 
 // generates a random vector of size "size" with type "type"
-//  type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially sorted
+// type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially sorted
 vector<int> generate_vector(int size, char type){
 	vector<int> temp(size);
 	
