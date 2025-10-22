@@ -53,56 +53,65 @@ in place (aka swaps).
 int main() {
 
 	const int SIZE = 50;
-	const string sorts[10] = {	"BUBBLE SORT",
-								"SELECTION SORT",
-								"INSERTION SORT",
-								"SHELL SORT WITH N/2 GAP SEQUENCE",
-								"SHELL SORT WITH KNUTH GAP SEQUENCE",
-								"SHELL SORT WITH HIBBARD GAP SEQUENCE",
-								"SHELL SORT WITH SEDGWICK GAP SEQUENCE",
-								"HISTOGRAM",
-								"PREFIX SUM",
-								"RADIX SORT"
-							 };
-
-	cout << "BUBBLE SORT" << endl;
-	vector<int> avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	bubbleSort(avector);
-	print_vector(avector);
-
-	cout << endl;
-
-	cout << "SELECTION SORT" << endl;
-	avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	selectionSort(avector);
-	print_vector(avector);
-
-	cout << endl;
-
-	cout << "INSERTION SORT" << endl;
-	avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	insertionSort(avector);
-	print_vector(avector);
-
-	cout << endl;
-
-	cout << "SHELL SORT WITH N/2 GAP SEQUENCE" << endl;
-	avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	shellSort(avector);
-	print_vector(avector);
-
-	cout << endl;
+	const vector<string> SORTS = {	"BUBBLE SORT",
+									"SELECTION SORT",
+									"INSERTION SORT",
+									"SHELL SORT WITH N/2 GAP SEQUENCE",
+									"SHELL SORT WITH KNUTH GAP SEQUENCE",
+									"SHELL SORT WITH HIBBARD GAP SEQUENCE",
+									"SHELL SORT WITH SEDGWICK GAP SEQUENCE",
+									"HISTOGRAM",
+									"PREFIX SUM",
+									"RADIX SORT"
+							 	};
 	
-	cout << "SHELL SORT WITH KNUTH GAP SEQUENCE" << endl;
-	avector = generate_vector(SIZE, 'r');
-	vector<int> gaps = knuth_sequence(avector.size());
-	print_vector(avector);
-	shellSort(avector, gaps);
-	print_vector(avector);
+	// Write files for basic sorts
+	// iterate through SORTS using sizeof/sizeof to get the element count (SORTS is a raw array)
+	for (int i = 0; i < SORTS.size(); ++i)
+	{
+		//cout << SORTS[i] << endl;
+
+		cout << "BUBBLE SORT" << endl;
+		vector<int> avector = generate_vector(SIZE, 'r');
+		print_vector(avector);
+		bubbleSort(avector);
+		print_vector(avector);
+
+		cout << endl;
+
+		cout << "SELECTION SORT" << endl;
+		avector = generate_vector(SIZE, 'r');
+		print_vector(avector);
+		selectionSort(avector);
+		print_vector(avector);
+
+		cout << endl;
+
+		cout << "INSERTION SORT" << endl;
+		avector = generate_vector(SIZE, 'r');
+		print_vector(avector);
+		insertionSort(avector);
+		print_vector(avector);
+
+		cout << endl;
+
+		cout << "SHELL SORT WITH N/2 GAP SEQUENCE" << endl;
+		avector = generate_vector(SIZE, 'r');
+		print_vector(avector);
+		shellSort(avector);
+		print_vector(avector);
+
+		cout << endl;
+		
+		cout << "SHELL SORT WITH KNUTH GAP SEQUENCE" << endl;
+		avector = generate_vector(SIZE, 'r');
+		vector<int> gaps = knuth_sequence(avector.size());
+		print_vector(avector);
+		shellSort(avector, gaps);
+		print_vector(avector);
+		
+	}
+	
 
 	/* ==============================================================================
 	
