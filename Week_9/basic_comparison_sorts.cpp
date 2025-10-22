@@ -1,12 +1,17 @@
 /************************************************************************************ 
+ * Filename:	basic_comparison_sorts.cpp
+ * Author:		Alex Burdick
+ * Date:		10/26/2025
  * 
  * g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
  * valgrind --tool=memcheck --leak-check=full ./a.out
  ***********************************************************************************/
 
 #include <iostream>
+#include <fstream>
 #include "stdlib.h"
 #include <vector>
+#include <filesystem>
 
 using namespace std;
 
@@ -33,16 +38,32 @@ vector<int> sedgwick(int size);
 vector<int> knuth_sequence(int);
 
 // Non-Comparison Sorts
-void histogram(std::vector<int>&);
-void prefixSum(std::vector<int>&);
-void radixSort(std::vector<int>&);
+void histogram(vector<int>&);
+void prefixSum(vector<int>&);
+void radixSort(vector<int>&);
 #pragma endregion
 
-// 8. Main should: Run each of the algorithms with various sizes of the array and 
-//    different types of arrays (random, inverse, partial sort).
+/* 8.
+Main should: Run each of the algorithms with various sizes of the array and different 
+types of arrays (random, inverse, partial sort). Put graphs into .pdf and submit with 
+lab. best way to compare a sort would be do a graph that show num of comparison, num 
+of swaps, also look at selection sort. Measure number of moves needed to get something 
+in place (aka swaps).
+*/
 int main() {
 
 	const int SIZE = 50;
+	const string sorts[10] = {	"BUBBLE SORT",
+								"SELECTION SORT",
+								"INSERTION SORT",
+								"SHELL SORT WITH N/2 GAP SEQUENCE",
+								"SHELL SORT WITH KNUTH GAP SEQUENCE",
+								"SHELL SORT WITH HIBBARD GAP SEQUENCE",
+								"SHELL SORT WITH SEDGWICK GAP SEQUENCE",
+								"HISTOGRAM",
+								"PREFIX SUM",
+								"RADIX SORT"
+							 };
 
 	cout << "BUBBLE SORT" << endl;
 	vector<int> avector = generate_vector(SIZE, 'r');
@@ -141,7 +162,7 @@ int main() {
  * @param vector<int>&
  * @return number of swaps
  */
-int combSort(std::vector<int>& list)
+int combSort(vector<int>& list)
 {
 	int  size	= list.size();
     int  gap	= size;
@@ -149,7 +170,7 @@ int combSort(std::vector<int>& list)
     bool sorted	= false;
     int  swaps	= 0;
 
-	// Do the shrink math no in integers then comvert back to integers
+	// TO DO: the shrink math not in integers, then comvert back to integers
 
     // Loop
     while (sorted == false)
@@ -180,9 +201,9 @@ int combSort(std::vector<int>& list)
  * You will need to create each sequence separately and then interleave them.
  * 
  * @param size 
- * @return std::vector<int> 
+ * @return vector<int> 
  */
-std::vector<int> hibbard(int size)
+vector<int> hibbard(int size)
 {
     /*
     a. h = 1
@@ -190,7 +211,7 @@ std::vector<int> hibbard(int size)
     c. h++
     */
 
-    std::vector<int> sequence;
+    vector<int> sequence;
     
     return sequence;
 }
@@ -202,9 +223,9 @@ std::vector<int> hibbard(int size)
  * You will need to create each sequence separately and then interleave them.
  * 
  * @param size 
- * @return std::vector<int> 
+ * @return vector<int> 
  */
-std::vector<int> sedgwick(int size)
+vector<int> sedgwick(int size)
 {
     /* Interleave the following two sets
     a. Set One (1, 19, 109, 505, 2161 . . .):
@@ -217,12 +238,27 @@ std::vector<int> sedgwick(int size)
         iii. h++
     */
 
-    std::vector<int> sequence;
+    vector<int> sequence;
     
     return sequence;
 }
 
 #pragma region basic comparisons
+// From LeChat, 10/22/2025
+void writeToFile(const vector<int>& data, const string& filename) {
+    ofstream outFile("data/" + filename);
+    if (!outFile.is_open()) {
+        cerr << "Error: Could not open file " << filename << endl;
+        return;
+    }
+
+    for (int num : data) {
+        outFile << num << " ";
+    }
+    outFile.close();
+}
+
+
 // nicely formatted print function
 void print_vector(vector<int>& vec){
 	for (unsigned int i = 0; i < vec.size(); i++)
