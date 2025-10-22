@@ -55,7 +55,6 @@ Shell Sort
 #include <iostream>
 #include "stdlib.h"
 #include <vector>
-#include "basic_comparison_sorts.cpp"
 #include "sort_experiments.cpp"
 
 using namespace std;
@@ -80,16 +79,16 @@ int main() {
 	shellSort(avector, sequence);
 	print_vector(avector);
 
-	cout << "\nINSERTION SORT\n";
+	cout << "\nSHELL SORT WITH HIBBARD GAP SEQUENCE\n";
 	avector = generate_vector(SIZE, 'r');
 	print_vector(avector);
-	insertionSort(avector);
+	hibbard(avector.size());
 	print_vector(avector);
 
-	cout << "\nSHELL SORT WITH N/2 GAP SEQUENCE\n";
+	cout << "\nSHELL SORT WITH SEDGWICK GAP SEQUENCE:\n";
 	avector = generate_vector(SIZE, 'r');
 	print_vector(avector);
-	shellSort(avector);
+	sedgwick(avector.size());
 	print_vector(avector);
 	
 	cout << "\nSHELL SORT WITH KNUTH GAP SEQUENCE\n";
@@ -98,6 +97,18 @@ int main() {
 	print_vector(avector);
 	shellSort(avector, gaps);
 	print_vector(avector);
+
+	/* 9.
+	  Once you have gathered all data from your program plot the data using your 
+  	  Python utility. Be sure that you have run the algorithms enough times to create 
+  	  an informative graph depicting how each algorithm/gap sequence responds to the 
+  	  varying input. You may want to create multiple graphs: One for size, one for 
+  	  each type of array. Your graphs must be clearly labeled. Here are the graphs I 
+      want to see
+  		a. Gap Sorts: Comb with a shrink factor of 1.3 and Shell sort with the gap 
+  		   sequences listed above.
+  		b. Bubbly Sorts: Comb (1.3) and Regular Bubble
+	*/
 
 	return 0;
 }

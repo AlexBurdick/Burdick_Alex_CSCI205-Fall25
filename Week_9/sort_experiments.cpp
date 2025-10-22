@@ -1,56 +1,24 @@
 /************************************************************************************
  * Questions
  * - 2. What gaps are we supposed to use? The Marcin Ciura's gap sequence?
- * 
- * 3. Shell Sort Gap: Hibbard Sequence: 
- * 		a. h = 1
- * 		b. (2 ^ h) – 1
- * 		c. h++
- * 		d. Write a function called vector<int> hibbard(int size) that implements the 
- * 		   Hibbard Sequence algorithm and returns an array of the sequence, based on 
- * 		   size.
- * 
- * 4. Shell Sort Gap: Sedgwick Sequence: Interleave the following two sets
- * 		a. Set One (1, 19, 109, 505, 2161 . . .):
- * 			i.   h = 0
- * 			ii.  9(4 ^ h – 2 ^ h) + 1
- * 			iii. h++
- * 		b. Set Two (5, 41, 209, 929, 3905 . . .):
- * 			i.   h = 0
- * 			ii.  2 ^ (h + 2)(2 ^ (h + 2) – 3) + 1
- * 			iii. h++
- * 		c. Write a function called vector<int> sedgwick(int size) that implements the 
- * 		   Sedgwick Sequence algorithm and returns a vector of the sequence based on 
- * 		   size.
- * 		   NOTE: I want you to write logic that creates the sequence . . . not simply 
- * 		   copy it. You will need to create each sequence separately and then 
- * 		   interleave them.
- * 
- * 5. Shell Sort Gap: The Knuth Sequence: h = h * 3 + 1
- * 		a. You have been given this function in this weeks repo pull
- * 		NOTE: I want you to write logic that creates the sequence . . . not simply copy it.
- * 
- * 9. Once you have gathered all data from your program plot the data using your 
- * 	  Python utility. Be sure that you have run the algorithms enough times to create 
- * 	  an informative graph depicting how each algorithm/gap sequence responds to the 
- * 	  varying input. You may want to create multiple graphs: One for size, one for 
- * 	  each type of array. Your graphs must be clearly labeled. Here are the graphs I 
- *    want to see
- * 		a. Gap Sorts: Comb with a shrink factor of 1.3 and Shell sort with the gap 
- * 		   sequences listed above.
- * 		b. Bubbly Sorts: Comb (1.3) and Regular Bubble
- * 
+ * - for 9 it says it wanst:
+ *      a. Gap Sorts: Comb with a shrink factor of 1.3 and Shell sort with the gap 
+  		   sequences listed above.
+  		b. Bubbly Sorts: Comb (1.3) and Regular Bubble
+        This mentions comb sort twice, are we doing two different comparisons?
+
+ * - What's the deal with these below?
  * Non-Comparison Sorts: The following sorting algorithms sort without comparing 
  * items. Implement the following algorithms, demonstrate that they work and plot 
  * their efficiency. 
  * In order to accomplish the ordering without comparisons, 
  * significant memory needs to be allocated. For each of the following sorts design 
  * experiments to graph their efficiency in terms of
- * 		- Operations: array assignments will be of interest here
- * 		- Auxilliary memory: additional memory needs to be allocated
- * 		- Big O: Radix sorts operates in O(nk) time, where n is the number of keys, 
- * 		  and k is the key length(width). K = logbase(longest number). Count the 
- * 		  relevant operations and see if your algorithm conforms.
+ *  - Operations: array assignments will be of interest here
+ * 	- Auxilliary memory: additional memory needs to be allocated
+ * 	- Big O: Radix sorts operates in O(nk) time, where n is the number of keys, and 
+ *    k is the key length(width). K = logbase(longest number). Count the relevant 
+ *    operations and see if your algorithm conforms.
  * 
  * Histogram: see sheet
  * 
@@ -63,7 +31,6 @@
 #include "stdlib.h"
 #include <vector>
 
-
 // Function prototypes
 std::vector<int> generate_vector(int size, char type);
 void swap(std::vector<int>&, int, int);
@@ -74,6 +41,9 @@ int shellSort(std::vector<int>&, std::vector<int>&);
 std::vector<int> hibbard(int size);
 std::vector<int> sedgwick(int size);
 std::vector<int> knuth_sequence(int);
+
+// Basic Comparison Sorts
+void bubbleSort(std::vector<int>& avector);
 
 // generates a random vector of size "size" with type "type"
 // type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially sorted
@@ -110,11 +80,9 @@ void swap(std::vector<int>& vec, int a, int b){
 	vec[b]		= temp;
 }
 
-
-
 // ==================================================================================
 
-/** 1.
+/** 1. Comb Sort
  * @brief Applies the comb sort algorithm with a shrink factor of 1.3
  * 
  * @param vector<int>&
@@ -149,7 +117,7 @@ int combSort(std::vector<int>& list)
     return swaps;
 }
 
-/** 2.
+/** 2. Shell Sort: Marcin Ciura ??
  * @brief Applies the shell sort algorithm to array using h values from the sequence 
  * array and returns the number of swaps or copies . . . however you want to view 
  * the inherent operation.
@@ -162,7 +130,103 @@ int shellSort(std::vector<int>& list, std::vector<int>& sequence)
 {
     int swaps   = 0;
 
-
-
     return swaps;
+}
+
+/** 3. Shell Sort Gap: Hibbard Sequence
+ * @brief Implements the Hibbard Sequence algorithm and returns an array of the 
+ * sequence, based on size.
+ * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
+ * You will need to create each sequence separately and then interleave them.
+ * 
+ * @param size 
+ * @return std::vector<int> 
+ */
+std::vector<int> hibbard(int size)
+{
+    /*
+    a. h = 1
+    b. (2 ^ h) – 1
+    c. h++
+    */
+
+    std::vector<int> sequence;
+    
+    return sequence;
+}
+
+/** 4. Shell Sort Gap: Sedgwick Sequence
+ * @brief Implements the Sedgwick Sequence algorithm and returns a vector of the 
+ * sequence based on size.
+ * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
+ * You will need to create each sequence separately and then interleave them.
+ * 
+ * @param size 
+ * @return std::vector<int> 
+ */
+std::vector<int> sedgwick(int size)
+{
+    /* Interleave the following two sets
+    a. Set One (1, 19, 109, 505, 2161 . . .):
+        i.   h = 0
+        ii.  9(4 ^ h – 2 ^ h) + 1
+        iii. h++
+    b. Set Two (5, 41, 209, 929, 3905 . . .):
+        i.   h = 0
+        ii.  2 ^ (h + 2)(2 ^ (h + 2) – 3) + 1
+        iii. h++
+    */
+
+    std::vector<int> sequence;
+    
+    return sequence;
+}
+
+/** 5. Shell Sort Gap: The Knuth Sequence
+ * @brief You have been given this function in this weeks repo pull
+ * NOTE: I want you to write logic that creates the sequence . . . not simply copy it.
+ * 
+ * @param size 
+ * @return std::vector<int> 
+ */
+std::vector<int> knuth_sequence(int size){
+    /*
+    h = h * 3 + 1
+    */
+
+	std::vector<int> gap_sequence;
+	int h = 1;
+	while(h <= size / 3){ // 1/3 of the list size
+		gap_sequence.push_back(h);
+		h = h*3 + 1; 	// increase h
+	}
+	return gap_sequence;
+}
+
+// ==================================================================================
+/*
+	apply the bubble sort to a vector
+	maintain invariant of all indices > passnum being sorted
+	Compare a pair of adjacent items (a, b),
+	Swap that pair if the items are out of order (in this case, when a > b),
+	Repeat Step 1 and 2 until we reach the end of array
+	(the last pair is the (N-2)-th and (N-1)-th items as we use 0-based indexing),
+	By now, the largest item will be at the last position.
+	We then reduce N by 1 and repeat Step 1 until we have N = 1.
+
+	Memory	= O(1)
+	
+	Time
+	===============
+	Average	= O(N^2)
+	Best	= O(N) if optimized
+	Worst	= O(N^2)
+*/
+void bubbleSort(std::vector<int>& avector) { // O(n ^ 2)
+	// iterate N, N-1, N-2, N-3 . . . etc times
+	for (int pass = avector.size()-1; pass > 0; pass -= 1)
+		for (int i = 0; i < pass; i++)
+			if (avector[i] > avector[i+1])
+				swap(avector, i, i+1);
+	return;
 }
