@@ -1,5 +1,6 @@
 /************************************************************************************
  * Questions
+ * - how did other people print out the python graphs automatically?
  * - 2. What gaps are we supposed to use? The Marcin Ciura's gap sequence?
  * - for 9 it says it wanst:
  *      a. Gap Sorts: Comb with a shrink factor of 1.3 and Shell sort with the gap 
@@ -26,6 +27,8 @@
  * 
  * Radix Sort: see sheet
  ***********************************************************************************/
+#ifndef SORT_EXPERIMENTS_HPP
+#define SORT_EXPERIMENTS_HPP
 
 #include <iostream>
 #include "stdlib.h"
@@ -61,10 +64,11 @@ void bubbleSort(std::vector<int>& avector);
  */
 int combSort(std::vector<int>& list)
 {
-    int gap     = list.size();
-    int shrink  = 1.3;
-    bool sorted = false;
-    int swaps   = 0;
+	int  size	= list.size();
+    int  gap	= size;
+    int  shrink	= 1.3;
+    bool sorted	= false;
+    int  swaps	= 0;
 
     // Loop
     while (sorted == false)
@@ -75,7 +79,7 @@ int combSort(std::vector<int>& list)
         else         sorted = true; // If there are no swaps in this pass, we are done
 
         // A single 'comb' over the list
-        for (int i = 0; i + gap < list.size(); i++)
+        for (int i = 0; i + gap < size; i++)
         {
             if ( list[i] > list[i+gap] )
             {
@@ -99,7 +103,7 @@ int combSort(std::vector<int>& list)
  */
 int shellSort(std::vector<int>& list, std::vector<int>& sequence)
 {
-    int swaps   = 0;
+    int swaps = 0;
 
     return swaps;
 }
@@ -175,7 +179,7 @@ std::vector<int> knuth_sequence(int size){
 }
 
 // ==================================================================================
-/*
+/* bubble sort
 	apply the bubble sort to a vector
 	maintain invariant of all indices > passnum being sorted
 	Compare a pair of adjacent items (a, b),
@@ -202,10 +206,9 @@ void bubbleSort(std::vector<int>& avector) { // O(n ^ 2)
 	return;
 }
 // generates a random vector of size "size" with type "type"
-// type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially sorted
 std::vector<int> generate_vector(int size, char type){
 	std::vector<int> temp(size);
-	
+	// type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially sorted
 	switch (type){
 		case 'a': // ascending
 			for(int i = 0; i < size; i++)
@@ -236,7 +239,10 @@ void print_vector(std::vector<int>& vec){
 }
 // helper function to swap two vector elements
 void swap(std::vector<int>& vec, int a, int b){
+
 	int temp	= vec[a];
 	vec[a]		= vec[b];
 	vec[b]		= temp;
 }
+
+# endif

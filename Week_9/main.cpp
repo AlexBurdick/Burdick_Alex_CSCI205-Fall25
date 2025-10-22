@@ -55,7 +55,7 @@ Shell Sort
 #include <iostream>
 #include "stdlib.h"
 #include <vector>
-#include "sort_experiments.cpp"
+#include "sort_experiments.hpp"
 
 using namespace std;
 
@@ -106,6 +106,7 @@ int main() {
   		b. Bubbly Sorts: Comb (1.3) and Regular Bubble
 	*/
 
+	//system("python grapher.py");
 	return 0;
 }
 
