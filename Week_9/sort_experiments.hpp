@@ -1,12 +1,12 @@
 /************************************************************************************
  * Questions
- * - how did other people print out the python graphs automatically?
- * - 2. What gaps are we supposed to use? The Marcin Ciura's gap sequence?
- * - for 9 it says it wanst:
- *      a. Gap Sorts: Comb with a shrink factor of 1.3 and Shell sort with the gap 
-  		   sequences listed above.
-  		b. Bubbly Sorts: Comb (1.3) and Regular Bubble
-        This mentions comb sort twice, are we doing two different comparisons?
+ * -how did other people print out the python graphs automatically?
+ * 1. How do we shrink by 1.3? It just ends up being 1.
+ * 2. What gaps are we supposed to use? The Marcin Ciura's gap sequence?
+ * 9. it says it wanst:
+ * 	a. Gap Sorts: Comb with a shrink factor of 1.3 and Shell sort with the gap sequences listed above.
+ * 	b. Bubbly Sorts: Comb (1.3) and Regular Bubble
+ * 		This mentions comb sort twice, are we doing two different comparisons?
 
  * - What's the deal with these below?
  * Non-Comparison Sorts: The following sorting algorithms sort without comparing 
