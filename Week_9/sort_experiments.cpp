@@ -33,6 +33,7 @@
 
 // Function prototypes
 std::vector<int> generate_vector(int size, char type);
+void print_vector(std::vector<int>&);
 void swap(std::vector<int>&, int, int);
 
 // Sort algorithms
@@ -42,43 +43,13 @@ std::vector<int> hibbard(int size);
 std::vector<int> sedgwick(int size);
 std::vector<int> knuth_sequence(int);
 
+// Non-Comparison Sorts
+void histogram(std::vector<int>&);
+void prefixSum(std::vector<int>&);
+void radixSort(std::vector<int>&);
+
 // Basic Comparison Sorts
 void bubbleSort(std::vector<int>& avector);
-
-// generates a random vector of size "size" with type "type"
-// type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially sorted
-std::vector<int> generate_vector(int size, char type){
-	std::vector<int> temp(size);
-	
-	switch (type){
-		case 'a': // ascending
-			for(int i = 0; i < size; i++)
-				temp[i] = i + 1;
-			break;
-		case 'd': // descending
-			for(int i = 0; i < size; i++)
-				temp[i] = size - i;
-			break;
-		case 'r': // random
-			for(int i = 0; i < size; i++)
-				temp[i] = rand() % 100;
-			break;
-		case 'p': // partially sorted
-			for(int i = 0; i < size; i++)
-				temp[i] = i + 1;
-			// swap every 5th item
-			for (size_t i = 4; i < temp.size(); i += 5) 
-				std::swap(temp[i], temp[i - 4]);
-	}
-	return temp;
-}
-
-// helper function to swap two vector elements
-void swap(std::vector<int>& vec, int a, int b){
-	int temp	= vec[a];
-	vec[a]		= vec[b];
-	vec[b]		= temp;
-}
 
 // ==================================================================================
 
@@ -229,4 +200,43 @@ void bubbleSort(std::vector<int>& avector) { // O(n ^ 2)
 			if (avector[i] > avector[i+1])
 				swap(avector, i, i+1);
 	return;
+}
+// generates a random vector of size "size" with type "type"
+// type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially sorted
+std::vector<int> generate_vector(int size, char type){
+	std::vector<int> temp(size);
+	
+	switch (type){
+		case 'a': // ascending
+			for(int i = 0; i < size; i++)
+				temp[i] = i + 1;
+			break;
+		case 'd': // descending
+			for(int i = 0; i < size; i++)
+				temp[i] = size - i;
+			break;
+		case 'r': // random
+			for(int i = 0; i < size; i++)
+				temp[i] = rand() % 100;
+			break;
+		case 'p': // partially sorted
+			for(int i = 0; i < size; i++)
+				temp[i] = i + 1;
+			// swap every 5th item
+			for (size_t i = 4; i < temp.size(); i += 5) 
+				std::swap(temp[i], temp[i - 4]);
+	}
+	return temp;
+}
+// nicely formatted print function
+void print_vector(std::vector<int>& vec){
+	for (unsigned int i = 0; i < vec.size(); i++)
+		std::cout<< vec[i] << " ";
+	std::cout << std::endl;
+}
+// helper function to swap two vector elements
+void swap(std::vector<int>& vec, int a, int b){
+	int temp	= vec[a];
+	vec[a]		= vec[b];
+	vec[b]		= temp;
 }

@@ -59,10 +59,6 @@ Shell Sort
 
 using namespace std;
 
-// Function Prototypes
-vector<int> generate_vector(int size, char type);
-void print_vector(vector<int>&);
-
 int main() {
 	const int SIZE = 50;
 
