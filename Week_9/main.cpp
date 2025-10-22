@@ -65,7 +65,7 @@ int main() {
 	cout << "\nCOMB SORT\n";
 	vector<int> avector = generate_vector(SIZE, 'r');
 	print_vector(avector);
-	combSort(avector);
+	//combSort(avector);
 	print_vector(avector);
 
 	cout << "\nSHELL SORT\n";

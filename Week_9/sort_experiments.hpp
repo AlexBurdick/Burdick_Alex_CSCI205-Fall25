@@ -1,13 +1,8 @@
 /************************************************************************************
  * Questions
- * -how did other people print out the python graphs automatically?
- * 1. How do we shrink by 1.3? It just ends up being 1.
- * 2. What gaps are we supposed to use? The Marcin Ciura's gap sequence?
- * 9. it says it wanst:
- * 	a. Gap Sorts: Comb with a shrink factor of 1.3 and Shell sort with the gap sequences listed above.
- * 	b. Bubbly Sorts: Comb (1.3) and Regular Bubble
- * 		This mentions comb sort twice, are we doing two different comparisons?
-
+ * Put graphs into .pdf and submit with lab. best way to compare a sort would be do
+ * a graph that show num of comparison, num of swaps, also look at selection sort
+ * 
  * - What's the deal with these below?
  * Non-Comparison Sorts: The following sorting algorithms sort without comparing 
  * items. Implement the following algorithms, demonstrate that they work and plot 
@@ -21,11 +16,12 @@
  *    k is the key length(width). K = logbase(longest number). Count the relevant 
  *    operations and see if your algorithm conforms.
  * 
- * Histogram: see sheet
- * 
+ * Histogram:  see sheet
  * Prefix Sum: see sheet
- * 
  * Radix Sort: see sheet
+ * 
+ * Just write these (they give us a way to do benchmarking, e.g. time - what's the 
+ * benefit of a sort that uses comparisons vs one that doesn't)
  ***********************************************************************************/
 #ifndef SORT_EXPERIMENTS_HPP
 #define SORT_EXPERIMENTS_HPP
@@ -70,6 +66,8 @@ int combSort(std::vector<int>& list)
     bool sorted	= false;
     int  swaps	= 0;
 
+	// Do the shrink math no in integers then comvert back to integers
+
     // Loop
     while (sorted == false)
     {
@@ -89,22 +87,6 @@ int combSort(std::vector<int>& list)
             }
         }
     }
-    return swaps;
-}
-
-/** 2. Shell Sort: Marcin Ciura ??
- * @brief Applies the shell sort algorithm to array using h values from the sequence 
- * array and returns the number of swaps or copies . . . however you want to view 
- * the inherent operation.
- * 
- * @param list 
- * @param sequence 
- * @return int 
- */
-int shellSort(std::vector<int>& list, std::vector<int>& sequence)
-{
-    int swaps = 0;
-
     return swaps;
 }
 
