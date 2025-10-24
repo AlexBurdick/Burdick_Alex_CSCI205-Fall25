@@ -11,6 +11,7 @@
 #include <fstream>
 #include "stdlib.h"
 #include <vector>
+#include <cmath>
 #include <filesystem>
 
 using namespace std;
@@ -51,13 +52,14 @@ of swaps, also look at selection sort. Measure number of moves needed to get som
 in place (aka swaps).
 */
 int main() {
-
-	const int SIZE = 50;
+	const int SIZE = 10000;
+	vector<int> avector = generate_vector(SIZE, 'r');
+	vector<int> gaps;
 	const vector<string> SORTS = {	"BUBBLE SORT",
+									"COMB SORT"
 									"SELECTION SORT",
 									"INSERTION SORT",
 									"SHELL SORT WITH N/2 GAP SEQUENCE",
-									"COMB SORT",
 									"SHELL SORT WITH KNUTH GAP SEQUENCE",
 									"SHELL SORT WITH HIBBARD GAP SEQUENCE",
 									"SHELL SORT WITH SEDGWICK GAP SEQUENCE",
@@ -66,100 +68,36 @@ int main() {
 									"RADIX SORT"
 							 	};
 	
-	// Write files for basic sorts
-	// iterate through SORTS using sizeof/sizeof to get the element count (SORTS is a raw array)
-	for (int i = 0; i < SORTS.size(); ++i)
-	{
-		//cout << SORTS[i] << endl;
-
-		cout << "BUBBLE SORT" << endl;
-		vector<int> avector = generate_vector(SIZE, 'r');
-		print_vector(avector);
-		bubbleSort(avector);
-		print_vector(avector);
-
-		cout << endl;
-
-		cout << "SELECTION SORT" << endl;
-		avector = generate_vector(SIZE, 'r');
-		print_vector(avector);
-		selectionSort(avector);
-		print_vector(avector);
-
-		cout << endl;
-
-		cout << "INSERTION SORT" << endl;
-		avector = generate_vector(SIZE, 'r');
-		print_vector(avector);
-		insertionSort(avector);
-		print_vector(avector);
-
-		cout << endl;
-
-		cout << "SHELL SORT WITH N/2 GAP SEQUENCE" << endl;
-		avector = generate_vector(SIZE, 'r');
-		print_vector(avector);
-		shellSort(avector);
-		print_vector(avector);
-
-		cout << endl;
-		
-		cout << "SHELL SORT WITH KNUTH GAP SEQUENCE" << endl;
-		avector = generate_vector(SIZE, 'r');
-		vector<int> gaps = knuth_sequence(avector.size());
-		print_vector(avector);
-		shellSort(avector, gaps);
-		print_vector(avector);
-		
-	}
+/*
+	cout << "SHELL SORT WITH N/2 GAP SEQUENCE" << endl;
+	avector = generate_vector(SIZE, 'r');
+	shellSort(avector);
+	cout << endl;
+*/
 	
-
-	/* ==============================================================================
-	
-	cout << "\nCOMB SORT\n";
-	vector<int> avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	combSort(avector);
-	print_vector(avector);
-
-	cout << "\nSHELL SORT\n";
+	cout << "SHELL SORT WITH KNUTH GAP SEQUENCE" << endl;
 	avector = generate_vector(SIZE, 'r');
-	vector<int> sequence = {701, 301, 132, 57, 23, 10, 4, 1};
-	print_vector(avector);
-	shellSort(avector, sequence);
-	print_vector(avector);
-
-	cout << "\nSHELL SORT WITH HIBBARD GAP SEQUENCE\n";
-	avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	hibbard(avector.size());
-	print_vector(avector);
-
-	cout << "\nSHELL SORT WITH SEDGWICK GAP SEQUENCE:\n";
-	avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	sedgwick(avector.size());
-	print_vector(avector);
-	
-	cout << "\nSHELL SORT WITH KNUTH GAP SEQUENCE\n";
-	avector = generate_vector(SIZE, 'r');
-	vector<int> gaps = knuth_sequence(avector.size());
-	print_vector(avector);
+	gaps = knuth_sequence(avector.size());
+	for (int i = 0; i < gaps.size(); i++) cout << gaps[i] << endl;
+	//print_vector(avector);
 	shellSort(avector, gaps);
-	print_vector(avector);
-	*/
-	// ==============================================================================
-	/* 9.
-	  Once you have gathered all data from your program plot the data using your 
-  	  Python utility. Be sure that you have run the algorithms enough times to create 
-  	  an informative graph depicting how each algorithm/gap sequence responds to the 
-  	  varying input. You may want to create multiple graphs: One for size, one for 
-  	  each type of array. Your graphs must be clearly labeled. Here are the graphs I 
-      want to see
-  		a. Gap Sorts: Comb with a shrink factor of 1.3 and Shell sort with the gap 
-  		   sequences listed above.
-  		b. Bubbly Sorts: Comb (1.3) and Regular Bubble
-	*/
+	//print_vector(avector);
+	
+	cout << "SHELL SORT WITH HIBBARD GAP SEQUENCE" << endl;
+	avector = generate_vector(SIZE, 'r');
+	gaps = hibbard(avector.size());
+	for (int i = 0; i < gaps.size(); i++) cout << gaps[i] << endl;
+	//print_vector(avector);
+	shellSort(avector, gaps);
+	//print_vector(avector);
+	
+	cout << "SHELL SORT WITH SEDGWICK GAP SEQUENCE" << endl;
+	avector = generate_vector(SIZE, 'r');
+	gaps = sedgwick(avector.size());
+	for (int i = 0; i < gaps.size(); i++) cout << gaps[i] << endl;
+	//print_vector(avector);
+	shellSort(avector, gaps);
+	//print_vector(avector);
 
 	//system("python grapher.py");
 
@@ -174,18 +112,16 @@ int main() {
  */
 int combSort(vector<int>& list)
 {
-	int  size	= list.size();
-    int  gap	= size;
-    int  shrink	= 1.3;
-    bool sorted	= false;
-    int  swaps	= 0;
-
-	// TO DO: the shrink math not in integers, then comvert back to integers
+    int	   size 	= list.size();
+	int    gap		= size;
+    double shrink	= 1.3;
+    bool   sorted	= false;
+    int	   swaps	= 0;
 
     // Loop
-    while (sorted == false)
+    while (!sorted)
     {
-        gap /= shrink; // Update the gap value for the next comb
+        gap = static_cast<double>(gap) / shrink; // Update the gap value for the next comb
         
         if (gap > 1) sorted = false; // Never sorted as long as gap > 1
         else         sorted = true; // If there are no swaps in this pass, we are done
@@ -204,55 +140,6 @@ int combSort(vector<int>& list)
     return swaps;
 }
 
-/** 3. Shell Sort Gap: Hibbard Sequence
- * @brief Implements the Hibbard Sequence algorithm and returns an array of the 
- * sequence, based on size.
- * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
- * You will need to create each sequence separately and then interleave them.
- * 
- * @param size 
- * @return vector<int> 
- */
-vector<int> hibbard(int size)
-{
-    /*
-    a. h = 1
-    b. (2 ^ h) – 1
-    c. h++
-    */
-
-    vector<int> sequence;
-    
-    return sequence;
-}
-
-/** 4. Shell Sort Gap: Sedgwick Sequence
- * @brief Implements the Sedgwick Sequence algorithm and returns a vector of the 
- * sequence based on size.
- * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
- * You will need to create each sequence separately and then interleave them.
- * 
- * @param size 
- * @return vector<int> 
- */
-vector<int> sedgwick(int size)
-{
-    /* Interleave the following two sets
-    a. Set One (1, 19, 109, 505, 2161 . . .):
-        i.   h = 0
-        ii.  9(4 ^ h – 2 ^ h) + 1
-        iii. h++
-    b. Set Two (5, 41, 209, 929, 3905 . . .):
-        i.   h = 0
-        ii.  2 ^ (h + 2)(2 ^ (h + 2) – 3) + 1
-        iii. h++
-    */
-
-    vector<int> sequence;
-    
-    return sequence;
-}
-
 #pragma region basic comparisons
 // From LeChat, 10/22/2025
 void writeToFile(const vector<int>& data, const string& filename) {
@@ -267,7 +154,6 @@ void writeToFile(const vector<int>& data, const string& filename) {
     }
     outFile.close();
 }
-
 
 // nicely formatted print function
 void print_vector(vector<int>& vec){
@@ -422,9 +308,77 @@ vector<int> knuth_sequence(int size){
 	int h = 1;
 	while(h <= size / 3){ // 1/3 of the list size
 		gap_sequence.push_back(h);
-		h = h*3 + 1; 	// increase h
+		h = h*3 + 1; // increase h
 	}
 	return gap_sequence;
+}
+
+/** 3. Shell Sort Gap: Hibbard Sequence
+ * @brief Implements the Hibbard Sequence algorithm and returns an array of the 
+ * sequence, based on size.
+ * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
+ * You will need to create each sequence separately and then interleave them.
+ * 
+ * @param size 
+ * @return vector<int> 
+ */
+vector<int> hibbard(int size)
+{
+	vector<int> gap_sequence; // vector to hold sequence of ints
+	int h = 1;
+	int gap = pow(2, h) - 1;
+	while( gap <= size ){ // not greater than size
+		gap_sequence.push_back(gap);
+		h++;
+		gap = pow(2, h) - 1;
+	}
+    
+    return gap_sequence;
+}
+
+/** 4. Shell Sort Gap: Sedgwick Sequence
+ * @brief Implements the Sedgwick Sequence algorithm and returns a vector of the 
+ * sequence based on size.
+ * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
+ * You will need to create each sequence separately and then interleave them.
+ * 
+ * @param size 
+ * @return vector<int> 
+ */
+vector<int> sedgwick(int size)
+{
+	// First sequence
+    vector<int> gap_sequence1; // vector to hold sequence of ints
+	int h = 0;
+	int gap = 9 * ( pow(4, h) - pow(2, h) ) + 1;
+	while( gap <= size ){ // not greater than size
+		gap_sequence1.push_back(gap);
+		h++;
+		gap = 9 * ( pow(4, h) - pow(2, h) ) + 1;
+	}
+	
+	// Second sequence
+	vector<int> gap_sequence2; // vector to hold sequence of ints
+	h = 0;
+	gap = pow(2, h+2) * (pow(2, h+2) - 3) + 1;
+	while( gap <= size ){ // not greater than size
+		gap_sequence2.push_back(gap);
+		h++;
+		gap = pow(2, h+2) * (pow(2, h+2) - 3) + 1;
+	}
+
+	// Combinded sequence
+    vector<int> inverleave_sequence;
+	size_t maxSize = max(gap_sequence1.size(), gap_sequence2.size());
+	for (size_t i = 0; i < maxSize; i++) {
+		if (i < gap_sequence1.size()) {
+            inverleave_sequence.push_back(gap_sequence1[i]);
+        }
+        if (i < gap_sequence2.size()) {
+            inverleave_sequence.push_back(gap_sequence2[i]);
+        }
+	}
+    return inverleave_sequence;
 }
 
 // generates a random vector of size "size" with type "type"
