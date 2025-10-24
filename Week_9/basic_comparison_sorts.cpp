@@ -32,7 +32,7 @@ int prefixSum(vector<int>&);
 int radixSort(vector<int>&);
 */
 int main() {
-	const size_t SIZE = 5000;
+	const size_t SIZE = 50000;
 	vector<SortAlgorithm> SORTS = {
 		{"BUBBLE_SORT", bubbleSort},
 		{"COMB_SORT", combSort},
