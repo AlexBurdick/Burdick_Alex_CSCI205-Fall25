@@ -9,19 +9,19 @@
 
 struct SortAlgorithm {
     std::string name;
-    std::function<void(std::vector<int>&)> func;
+    std::function<int(std::vector<int>&)> func;
     //std::function<void(std::vector<int>&, std::vector<int>&)> func;
 
     // Write to file (from LeChat, 10/22/2025)
-    void writeToFile(const std::vector<int>& data, const std::string& filename) {
+    void writeToFile(const std::vector<std::vector<int>>& data, const std::string& filename) {
         std::ofstream outFile(filename);
         if (!outFile.is_open()) {
             std::cerr << "Error: Could not open file " << filename << std::endl;
             return;
         }
 
-        for (int num : data) {
-            outFile << num << " " << std::endl;
+        for (std::vector<int> nums : data) {
+            outFile << nums[0] << " " << nums[1] << std::endl;
         }
         outFile.close();
     }
@@ -36,16 +36,19 @@ void swap(std::vector<int>& vec, int a, int b){
 }
 
 // modified insertion sort helper to work with gaps for the shell sort
-void gapInsertionSort(std::vector<int>& avector, int start, int gap) {
+int gapInsertionSort(std::vector<int>& avector, int start, int gap) {
+    int swaps = 0;
     for (unsigned int i = start + gap; i < avector.size(); i += gap) {
         int current		= avector[i];					// remember current item
         int pos			= i;							// need current position to move towards front
         while (pos >= gap && avector[pos - gap] > current) { // while not at front and current item is less than previous
             avector[pos] = avector[pos - gap];			// shift by "gap" spots
+            swaps++;
             pos		 	-= gap;							// decrease position by "gap"
         }
         avector[pos] = current;							// place current item in opened spot
     }
+    return swaps;
 }
 
 #pragma region basic comparisons
@@ -67,13 +70,16 @@ void gapInsertionSort(std::vector<int>& avector, int start, int gap) {
 	Best	= O(N) if optimized
 	Worst	= O(N^2)
 */
-void bubbleSort(std::vector<int>& avector) { // O(n ^ 2)
-	// iterate N, N-1, N-2, N-3 . . . etc times
+int bubbleSort(std::vector<int>& avector) { // O(n ^ 2)
+	int swaps = 0;
+    // iterate N, N-1, N-2, N-3 . . . etc times
 	for (int pass = avector.size()-1; pass > 0; pass -= 1)
 		for (int i = 0; i < pass; i++)
-			if (avector[i] > avector[i+1])
-				swap(avector, i, i+1);
-	return;
+			if (avector[i] > avector[i+1]){
+                swap(avector, i, i+1);
+                swaps++;
+            }
+	return swaps;
 }
 
 /** 1. Comb Sort
@@ -129,8 +135,9 @@ int combSort(std::vector<int>& list)
 	Best	= O(N^2)
 	Worst	= O(N^2)
 */
-void selectionSort(std::vector<int>& avector) {
-	// iterate N, N-1, N-2, N-3 . . . etc times
+int selectionSort(std::vector<int>& avector) {
+	int swaps = 0;
+    // iterate N, N-1, N-2, N-3 . . . etc times
 	for (int fillslot = avector.size() - 1; fillslot >= 0; fillslot--) {
 		int positionOfMax = 0;
 		for (int location = 1; location < fillslot + 1; location++){
@@ -138,7 +145,9 @@ void selectionSort(std::vector<int>& avector) {
 				positionOfMax = location;
 		}
 		swap(avector, fillslot, positionOfMax);
+        swaps++;
 	}
+    return swaps;
 }
 
 /*
@@ -154,39 +163,44 @@ void selectionSort(std::vector<int>& avector) {
 	Best	= O(N)
 	Worst	= O(N^2)
 */
-void insertionSort(std::vector<int>& avector) {
-	for (unsigned int index =1; index<avector.size(); index++) {
+int insertionSort(std::vector<int>& avector) {
+	int swaps = 0;
+    for (unsigned int index =1; index<avector.size(); index++) {
 		int current		 	= avector[index];			// remember current item
 		unsigned int pos 	= index;					// need current position to move towards front
 		while (pos>0 && avector[pos-1]>current) {		// while not at front and current item is less than previous
 			avector[pos] = avector[pos-1];				// shift by 1 spot
+            swaps++;
 			pos--; 										// keep moving towards front of vector
 		}
 		avector[pos] = current;							// place current item in opened spot
 	}
+    return swaps;
 }
 
 // function shellsorts through the vector, using the gapInsertionSort helper
-void shellSort(std::vector<int>& avector) {
+int shellSort(std::vector<int>& avector) {
 	int subvectorcount = avector.size() / 2; // first gap will be (size / 2)
+    int swaps = 0;
 
 	while (subvectorcount > 0) {
 		for (int start = 0; start < subvectorcount; start++) 
 			// apply gapped insertion sort with a gap of 'subvectorcount'
-			gapInsertionSort(avector, start, subvectorcount);
+			swaps = swaps + gapInsertionSort(avector, start, subvectorcount);
 
 		// just to see state of vector after each gap sort 
-		std::cout << "After increments of size " << subvectorcount << " The vector is: " << std::endl;
+		//std::cout << "After increments of size " << subvectorcount << " The vector is: " << std::endl;
 		//print_vector(avector);
 		subvectorcount /= 2; // subsequent gaps (size/4), (size/8) . . . etc
 	}
+    return swaps;
 }
 #pragma endregion
 
-#pragma region Shell gap sorts
+#pragma region Shell sorts
 // apply the shell sort to a vector
 // maintain invariant of all indices > passnum being sorted
-int shellSort(std::vector<int>& avector, std::vector<int>& sequence){
+int gap_shellSort(std::vector<int>& avector, std::vector<int>& sequence){
 	int swaps = 0;
 	// iterate through the gap sequence vector. Assumption is larger gaps at end of vector
 	for(int i = static_cast<int>(sequence.size()) - 1; i >= 0; --i){
@@ -210,14 +224,14 @@ int shellSort(std::vector<int>& avector, std::vector<int>& sequence){
 }
 
 // creates the Knuth sequence based on "size". Will stop at 1/3 of size
-std::vector<int> knuth_sequence(int size){
+int knuth_shellSort(std::vector<int>& avector){
 	std::vector<int> gap_sequence;
 	int h = 1;
-	while(h <= size / 3){ // 1/3 of the list size
+	while(h <= avector.size() / 3) { // make sure that there will be a few comaprisons
 		gap_sequence.push_back(h);
-		h = h*3 + 1; // increase h
+		h = h*3 + 1;
 	}
-	return gap_sequence;
+	return gap_shellSort(avector, gap_sequence);
 }
 
 /** 3. Shell Sort Gap: Hibbard Sequence
@@ -226,21 +240,21 @@ std::vector<int> knuth_sequence(int size){
  * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
  * You will need to create each sequence separately and then interleave them.
  * 
- * @param size 
- * @return vector<int> 
+ * @param vector<int>& 
+ * @return int number of swaps made
  */
-std::vector<int> hibbard(int size)
+int hibbard_shellSort(std::vector<int>& avector)
 {
 	std::vector<int> gap_sequence; // vector to hold sequence of ints
 	int h = 1;
 	int gap = pow(2, h) - 1;
-	while( gap <= size ){ // not greater than size
+	while( gap <= avector.size() / 3 ){ // not greater than size
 		gap_sequence.push_back(gap);
 		h++;
 		gap = pow(2, h) - 1;
 	}
     
-    return gap_sequence;
+	return gap_shellSort(avector, gap_sequence);
 }
 
 /** 4. Shell Sort Gap: Sedgwick Sequence
@@ -249,43 +263,44 @@ std::vector<int> hibbard(int size)
  * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
  * You will need to create each sequence separately and then interleave them.
  * 
- * @param size 
- * @return vector<int> 
+ * @param vector<int>& 
+ * @return int number of swaps made
  */
-std::vector<int> sedgwick(int size)
+int sedgwick_shellSort(std::vector<int>& avector)
 {
 	// First sequence
-    std::vector<int> gap_sequence1; // vector to hold sequence of ints
+    std::vector<int> seq1; // vector to hold sequence of ints
 	int h = 0;
 	int gap = 9 * ( pow(4, h) - pow(2, h) ) + 1;
-	while( gap <= size ){ // not greater than size
-		gap_sequence1.push_back(gap);
+
+	while( gap <= avector.size() / 3 )
+    {
+		seq1.push_back(gap);
 		h++;
 		gap = 9 * ( pow(4, h) - pow(2, h) ) + 1;
 	}
 	
 	// Second sequence
-	std::vector<int> gap_sequence2; // vector to hold sequence of ints
+	std::vector<int> seq2; // vector to hold sequence of ints
 	h = 0;
 	gap = pow(2, h+2) * (pow(2, h+2) - 3) + 1;
-	while( gap <= size ){ // not greater than size
-		gap_sequence2.push_back(gap);
+	while( gap <= avector.size() / 3 )
+    {
+		seq2.push_back(gap);
 		h++;
 		gap = pow(2, h+2) * (pow(2, h+2) - 3) + 1;
 	}
 
 	// Combinded sequence
-    std::vector<int> inverleave_sequence;
-	size_t maxSize = std::max(gap_sequence1.size(), gap_sequence2.size());
-	for (size_t i = 0; i < maxSize; i++) {
-		if (i < gap_sequence1.size()) {
-            inverleave_sequence.push_back(gap_sequence1[i]);
-        }
-        if (i < gap_sequence2.size()) {
-            inverleave_sequence.push_back(gap_sequence2[i]);
-        }
+    std::vector<int> gap_sequence;
+	size_t maxSize = std::max(seq1.size(), seq2.size());
+	for (size_t i = 0; i < maxSize; i++)
+    {
+		if (i < seq1.size())  gap_sequence.push_back(seq1[i]);
+        if (i < seq2.size())  gap_sequence.push_back(seq2[i]);
 	}
-    return inverleave_sequence;
+
+    return gap_shellSort(avector, gap_sequence);
 }
 #pragma endregion
 
