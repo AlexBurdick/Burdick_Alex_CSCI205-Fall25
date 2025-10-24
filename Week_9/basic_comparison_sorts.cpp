@@ -32,7 +32,7 @@ int prefixSum(vector<int>&);
 int radixSort(vector<int>&);
 */
 int main() {
-	const size_t SIZE = 50000;
+	const size_t SIZE = 500;
 	vector<SortAlgorithm> SORTS = {
 		{"BUBBLE_SORT", bubbleSort},
 		{"COMB_SORT", combSort},
@@ -54,7 +54,7 @@ int main() {
 		string filename = "data/" + sort.name + ".txt";
 		vector<vector<int>> results;
 
-		for (int i = 1; i <= SIZE; i *= 5) {
+		for (int i = 10; i <= SIZE; i += 10 ) {
 			vector<int> avector = generate_vector(i, 'r');
 			results.push_back( {i, sort.func(avector)} );
 		}
@@ -62,7 +62,7 @@ int main() {
 		sort.writeToFile(results, filename);
 	}
 
-	//system("python grapher.py");
+	system("python grapher.py");
 
 	return 0;
 }
