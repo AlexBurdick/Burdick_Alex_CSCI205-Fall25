@@ -29,7 +29,7 @@ void gapInsertionSort(vector<int>&, int, int);
 void shellSort(vector<int>&);
 
 // Shell Sort that accepts a Gap Sequence
-void shellSort(vector<int>&, vector<int>&);
+int shellSort(vector<int>&, vector<int>&);
 vector<int> knuth_sequence(int);
 
 // Lab Sorts
@@ -39,9 +39,9 @@ vector<int> sedgwick(int size);
 vector<int> knuth_sequence(int);
 
 // Non-Comparison Sorts
-void histogram(vector<int>&);
-void prefixSum(vector<int>&);
-void radixSort(vector<int>&);
+int histogram(vector<int>&);
+int prefixSum(vector<int>&);
+int radixSort(vector<int>&);
 #pragma endregion
 
 /* 8.
@@ -52,7 +52,7 @@ of swaps, also look at selection sort. Measure number of moves needed to get som
 in place (aka swaps).
 */
 int main() {
-	const int SIZE = 10000;
+	const int SIZE = 50;
 	vector<int> avector = generate_vector(SIZE, 'r');
 	vector<int> gaps;
 	const vector<string> SORTS = {	"BUBBLE SORT",
@@ -67,40 +67,36 @@ int main() {
 									"PREFIX SUM",
 									"RADIX SORT"
 							 	};
-	
-/*
-	cout << "SHELL SORT WITH N/2 GAP SEQUENCE" << endl;
-	avector = generate_vector(SIZE, 'r');
-	shellSort(avector);
-	cout << endl;
-*/
+
+	vector<int> testVector = {45, 78, 23, 91, 12, 67, 45, 88, 34, 56, 78, 9, 67, 41, 
+		23, 89, 56, 15, 72, 34, 91, 8, 45, 63, 29, 88, 51, 12, 74, 67, 38, 91, 56, 
+		82, 23, 47, 91, 65, 12, 78, 34, 19, 88, 56, 73, 45, 27, 91, 62, 38};
 	
 	cout << "SHELL SORT WITH KNUTH GAP SEQUENCE" << endl;
 	avector = generate_vector(SIZE, 'r');
 	gaps = knuth_sequence(avector.size());
-	for (int i = 0; i < gaps.size(); i++) cout << gaps[i] << endl;
-	//print_vector(avector);
-	shellSort(avector, gaps);
-	//print_vector(avector);
-	
+	cout << shellSort(avector, gaps) << endl;
+/*
 	cout << "SHELL SORT WITH HIBBARD GAP SEQUENCE" << endl;
 	avector = generate_vector(SIZE, 'r');
 	gaps = hibbard(avector.size());
-	for (int i = 0; i < gaps.size(); i++) cout << gaps[i] << endl;
-	//print_vector(avector);
+	print_vector(avector);
 	shellSort(avector, gaps);
-	//print_vector(avector);
+	print_vector(avector);
 	
 	cout << "SHELL SORT WITH SEDGWICK GAP SEQUENCE" << endl;
 	avector = generate_vector(SIZE, 'r');
 	gaps = sedgwick(avector.size());
-	for (int i = 0; i < gaps.size(); i++) cout << gaps[i] << endl;
-	//print_vector(avector);
+	print_vector(avector);
 	shellSort(avector, gaps);
-	//print_vector(avector);
-
+	print_vector(avector);
+*/
+/*
+	cout << "COMB SORT" << endl;
+	avector = generate_vector(SIZE, 'r');
+	cout << combSort(avector);
 	//system("python grapher.py");
-
+*/
 	return 0;
 }
 
@@ -150,7 +146,7 @@ void writeToFile(const vector<int>& data, const string& filename) {
     }
 
     for (int num : data) {
-        outFile << num << " ";
+        outFile << num << " " << endl;
     }
     outFile.close();
 }
@@ -282,24 +278,27 @@ void shellSort(vector<int>& avector) {
 
 // apply the shell sort to a vector
 // maintain invariant of all indices > passnum being sorted
-void shellSort(vector<int>& avector, vector<int>& sequence){
+int shellSort(vector<int>& avector, vector<int>& sequence){
+	int swaps = 0;
 	// iterate through the gap sequence vector. Assumption is larger gaps at end of vector
 	for(int i = static_cast<int>(sequence.size()) - 1; i >= 0; --i){
 		int gap = sequence[i]; // choose the current gap from the provided sequence
 
 		// begin loop at "gap", look at all items that are "gap" idices apart
-		for(int outer = gap; static_cast<int>(outer<avector.size()); outer++){
+		for(int outer = gap; static_cast<int>(outer < avector.size()); outer++){
 			int temp  = avector[outer]; // choose item at "gap" location
 			int inner = outer;			// begin inner loop at "gap" location
 
 			// apply the "gap sort" moving toward the front of the vector
-			while(inner > gap-1 && avector[inner-gap] >= temp){
-				avector[inner]	= avector[inner-gap];	// perform "gap level" shifts
-				inner 			-= gap;					// decrease gap
+			while(inner > gap-1 && avector[inner-gap] > temp){
+				avector[inner] = avector[inner-gap]; // perform "gap level" shifts
+				swaps ++;
+				inner -= gap; // decrease gap
 			}
-			avector[inner] = temp;						// place item in the sorted sub-vector
+			avector[inner] = temp; // place item in the sorted sub-vector
 		 }
 	}
+	return swaps;
 }
 
 // creates the Knuth sequence based on "size". Will stop at 1/3 of size
