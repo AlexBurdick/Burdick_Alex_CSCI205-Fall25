@@ -304,4 +304,49 @@ int sedgwick_shellSort(std::vector<int>& avector)
 }
 #pragma endregion
 
+#pragma region Counting sorts
+// Prefix-sum
+void prefixSum(std::vector<int>& avector) {
+    for (size_t i = 0; i < avector.size()-1; i++)
+        avector[i+1] += avector[i];
+}
+
+// Counting sort
+int countingSort(std::vector<int>& avector) {
+    int swaps = 0;
+
+    // Find the largest number in the array to be sorted
+    int maxInt = avector[0]; // Assume first element is the max
+    for (int num : avector)
+        if (num > maxInt)  maxInt = num;
+
+    // Place elements in histogram buckets
+    std::vector<int> histogram(maxInt + 1);
+    for (int element : avector) {
+        histogram[element]++;
+        swaps++;
+    }
+    
+    // Prefix sum
+    prefixSum(avector);
+
+    // Temporary array to store sorted elements
+    std::vector<int> sortedArr(avector.size());
+
+    // Sort
+    for (size_t i = avector.size()-1; i = 0; i--) {
+        sortedArr[histogram[avector[i]]] = avector[i];
+        histogram[avector[i]]--;
+        swaps++;
+    }
+
+    // Reset old array to sorted array
+    avector = sortedArr;
+    return swaps;
+}
+
+// Radix sort
+
+#pragma endregion
+
 # endif
