@@ -19,6 +19,7 @@ using namespace std;
 
 vector<int> generate_vector(int size, char type);
 void print_vector(vector<int>& vec);
+void sort_test();
 
 /* 8.
 Main should: Run each of the algorithms with various sizes of the array and different 
@@ -26,13 +27,11 @@ types of arrays (random, inverse, partial sort). Put graphs into .pdf and submit
 lab. best way to compare a sort would be do a graph that show num of comparison, num 
 of swaps, also look at selection sort. Measure number of moves needed to get something 
 in place (aka swaps).
-// Non-Comparison Sorts
-int histogram(vector<int>&);
-int prefixSum(vector<int>&);
-int radixSort(vector<int>&);
 */
 int main() {
-	const size_t SIZE = 5;
+	const size_t SIZE = 10000;
+
+	// Vector of structs to create iterable functions
 	vector<SortAlgorithm> SORTS = {
 		{"BUBBLE_SORT", bubbleSort},
 		{"COMB_SORT", combSort},
@@ -41,32 +40,32 @@ int main() {
 		{"SHELL_SORT_N2", shellSort},
 		{"SHELL_SORT_KNUTH", knuth_shellSort},
 		{"SHELL_SORT_HIBBARD", hibbard_shellSort},
-		{"SHELL_SORT_SEDGWICK", sedgwick_shellSort}
-
-		// TO DO:
-		// "HISTOGRAM", 
-		// "PREFIX_SUM", 
-		// "RADIX_SORT",
+		{"SHELL_SORT_SEDGWICK", sedgwick_shellSort},
+		{"COUNTING_SORT", countingSort},
+		{"RADIX_SORT", radixSort}
 	};
 
-	vector<int> avector = generate_vector(SIZE, 'r');
-	print_vector(avector);
-	cout << countingSort(avector) << endl;
-	print_vector(avector);
-/*
-	// Test for different array sizes
-	for (auto& sort : SORTS) {
-		string filename = "data/" + sort.name + ".txt";
-		vector<vector<int>> results;
+	// Vector of testing vector types
+	// 'a' = ascending, 'd' = descending, 'r' = random, 'p' = partially sorted
+	vector<char> vtypes = {'a', 'd', 'r', 'p'};
 
-		for (int i = 10; i <= SIZE; i += 10 ) {
-			vector<int> avector = generate_vector(i, 'r');
-			results.push_back( {i, sort.func(avector)} );
+	for (char vtype : vtypes) {
+
+		// Test for different array sizes
+		for (auto& sort : SORTS) {
+			string filename = "data/" + sort.name + "_" + vtype + ".txt";
+			vector<vector<int>> results;
+
+			for (int i = 10; i <= SIZE; i += 100 ) {
+				vector<int> avector = generate_vector(i, 'r');
+				results.push_back( {i, sort.func(avector)} );
+			}
+			sort.writeToFile(results, filename);
 		}
-
-		sort.writeToFile(results, filename);
 	}
-*/
+
+	
+
 	// Launch graph
 	system("python grapher.py");
 
@@ -74,7 +73,7 @@ int main() {
 }
 
 // generates a random vector of size "size" with type "type"
-//  type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially sorted
+// 'a' = ascending, 'd' = descending, 'r' = random, 'p' = partially sorted
 vector<int> generate_vector(int size, char type){
 	vector<int> temp(size);
 	
@@ -106,4 +105,12 @@ void print_vector(vector<int>& vec){
 	for (unsigned int i = 0; i < vec.size(); i++)
 		cout<< vec[i] << " ";
 	cout << endl;
+}
+
+// code to quickly see sort results
+void sort_test() {
+	vector<int> avector = {326, 4, 504, 82, 197};
+	print_vector(avector);
+	cout << radixSort(avector) << endl;
+	print_vector(avector);
 }

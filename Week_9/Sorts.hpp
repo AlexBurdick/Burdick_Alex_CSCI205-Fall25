@@ -10,8 +10,6 @@
 struct SortAlgorithm {
     std::string name;
     std::function<int(std::vector<int>&)> func;
-    //std::function<void(std::vector<int>&, std::vector<int>&)> func;
-
     // Write to file (from LeChat, 10/22/2025)
     void writeToFile(const std::vector<std::vector<int>>& data, const std::string& filename) {
         std::ofstream outFile(filename);
@@ -20,12 +18,11 @@ struct SortAlgorithm {
             return;
         }
 
-        for (std::vector<int> nums : data) {
+        for (std::vector<int> nums : data)
             outFile << nums[0] << " " << nums[1] << std::endl;
-        }
+        
         outFile.close();
     }
-
 };
 
 // helper function to swap two vector elements
@@ -322,7 +319,7 @@ int countingSort(std::vector<int>& avector) {
         if (num > maxInt)  maxInt = num;
 
     // Place elements in histogram buckets
-    std::vector<int> histogram(maxInt + 1);
+    std::vector<int> histogram(maxInt + 1, 0);
     for (int element : avector) {
         histogram[element]++;
         swaps++;
@@ -334,8 +331,8 @@ int countingSort(std::vector<int>& avector) {
     // Temporary array to store sorted elements
     std::vector<int> sorted(avector.size());
 
-    // Sort
-    for (size_t i = avector.size()-1; i >= 0; i--) {
+    // Sort (needs to be int because of decrement)
+    for (int i = static_cast<int>(avector.size()-1); i >= 0; i--) {
         sorted[histogram[avector[i]] - 1] = avector[i];
         histogram[avector[i]]--;
         swaps++;
@@ -346,7 +343,52 @@ int countingSort(std::vector<int>& avector) {
     return swaps;
 }
 
-// Radix sort
+// Counting Sort for a specific digit (exp)
+int countSort(std::vector<int>& arr, int exp) {
+    std::vector<int> output(arr.size());
+    std::vector<int> count(10, 0); // Digits 0-9
+	int swaps = 0;
+
+    // Count occurrences of each digit
+    for (int num : arr) {
+        int digit = (num / exp) % 10;
+        count[digit]++;
+		swaps++;
+    }
+
+    // Compute prefix sum
+    prefixSum(count);
+
+    // Place elements in sorted order
+    for (int i = arr.size() - 1; i >= 0; --i) {
+        int digit = (arr[i] / exp) % 10;
+        output[count[digit] - 1] = arr[i];
+        count[digit]--;
+		swaps++;
+    }
+
+    // Copy the sorted elements back
+    arr = output;
+	return swaps;
+}
+
+// Radix Sort
+int radixSort(std::vector<int>& avector) {
+    if (avector.empty()) return 0;
+	int swaps = 0;
+
+    // Find the largest number in the array to be sorted
+    int maxInt = avector[0];
+    for (int num : avector)
+        if (num > maxInt)  maxInt = num;
+
+    // Sort for every digit
+    for (int exp = 1; maxInt / exp > 0; exp *= 10) {
+        swaps += countSort(avector, exp);
+    }
+
+	return swaps;
+}
 
 #pragma endregion
 
