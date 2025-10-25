@@ -3,6 +3,10 @@
  * Author:		Alex Burdick
  * Date:		10/26/2025
  * 
+ * The main program writes files to a folder called /data in the working directory.
+ * The graphing function creatings .png files to a folder called /graphs in the
+ * working directory.
+ * 
  * g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
  * valgrind --tool=memcheck --leak-check=full ./a.out
  ***********************************************************************************/
@@ -21,52 +25,44 @@ vector<int> generate_vector(int size, char type);
 void print_vector(vector<int>& vec);
 void sort_test();
 
-/* 8.
-Main should: Run each of the algorithms with various sizes of the array and different 
-types of arrays (random, inverse, partial sort). Put graphs into .pdf and submit with 
-lab. best way to compare a sort would be do a graph that show num of comparison, num 
-of swaps, also look at selection sort. Measure number of moves needed to get something 
-in place (aka swaps).
-*/
 int main() {
-	const size_t SIZE = 10000;
+	const int SIZE = 10000;
 
 	// Vector of structs to create iterable functions
 	vector<SortAlgorithm> SORTS = {
-		{"BUBBLE_SORT", bubbleSort},
-		{"COMB_SORT", combSort},
-		{"SELECTION_SORT", selectionSort},
-		{"INSERTION_SORT", insertionSort},
-		{"SHELL_SORT_N2", shellSort},
-		{"SHELL_SORT_KNUTH", knuth_shellSort},
-		{"SHELL_SORT_HIBBARD", hibbard_shellSort},
-		{"SHELL_SORT_SEDGWICK", sedgwick_shellSort},
-		{"COUNTING_SORT", countingSort},
-		{"RADIX_SORT", radixSort}
+		{"BUBBLE SORT", bubbleSort},
+		{"COMB SORT", combSort},
+		{"SELECTION SORT", selectionSort},
+		{"INSERTION SORT", insertionSort},
+		{"SHELL SORT N2", shellSort},
+		{"SHELL SORT KNUTH", knuth_shellSort},
+		{"SHELL_SORT HIBBARD", hibbard_shellSort},
+		{"SHELL SORT SEDGWICK", sedgwick_shellSort},
+		{"COUNTING SORT", countingSort},
+		{"RADIX SORT", radixSort}
 	};
 
 	// Vector of testing vector types
-	// 'a' = ascending, 'd' = descending, 'r' = random, 'p' = partially sorted
+	// 'a' = Ascending, 'd' = descending, 'r' = random, 'p' = partially sorted
 	vector<char> vtypes = {'a', 'd', 'r', 'p'};
 
 	for (char vtype : vtypes) {
-
 		// Test for different array sizes
 		for (auto& sort : SORTS) {
 			string filename = "data/" + sort.name + "_" + vtype + ".txt";
 			vector<vector<int>> results;
 
-			for (int i = 10; i <= SIZE; i += 100 ) {
-				vector<int> avector = generate_vector(i, 'r');
+			for (int i = 10; i <= SIZE; i *= 2 ) {
+				vector<int> avector = generate_vector(i, vtype);
 				results.push_back( {i, sort.func(avector)} );
 			}
+			// Files will be writted to a direcotry called 'data' in the working direcotry
 			sort.writeToFile(results, filename);
 		}
 	}
 
-	
-
-	// Launch graph
+	// Launch graph, which will produce a different graph for each sort
+	// The graphs will be stored in a directory called 'graphs' in the working directory
 	system("python grapher.py");
 
 	return 0;

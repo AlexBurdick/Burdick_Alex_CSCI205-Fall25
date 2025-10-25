@@ -2,6 +2,7 @@
 # define SORTS_HPP
 
 #include <fstream>
+#include <iostream>
 #include "stdlib.h"
 #include <vector>
 #include <cmath>
@@ -35,7 +36,7 @@ void swap(std::vector<int>& vec, int a, int b){
 // modified insertion sort helper to work with gaps for the shell sort
 int gapInsertionSort(std::vector<int>& avector, int start, int gap) {
     int swaps = 0;
-    for (unsigned int i = start + gap; i < avector.size(); i += gap) {
+    for (size_t i = start + gap; i < avector.size(); i += gap) {
         int current		= avector[i];					// remember current item
         int pos			= i;							// need current position to move towards front
         while (pos >= gap && avector[pos - gap] > current) { // while not at front and current item is less than previous
@@ -70,7 +71,7 @@ int gapInsertionSort(std::vector<int>& avector, int start, int gap) {
 int bubbleSort(std::vector<int>& avector) { // O(n ^ 2)
 	int swaps = 0;
     // iterate N, N-1, N-2, N-3 . . . etc times
-	for (int pass = avector.size()-1; pass > 0; pass -= 1)
+	for (int pass = static_cast<int>(avector.size()-1); pass > 0; pass -= 1)
 		for (int i = 0; i < pass; i++)
 			if (avector[i] > avector[i+1]){
                 swap(avector, i, i+1);
@@ -135,7 +136,7 @@ int combSort(std::vector<int>& list)
 int selectionSort(std::vector<int>& avector) {
 	int swaps = 0;
     // iterate N, N-1, N-2, N-3 . . . etc times
-	for (int fillslot = avector.size() - 1; fillslot >= 0; fillslot--) {
+	for (int fillslot = static_cast<int>(avector.size() - 1); fillslot >= 0; fillslot--) {
 		int positionOfMax = 0;
 		for (int location = 1; location < fillslot + 1; location++){
 			if (avector[location] > avector[positionOfMax])
@@ -162,7 +163,7 @@ int selectionSort(std::vector<int>& avector) {
 */
 int insertionSort(std::vector<int>& avector) {
 	int swaps = 0;
-    for (unsigned int index =1; index<avector.size(); index++) {
+    for (size_t index =1; index < avector.size(); index++) {
 		int current		 	= avector[index];			// remember current item
 		unsigned int pos 	= index;					// need current position to move towards front
 		while (pos>0 && avector[pos-1]>current) {		// while not at front and current item is less than previous
@@ -200,11 +201,11 @@ int shellSort(std::vector<int>& avector) {
 int gap_shellSort(std::vector<int>& avector, std::vector<int>& sequence){
 	int swaps = 0;
 	// iterate through the gap sequence vector. Assumption is larger gaps at end of vector
-	for(int i = static_cast<int>(sequence.size()) - 1; i >= 0; --i){
+	for(int i = sequence.size() - 1; i >= 0; --i){
 		int gap = sequence[i]; // choose the current gap from the provided sequence
 
 		// begin loop at "gap", look at all items that are "gap" idices apart
-		for(int outer = gap; static_cast<int>(outer < avector.size()); outer++){
+		for(int outer = gap; outer < static_cast<int>(avector.size()); outer++){
 			int temp  = avector[outer]; // choose item at "gap" location
 			int inner = outer;			// begin inner loop at "gap" location
 
@@ -224,7 +225,7 @@ int gap_shellSort(std::vector<int>& avector, std::vector<int>& sequence){
 int knuth_shellSort(std::vector<int>& avector){
 	std::vector<int> gap_sequence;
 	int h = 1;
-	while(h <= avector.size() / 3) { // make sure that there will be a few comaprisons
+	while(h <= static_cast<int>(avector.size()) / 3) { // make sure that there will be a few comaprisons
 		gap_sequence.push_back(h);
 		h = h*3 + 1;
 	}
@@ -245,7 +246,7 @@ int hibbard_shellSort(std::vector<int>& avector)
 	std::vector<int> gap_sequence; // vector to hold sequence of ints
 	int h = 1;
 	int gap = pow(2, h) - 1;
-	while( gap <= avector.size() / 3 ){ // not greater than size
+	while( gap <= static_cast<int>(avector.size()) / 3 ){ // not greater than size
 		gap_sequence.push_back(gap);
 		h++;
 		gap = pow(2, h) - 1;
@@ -270,7 +271,7 @@ int sedgwick_shellSort(std::vector<int>& avector)
 	int h = 0;
 	int gap = 9 * ( pow(4, h) - pow(2, h) ) + 1;
 
-	while( gap <= avector.size() / 3 )
+	while( gap <= static_cast<int>(avector.size()) / 3 )
     {
 		seq1.push_back(gap);
 		h++;
@@ -281,7 +282,7 @@ int sedgwick_shellSort(std::vector<int>& avector)
 	std::vector<int> seq2; // vector to hold sequence of ints
 	h = 0;
 	gap = pow(2, h+2) * (pow(2, h+2) - 3) + 1;
-	while( gap <= avector.size() / 3 )
+	while( gap <= static_cast<int>(avector.size()) / 3 )
     {
 		seq2.push_back(gap);
 		h++;
@@ -343,7 +344,7 @@ int countingSort(std::vector<int>& avector) {
     return swaps;
 }
 
-// Counting Sort for a specific digit (exp)
+// Counting Sort for a specific digit (exp) (from Claude 10/24/2025)
 int countSort(std::vector<int>& arr, int exp) {
     std::vector<int> output(arr.size());
     std::vector<int> count(10, 0); // Digits 0-9
@@ -360,7 +361,7 @@ int countSort(std::vector<int>& arr, int exp) {
     prefixSum(count);
 
     // Place elements in sorted order
-    for (int i = arr.size() - 1; i >= 0; --i) {
+    for (int i = static_cast<int>(arr.size()) - 1; i >= 0; --i) {
         int digit = (arr[i] / exp) % 10;
         output[count[digit] - 1] = arr[i];
         count[digit]--;
