@@ -8,9 +8,10 @@
 #include <cmath>
 #include <functional>
 
-struct SortAlgorithm {
+struct SortAlg {
     std::string name;
     std::function<int(std::vector<int>&)> func;
+	
     // Write to file (from LeChat, 10/22/2025)
     void writeToFile(const std::vector<std::vector<int>>& data, const std::string& filename) {
         std::ofstream outFile(filename);

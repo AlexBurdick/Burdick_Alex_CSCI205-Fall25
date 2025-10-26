@@ -1,15 +1,13 @@
-/************************************************************************************ 
- * Filename:	basic_comparison_sorts.cpp
- * Author:		Alex Burdick
- * Date:		10/26/2025
+/*********************************************************************
+ * @file  main.cpp
  * 
- * The main program writes files to a folder called /data in the working directory.
- * The graphing function creatings .png files to a folder called /graphs in the
- * working directory.
- * 
- * g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
- * valgrind --tool=memcheck --leak-check=full ./a.out
- ***********************************************************************************/
+ * @brief Implementation of sort algorithm tests. The main program writes 
+ * files to a folder called /data in the working directory. The graphing 
+ * function creatings .png files to a folder called /graphs in the working 
+ * directory.
+ * Author: Alex Burdick
+ * Date:   10/26/2025
+ *********************************************************************/
 
 #include <iostream>
 #include <fstream>
@@ -29,7 +27,7 @@ int main() {
 	const int SIZE = 10000;
 
 	// Vector of structs to create iterable functions
-	vector<SortAlgorithm> SORTS = {
+	vector<SortAlg> SORTS = {
 		{"BUBBLE SORT", bubbleSort},
 		{"COMB SORT", combSort},
 		{"SELECTION SORT", selectionSort},
