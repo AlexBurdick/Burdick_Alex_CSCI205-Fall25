@@ -15,6 +15,7 @@ using namespace std;
 
 // Function prototypes
 void printVector(vector<int> avector);
+vector<int> generate_vector(int size, char type);
 
 /* TO DO:
 1. Quicksort with lazy pivot choice of either right most or left most element
@@ -33,10 +34,39 @@ int main(){
     vector<quickSortTest> tests(1);
 
 	printVector(avector);
-	tests[0].sort(avector, 0, avector.size() - 1);
+	tests[0].quickSort(avector, 0, avector.size() - 1);
 	printVector(avector);
 
 	return 0;
+}
+
+
+// generates a random vector of size "size" with type "type"
+// 'a' = ascending, 'd' = descending, 'r' = random, 'p' = partially sorted
+vector<int> generate_vector(int size, char type){
+	vector<int> temp(size);
+	
+	switch (type){
+		case 'a': // ascending
+			for(int i = 0; i < size; i++)
+				temp[i] = i + 1;
+			break;
+		case 'd': // descending
+			for(int i = 0; i < size; i++)
+				temp[i] = size - i;
+			break;
+		case 'r': // random
+			for(int i = 0; i < size; i++)
+				temp[i] = rand() % 100;
+			break;
+		case 'p': // partially sorted
+			for(int i = 0; i < size; i++)
+				temp[i] = i + 1;
+			// swap every 5th item
+			for (size_t i = 4; i < temp.size(); i += 5) 
+				swap(temp[i], temp[i - 4]);
+	}
+	return temp;
 }
 
 //utility function to print a vector

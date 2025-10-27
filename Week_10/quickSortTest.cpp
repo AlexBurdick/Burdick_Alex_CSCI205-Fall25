@@ -1,18 +1,32 @@
-#ifndef QUICK_SORT_TEST_H
-#define QUICK_SORT_TEST_H
-
 #include "quickSortTest.h"
-#include <vector>
-
-// Constructor implementations
-quickSortTest::quickSortTest() = default;
-quickSortTest::quickSortTest(std::vector<int> &avector) : list(avector) {}
 
 // Destructor
 quickSortTest::~quickSortTest() {}
 
-//recursive function that quicksorts a given vector
-// Big O: time -> O(n log n) where n is the vector size, space -> O(1)
+// Private memeber functions
+// Write to file (from LeChat, 10/22/2025)
+void quickSortTest::writeToFile(const std::vector<std::vector<int>>& data)
+{
+	std::string filename = sortType + ".txt";
+	std::ofstream outFile(filename);
+	if (!outFile.is_open()) {
+		std::cerr << "Error: Could not open file " << filename << std::endl;
+		return;
+	}
+
+	for (std::vector<int> nums : data)
+		outFile << nums[0] << " " << nums[1] << std::endl;
+	
+	outFile.close();
+}
+
+// Helper method to swap two vector elements
+void quickSortTest::swap(int& a, int& b){
+	int temp = a;
+	a = b;
+	b = temp;
+}
+
 int quickSortTest::sort(std::vector<int> &avector, int first, int last) {
 	int splitpoint = 0;	// partition splitpoint index
 
@@ -25,9 +39,3 @@ int quickSortTest::sort(std::vector<int> &avector, int first, int last) {
 
 	return swaps;
 }
-
-std::string quickSortTest::getSortType() const {
-    return sortType;
-}
-
-#endif
