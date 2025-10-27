@@ -30,8 +30,10 @@ int main(){
 	//vector<int> avector(worst_case, worst_case + sizeof(worst_case) / sizeof(worst_case[0]));
 	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
+    vector<quickSortTest> tests(1);
+
 	printVector(avector);
-	quickSort(avector, 0, avector.size() - 1);
+	tests[0].sort(avector, 0, avector.size() - 1);
 	printVector(avector);
 
 	return 0;
