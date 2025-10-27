@@ -27,14 +27,27 @@ struct SortAlg {
     }
 };
 
-// helper function to swap two vector elements
+/**
+ * @brief helper function to swap two vector elements
+ * 
+ * @param vec 
+ * @param a 
+ * @param b 
+ */
 void swap(std::vector<int>& vec, int a, int b){
     int temp	= vec[a];
     vec[a]		= vec[b];
     vec[b]		= temp;
 }
 
-// modified insertion sort helper to work with gaps for the shell sort
+/**
+ * @brief modified insertion sort helper to work with gaps for the shell sort
+ * 
+ * @param avector 
+ * @param start 
+ * @param gap 
+ * @return int 
+ */
 int gapInsertionSort(std::vector<int>& avector, int start, int gap) {
     int swaps = 0;
     for (size_t i = start + gap; i < avector.size(); i += gap) {
@@ -51,25 +64,20 @@ int gapInsertionSort(std::vector<int>& avector, int start, int gap) {
 }
 
 #pragma region basic comparisons
-/*
-	apply the bubble sort to a vector
-	maintain invariant of all indices > passnum being sorted
-	Compare a pair of adjacent items (a, b),
-	Swap that pair if the items are out of order (in this case, when a > b),
-	Repeat Step 1 and 2 until we reach the end of array
-	(the last pair is the (N-2)-th and (N-1)-th items as we use 0-based indexing),
-	By now, the largest item will be at the last position.
-	We then reduce N by 1 and repeat Step 1 until we have N = 1.
 
-	Memory	= O(1)
-	
-	Time
-	===============
-	Average	= O(N^2)
-	Best	= O(N) if optimized
-	Worst	= O(N^2)
-*/
-int bubbleSort(std::vector<int>& avector) { // O(n ^ 2)
+/**
+ * @brief Bubble Sort
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N^2)
+ * Best		= O(N) if optimized
+ * Worst	= O(N^2)
+ * 
+ * @param avector
+ * @return int
+ */
+int bubbleSort(std::vector<int>& avector) {
 	int swaps = 0;
     // iterate N, N-1, N-2, N-3 . . . etc times
 	for (int pass = static_cast<int>(avector.size()-1); pass > 0; pass -= 1)
@@ -81,11 +89,17 @@ int bubbleSort(std::vector<int>& avector) { // O(n ^ 2)
 	return swaps;
 }
 
-/** 1. Comb Sort
- * @brief Applies the comb sort algorithm with a shrink factor of 1.3
+/**
+ * @brief Comb sort algorithm with a shrink factor of 1.3
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N^2)
+ * Best		= O(N) if optimized
+ * Worst	= O(N^2)
  * 
- * @param vector<int>&
- * @return number of swaps
+ * @param avector
+ * @return int
  */
 int combSort(std::vector<int>& list)
 {
@@ -117,23 +131,18 @@ int combSort(std::vector<int>& list)
     return swaps;
 }
 
-/*
-	apply the selection sort to a vector
-	maintain invariant of all indices > fillslot being sorted
-	Given an array of N items and L = 0, Selection Sort will:
-	Find the position X of the largest (or smallest) item in the range of [L...N−1],
-	This takes n-1 comparisons initially, then n-2, n-3 . . . etc
-	Swap X-th item with the L-th item,
-	Decrease the upper-bound L by 1 and repeat Step 1 until L = N-2.
-
-	Memory	= O(1)
-
-	Time
-	===============
-	Average	= O(N^2)
-	Best	= O(N^2)
-	Worst	= O(N^2)
-*/
+/**
+ * @brief Selection sort
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N^2)
+ * Best	= O(N^2)
+ * Worst	= O(N^2)
+ * 
+ * @param avector 
+ * @return int 
+ */
 int selectionSort(std::vector<int>& avector) {
 	int swaps = 0;
     // iterate N, N-1, N-2, N-3 . . . etc times
@@ -149,19 +158,18 @@ int selectionSort(std::vector<int>& avector) {
     return swaps;
 }
 
-/*
-	apply the insertion sort to a vector
-	maintain invariant of all indices < position being sorted
-	From each position, iterate towards 0, finding the insert point
-
-	Memory	= O(1)
-	
-	Time
-	===============
-	Average	= O(N^2)
-	Best	= O(N)
-	Worst	= O(N^2)
-*/
+/**
+ * @brief Insertion sort
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N^2)
+ * Best		= O(N)
+ * Worst	= O(N^2)
+ * 
+ * @param avector 
+ * @return int 
+ */
 int insertionSort(std::vector<int>& avector) {
 	int swaps = 0;
     for (size_t index =1; index < avector.size(); index++) {
@@ -177,7 +185,18 @@ int insertionSort(std::vector<int>& avector) {
     return swaps;
 }
 
-// function shellsorts through the vector, using the gapInsertionSort helper
+/**
+ * @brief Shell sort (N/2) using the gapInsertionSort helper
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N^2)
+ * Best		= O(N)
+ * Worst	= O(N^2)
+ * 
+ * @param avector 
+ * @return int 
+ */
 int shellSort(std::vector<int>& avector) {
 	int subvectorcount = avector.size() / 2; // first gap will be (size / 2)
     int swaps = 0;
@@ -196,9 +215,14 @@ int shellSort(std::vector<int>& avector) {
 }
 #pragma endregion
 
-#pragma region Shell sorts
-// apply the shell sort to a vector
-// maintain invariant of all indices > passnum being sorted
+#pragma region gap sequence Shell sorts
+/**
+ * @brief Shell sort to be used with the sequence functions, which act as helper functions
+ * 
+ * @param avector 
+ * @param sequence 
+ * @return int 
+ */
 int gap_shellSort(std::vector<int>& avector, std::vector<int>& sequence){
 	int swaps = 0;
 	// iterate through the gap sequence vector. Assumption is larger gaps at end of vector
@@ -222,7 +246,18 @@ int gap_shellSort(std::vector<int>& avector, std::vector<int>& sequence){
 	return swaps;
 }
 
-// creates the Knuth sequence based on "size". Will stop at 1/3 of size
+/**
+ * @brief Shell sort (Knuth sequence)
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N^(3/2))
+ * Best		= O(N*logN)
+ * Worst	= O(N^2)
+ * 
+ * @param avector 
+ * @return int 
+ */
 int knuth_shellSort(std::vector<int>& avector){
 	std::vector<int> gap_sequence;
 	int h = 1;
@@ -233,14 +268,17 @@ int knuth_shellSort(std::vector<int>& avector){
 	return gap_shellSort(avector, gap_sequence);
 }
 
-/** 3. Shell Sort Gap: Hibbard Sequence
- * @brief Implements the Hibbard Sequence algorithm and returns an array of the 
- * sequence, based on size.
- * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
- * You will need to create each sequence separately and then interleave them.
+/**
+ * @brief Shell sort (Hibbard sequence)
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N^(3/2))
+ * Best		= O(N*logN)
+ * Worst	= O(N^2)
  * 
- * @param vector<int>& 
- * @return int number of swaps made
+ * @param avector 
+ * @return int 
  */
 int hibbard_shellSort(std::vector<int>& avector)
 {
@@ -256,14 +294,17 @@ int hibbard_shellSort(std::vector<int>& avector)
 	return gap_shellSort(avector, gap_sequence);
 }
 
-/** 4. Shell Sort Gap: Sedgwick Sequence
- * @brief Implements the Sedgwick Sequence algorithm and returns a vector of the 
- * sequence based on size.
- * NOTE: I want you to write logic that creates the sequence . . . not simply copy it. 
- * You will need to create each sequence separately and then interleave them.
+/**
+ * @brief Shell sort (Sedgwick sequence)
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N^(3/2))
+ * Best		= O(N*logN)
+ * Worst	= O(N^(4/3))
  * 
- * @param vector<int>& 
- * @return int number of swaps made
+ * @param avector 
+ * @return int 
  */
 int sedgwick_shellSort(std::vector<int>& avector)
 {
@@ -304,12 +345,28 @@ int sedgwick_shellSort(std::vector<int>& avector)
 #pragma endregion
 
 #pragma region Counting sorts
-// Prefix-sum
+/**
+ * @brief Prefix sum calculator to be used with counting sorts
+ * 
+ * @param histogram 
+ */
 void prefixSum(std::vector<int>& histogram) {
     for (size_t i = 1; i < histogram.size(); i++)
         histogram[i] += histogram[i-1];
 }
 
+/**
+ * @brief Counting sort
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N)
+ * Best		= O(N)
+ * Worst	= O(N)
+ * 
+ * @param avector 
+ * @return int 
+ */
 // Counting sort
 int countingSort(std::vector<int>& avector) {
     if (avector.empty()) return 0; // Validation
@@ -345,7 +402,13 @@ int countingSort(std::vector<int>& avector) {
     return swaps;
 }
 
-// Counting Sort for a specific digit (exp) (from Claude 10/24/2025)
+/**
+ * @brief Auxiliary function for radix sort (from Claude 10/24/2025)
+ * 
+ * @param arr 
+ * @param exp 
+ * @return int 
+ */
 int countSort(std::vector<int>& arr, int exp) {
     std::vector<int> output(arr.size());
     std::vector<int> count(10, 0); // Digits 0-9
@@ -374,7 +437,18 @@ int countSort(std::vector<int>& arr, int exp) {
 	return swaps;
 }
 
-// Radix Sort
+/**
+ * @brief Radix sort
+ * Memory	= O(1)
+ * Time
+ * ===============
+ * Average	= O(N)
+ * Best		= O(N)
+ * Worst	= O(N)
+ * 
+ * @param avector 
+ * @return int 
+ */
 int radixSort(std::vector<int>& avector) {
     if (avector.empty()) return 0;
 	int swaps = 0;
