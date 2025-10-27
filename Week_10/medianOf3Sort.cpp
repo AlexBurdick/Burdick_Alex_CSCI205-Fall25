@@ -1,16 +1,16 @@
 #include "medianOf3Sort.h"
 
-medianOf3Sort::medianOf3Sort(std::vector<int> &avector)
+MedianOf3Sort::MedianOf3Sort(std::vector<int> &avector)
 {
     setSortType("Median_of_3_Sort");
     setList(avector);
 }
 
-medianOf3Sort::~medianOf3Sort(){}
+MedianOf3Sort::~MedianOf3Sort(){}
 
 // function returns the median of three values (left, center, right)
 // Big O: time -> O(1), space -> O(1)
-int medianOf3Sort::medianOf3(std::vector<int> &v, int left, int right)
+int MedianOf3Sort::medianOf3(std::vector<int> &v, int left, int right)
 {
     int center = (left + right) / 2;	// find center
     swap(v[left], v[center]);			// get ready to sort the three
@@ -24,7 +24,7 @@ int medianOf3Sort::medianOf3(std::vector<int> &v, int left, int right)
 
 // function partitions vector around a pivot value
 // Big O: time -> O(n) where n is the sub-vector size, space -> O(1)
-int medianOf3Sort::partition(std::vector<int> &avector, int low, int high)
+int MedianOf3Sort::partition(std::vector<int> &avector, int low, int high)
 {
     // pivot (Element to be placed at right position)
     int pivot = medianOf3(avector, low, high);	// better pivot choice

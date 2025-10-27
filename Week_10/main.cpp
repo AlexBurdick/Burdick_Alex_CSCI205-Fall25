@@ -9,7 +9,9 @@
 
 #include <vector>
 #include <iostream>
-#include "quickSortTest.h"
+#include "QuickSortTest.h"
+#include "LazyPivotSort.h"
+#include "MedianOf3Sort.h"
 
 using namespace std;
 
@@ -31,10 +33,18 @@ int main(){
 	//vector<int> avector(worst_case, worst_case + sizeof(worst_case) / sizeof(worst_case[0]));
 	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
-    vector<quickSortTest> tests(1);
+	// Assemble test vectors
+
+	// Create vector of sort tests
+    vector<QuickSortTest> tests {
+		LazyPivotSort(avector),
+		MedianOf3Sort(avector)
+	};
+
+	LazyPivotSort sorttest = LazyPivotSort(avector);
 
 	printVector(avector);
-	tests[0].quickSort(avector, 0, avector.size() - 1);
+	tests[0].sort(avector, 0, avector.size() - 1);
 	printVector(avector);
 
 	return 0;

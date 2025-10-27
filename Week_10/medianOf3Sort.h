@@ -1,9 +1,9 @@
 #ifndef MEDIAN_OF_3_SORT_H
 #define MEDIAN_OF_3_SORT_H
 
-#include "quickSortTest.h"
+#include "QuickSortTest.h"
 
-class medianOf3Sort : public quickSortTest {
+class MedianOf3Sort : public QuickSortTest {
 private:
     // function returns the median of three values (left, center, right)
     // Big O: time -> O(1), space -> O(1)
@@ -14,8 +14,8 @@ private:
     int partition(std::vector<int>&, int, int) override;
 
 public:
-    medianOf3Sort(std::vector<int>&);
-    ~medianOf3Sort();
+    MedianOf3Sort(std::vector<int>&);
+    ~MedianOf3Sort();
 };
 
 #endif

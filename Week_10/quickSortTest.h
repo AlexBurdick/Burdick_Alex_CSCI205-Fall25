@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-class quickSortTest {
+class QuickSortTest {
 private:
 	std::string sortType {"Quick_Sort"};	// Name of sort (for printing purposes)
 	std::vector<int> list;					// List to be sorted
@@ -27,10 +27,10 @@ protected:
 
 public:
 	// Constructors & Destructors
-	virtual ~quickSortTest();
+	virtual ~QuickSortTest();
 
 	// Member fucntions
-	int sort(std::vector<int>&, int, int);
+	virtual int sort(std::vector<int>&, int, int);
 
 	// Getters
 	std::string getSortType() const { return sortType; }

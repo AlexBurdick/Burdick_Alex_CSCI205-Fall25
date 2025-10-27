@@ -1,11 +1,11 @@
 #include "quickSortTest.h"
 
 // Destructor
-quickSortTest::~quickSortTest() {}
+QuickSortTest::~QuickSortTest() {}
 
 // Private memeber functions
 // Write to file (from LeChat, 10/22/2025)
-void quickSortTest::writeToFile(const std::vector<std::vector<int>>& data)
+void QuickSortTest::writeToFile(const std::vector<std::vector<int>>& data)
 {
 	std::string filename = sortType + ".txt";
 	std::ofstream outFile(filename);
@@ -21,13 +21,14 @@ void quickSortTest::writeToFile(const std::vector<std::vector<int>>& data)
 }
 
 // Helper method to swap two vector elements
-void quickSortTest::swap(int& a, int& b){
+void QuickSortTest::swap(int& a, int& b){
 	int temp = a;
 	a = b;
 	b = temp;
 }
 
-int quickSortTest::sort(std::vector<int> &avector, int first, int last) {
+// Sort that will be overridden in some subclasses
+int QuickSortTest::sort(std::vector<int> &avector, int first, int last) {
 	int splitpoint = 0;	// partition splitpoint index
 
 	if (first<last) {									// if there is more than one element in the vector
