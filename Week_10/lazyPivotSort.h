@@ -5,7 +5,7 @@
 
 class LazyPivotSort : public QuickSortTest {
 private:
-    int partition(std::vector<int>&, int, int) override;
+    int partition(std::vector<int>&, int, int) override; // Hoare partition scheme
 
 public:
     LazyPivotSort(std::vector<int>&);

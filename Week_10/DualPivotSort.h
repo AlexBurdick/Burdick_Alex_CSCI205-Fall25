@@ -1,0 +1,17 @@
+#ifndef DUAL_SORT_H
+#define DUAL_SORT_H
+
+#include "CutoffInsertionSort.h"
+
+class DualPivotSort : public CutoffInsertionSort {
+private:
+    int partition(std::vector<int>&, int, int) override;
+
+public:
+    DualPivotSort(std::vector<int>&);
+    ~DualPivotSort();
+
+	int sort(std::vector<int>&, int, int);
+};
+
+#endif

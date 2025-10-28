@@ -4,16 +4,15 @@
 #include "QuickSortTest.h"
 
 class CutoffInsertionSort : public QuickSortTest {
-private:
+private:        
+    int partition(std::vector<int>& avector, int first, int last) override;
+
+protected:
     // Limit varies from system to system and typically it is between 5 to 27
-    const int limit = 5;
-
+    const int limit = 27;
+    
     int insertionSort(std::vector<int>&);
-
-    // function partitions vector around a pivot value
-    // Big O: time -> O(n) where n is the sub-vector size, space -> O(1)
-    int partition(std::vector<int>&, int, int) override;
-
+    
 public:
     CutoffInsertionSort(std::vector<int>&);
     ~CutoffInsertionSort();

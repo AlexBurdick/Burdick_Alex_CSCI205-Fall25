@@ -8,9 +8,7 @@ LazyPivotSort::LazyPivotSort(std::vector<int> &avector)
 
 LazyPivotSort::~LazyPivotSort(){}
 
-
-// function partitions vector around a pivot value
-// returns the splitpoint index
+// Hoare partition scheme
 // Big O: time -> O(n) where n is the sub-vector size, space -> O(1)
 int LazyPivotSort::partition(std::vector<int> &avector, int first, int last){
     int pivotValue = avector[last];	// grab the pivot (lazy approach: either first, last or middle element)

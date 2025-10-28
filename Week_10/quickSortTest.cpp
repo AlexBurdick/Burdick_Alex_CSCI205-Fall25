@@ -40,3 +40,12 @@ int QuickSortTest::sort(std::vector<int> &avector, int first, int last) {
 
 	return swaps;
 }
+
+// Helper function to call the sort function without parameters
+int QuickSortTest::sort(std::vector<int> &avector)
+{
+    int first = avector[0];
+	int last  = avector[avector.size()-1];
+
+	return sort(avector, first, last);
+}

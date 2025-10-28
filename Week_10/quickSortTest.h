@@ -31,6 +31,7 @@ public:
 
 	// Member fucntions
 	virtual int sort(std::vector<int>&, int, int);
+	int sort(std::vector<int>&);
 
 	// Getters
 	std::string getSortType() const { return sortType; }
