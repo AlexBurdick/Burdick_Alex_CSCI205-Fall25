@@ -12,12 +12,12 @@
 #include "QuickSortTest.h"
 #include "LazyPivotSort.h"
 #include "MedianOf3Sort.h"
+#include "ListGenerator.hpp"
 
 using namespace std;
 
 // Function prototypes
-void printVector(vector<int> avector);
-vector<int> generate_vector(int size, char type);
+void printVector(const std::vector<int>&);
 
 /* TO DO:
 1. Quicksort with lazy pivot choice of either right most or left most element
@@ -34,14 +34,17 @@ int main(){
 	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
 	// Assemble test vectors
+	const size_t SIZE = 10;
+	const vector<char> listTypes {'a', 'd', 'r', 'p'}; // Vector of list types
+	vector<vector<int>> test_vectors;
+	
+
 
 	// Create vector of sort tests
-    vector<QuickSortTest> tests {
+	vector<QuickSortTest> tests {
 		LazyPivotSort(avector),
 		MedianOf3Sort(avector)
 	};
-
-	LazyPivotSort sorttest = LazyPivotSort(avector);
 
 	printVector(avector);
 	tests[0].sort(avector, 0, avector.size() - 1);
@@ -50,38 +53,13 @@ int main(){
 	return 0;
 }
 
-
-// generates a random vector of size "size" with type "type"
-// 'a' = ascending, 'd' = descending, 'r' = random, 'p' = partially sorted
-vector<int> generate_vector(int size, char type){
-	vector<int> temp(size);
-	
-	switch (type){
-		case 'a': // ascending
-			for(int i = 0; i < size; i++)
-				temp[i] = i + 1;
-			break;
-		case 'd': // descending
-			for(int i = 0; i < size; i++)
-				temp[i] = size - i;
-			break;
-		case 'r': // random
-			for(int i = 0; i < size; i++)
-				temp[i] = rand() % 100;
-			break;
-		case 'p': // partially sorted
-			for(int i = 0; i < size; i++)
-				temp[i] = i + 1;
-			// swap every 5th item
-			for (size_t i = 4; i < temp.size(); i += 5) 
-				swap(temp[i], temp[i - 4]);
-	}
-	return temp;
-}
-
-//utility function to print a vector
-void printVector(vector<int> avector){
+/**
+ * @brief Utility function to print a vector
+ * 
+ * @param avector 
+ */
+void printVector(const std::vector<int>& avector){
 	for (unsigned i = 0; i < avector.size(); i++)
-		cout << avector[i] << " ";
-	cout << endl;
+		std::cout << avector[i] << " ";
+	std::cout << std::endl;
 }
