@@ -46,11 +46,7 @@ private:
                     vec[i] = i + 1;
                 // Swap every 5th item
                 for (size_t i = 4; i < vec.size(); i += 5)
-                {
-                    temp     = vec[i];
-                    vec[i]   = vec[i-4];
-                    vec[i-4] = temp;
-                }
+                    swap(vec[i], vec[i-4]);
         }
         return vec;
     }
