@@ -20,13 +20,6 @@ void QuickSortTest::writeToFile(const std::vector<std::vector<int>>& data)
 	outFile.close();
 }
 
-// Helper method to swap two vector elements
-void QuickSortTest::swap(int& a, int& b){
-	int temp = a;
-	a = b;
-	b = temp;
-}
-
 // Sort that will be overridden in some subclasses
 int QuickSortTest::sort(std::vector<int> &avector, int first, int last) {
 	int splitpoint = 0;	// partition splitpoint index
@@ -46,6 +39,5 @@ int QuickSortTest::sort(std::vector<int> &avector)
 {
     int first = avector[0];
 	int last  = avector[avector.size()-1];
-
 	return sort(avector, first, last);
 }

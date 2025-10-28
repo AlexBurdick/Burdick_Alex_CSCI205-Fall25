@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <cstdlib>
+#include <utility>
 
 class ListGenerator {
 private:
@@ -11,14 +12,6 @@ private:
     std::vector<char> listTypes{'a', 'd', 'r', 'p'};
     std::vector<std::vector<int>> sortedLists; // list to be sorted
 
-    /**
-     * @brief generates a random vector of size "size" with type "type"
-     * 'a' = ascending, 'd' = descending, 'r' = random, 'p' = partially sorted
-     * 
-     * @param size 
-     * @param type 
-     * @return std::vector<int> 
-     */
     std::vector<int> generateList(size_t size, char type)
     {
         std::vector<int> vec(size);
@@ -46,34 +39,28 @@ private:
                     vec[i] = i + 1;
                 // Swap every 5th item
                 for (size_t i = 4; i < vec.size(); i += 5)
-                    swap(vec[i], vec[i-4]);
+                    std::swap(vec[i], vec[i-4]);
         }
         return vec;
     }
 
 public:
+    // Constructors
     ListGenerator()
     {
         for(char t : listTypes)
             sortedLists.push_back(generateList(size, t));
     }
-
     ListGenerator(const size_t n) : size {n}
     {
         for(char t : listTypes)
             sortedLists.push_back(generateList(size, t));
     }
-
     ~ListGenerator() {};
 
+    // Member functions
     std::vector<std::vector<int>> getLists() { return sortedLists; }
-
-    /**
-     * @brief Utility function to print a vector
-     * 
-     * @param avector 
-     */
-    void printList()
+    void printLists()
     {
         for(std::vector<int> list : sortedLists)
             for (size_t i = 0; i < list.size(); i++)

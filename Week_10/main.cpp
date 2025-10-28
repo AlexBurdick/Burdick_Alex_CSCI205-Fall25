@@ -32,24 +32,21 @@ int main(){
 	//int arr[] = {6, 9, 4, 3, 10, 5, 7, 8, 1, 2};
 	//vector<int> avector(worst_case, worst_case + sizeof(worst_case) / sizeof(worst_case[0]));
 	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
-
-	// Assemble test vectors
-	const size_t SIZE = 10;
-	const vector<char> listTypes {'a', 'd', 'r', 'p'}; // Vector of list types
-	vector<vector<int>> test_vectors;
-	
-
-
+	/*
 	// Create vector of sort tests
-	vector<QuickSortTest> tests {
-		LazyPivotSort(avector),
-		MedianOf3Sort(avector)
+	vector<QuickSortTest*> tests {
+		new LazyPivotSort(avector),
+		new MedianOf3Sort(avector)
 	};
+	*/
 
 	printVector(avector);
-	tests[0].sort(avector, 0, avector.size() - 1);
+	//tests[0].sort(avector, 0, avector.size() - 1);
 	printVector(avector);
 
+	// Clean up memory
+    //for (auto test : tests)
+    //    delete test;
 	return 0;
 }
 
