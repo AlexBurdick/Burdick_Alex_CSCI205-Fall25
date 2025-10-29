@@ -30,7 +30,8 @@ void QuickSortTest::swap(int& a, int& b) {
 // Sort that may be overridden in subclasses
 void QuickSortTest::sort(std::vector<int> &avector, int first, int last){
 	int splitpoint = 0;	// partition splitpoint index
-	if (first<last) {								  // if there is more than one element in the vector
+	
+	if (first < last) {								  // if there is more than one element in the vector
 		splitpoint = partition(avector, first, last); // partition the vector from first to last
 		sort(avector, first, splitpoint - 1);		  // lower half
 		sort(avector, splitpoint + 1, last);		  // upper half

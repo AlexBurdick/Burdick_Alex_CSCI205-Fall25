@@ -15,6 +15,7 @@ sort on that sub-array.
 */
 void CutoffInsertionSort::insertionSort(std::vector<int> &avector)
 {
+    std::cout << "Insertion sort called"; // Print for testing purposes
     for (unsigned int index = 1; index<avector.size(); index++) {
         int current		 = avector[index];			// remember current item
         unsigned int pos = index;					// need current position to move towards front
@@ -60,7 +61,10 @@ void CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
 {
 	int splitpoint = 0;
 
-	if (first < last) {
+	if( first < (last - limit) )
+        insertionSort(avector);
+    else
+    {
 		splitpoint = partition(avector, first, last);// partition the vector from first to last
 		sort(avector, first, splitpoint - 1);	// lower half
 		sort(avector, splitpoint + 1, last);	// upper half
