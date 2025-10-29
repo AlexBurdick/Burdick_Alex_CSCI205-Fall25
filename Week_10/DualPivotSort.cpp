@@ -1,9 +1,9 @@
 #include "DualPivotSort.h"
 
 DualPivotSort::DualPivotSort(std::vector<int> &avector)
+    : QuickSortTest(avector)
 {
-    setSortType("Cutoff_Insertion_Sort");
-    setList(avector);
+    sortType = "Cutoff_Insertion_Sort";
 }
 
 DualPivotSort::~DualPivotSort(){}

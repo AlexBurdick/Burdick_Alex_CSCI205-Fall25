@@ -6,8 +6,7 @@
 #include <cstdlib>
 #include <utility>
 
-class ListGenerator {
-private:
+struct Lists {
     size_t size {100};
     std::vector<char> listTypes{'a', 'd', 'r', 'p'};
     std::vector<std::vector<int>> sortedLists; // list to be sorted
@@ -44,14 +43,8 @@ private:
         return vec;
     }
 
-public:
     // Constructors
-    ListGenerator()
-    {
-        for(char t : listTypes)
-            sortedLists.push_back(generateList(size, t));
-    }
-    ListGenerator(const size_t n) : size {n}
+    Lists(const size_t n) : size {n}
     {
         for(char t : listTypes)
             sortedLists.push_back(generateList(size, t));

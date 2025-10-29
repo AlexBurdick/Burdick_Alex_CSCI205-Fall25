@@ -1,43 +1,85 @@
 #include "quickSortTest.h"
 
-// Destructor
 QuickSortTest::~QuickSortTest() {}
+
+vector<int> QuickSortTest::generateList(size_t size, char type)
+{
+	std::vector<int> vec(size);
+	
+	switch(type)
+	{
+		case 'a': // Ascending
+			for(int i = 0; i < size; i++)
+				vec[i] = i + 1;
+			break;
+
+		case 'd': // Descending
+			for(size_t i = 0; i < size; i++)
+				vec[i] = size - i;
+			break;
+
+		case 'r': // Random
+			for(size_t i = 0; i < size; i++)
+				vec[i] = rand() % 100;
+			break;
+
+		case 'p': // Partially sorted
+			for(size_t i = 0; i < size; i++)
+				vec[i] = i + 1;
+			// Swap every 5th item
+			for (size_t i = 4; i < vec.size(); i += 5)
+				std::swap(vec[i], vec[i-4]);
+	}
+	
+	return vec;
+}
 
 // Private memeber functions
 // Write to file (from LeChat, 10/22/2025)
-void QuickSortTest::writeToFile(const std::vector<std::vector<int>>& data)
+void QuickSortTest::writeToFile(char type, const vector<pair<int, int>>& data)
 {
 	std::string filename = sortType + ".txt";
 	std::ofstream outFile(filename);
+
 	if (!outFile.is_open()) {
 		std::cerr << "Error: Could not open file " << filename << std::endl;
 		return;
 	}
 
-	for (std::vector<int> nums : data)
-		outFile << nums[0] << " " << nums[1] << std::endl;
+	for(auto& [n, swaps] : testResults)
+		outFile << n << " " << swaps << std::endl;
 	
 	outFile.close();
 }
 
 // Sort that will be overridden in some subclasses
-int QuickSortTest::sort(std::vector<int> &avector, int first, int last) {
+void QuickSortTest::sort(std::vector<int> &avector, int first, int last){
 	int splitpoint = 0;	// partition splitpoint index
 
-	if (first<last) {									// if there is more than one element in the vector
-		splitpoint = partition(avector, first, last);	// partition the vector from first to last
-		//splitpoint = partition2(avector, first, last);
-		sort(avector, first, splitpoint - 1);		// lower half
-		sort(avector, splitpoint + 1, last);		// upper half
+	if (first<last) {								  // if there is more than one element in the vector
+		splitpoint = partition(avector, first, last); // partition the vector from first to last
+		sort(avector, first, splitpoint - 1);		  // lower half
+		sort(avector, splitpoint + 1, last);		  // upper half
 	}
-
-	return swaps;
 }
 
-// Helper function to call the sort function without parameters
-int QuickSortTest::sort(std::vector<int> &avector)
+void QuickSortTest::test(size_t size)
 {
-    int first = avector[0];
-	int last  = avector[avector.size()-1];
-	return sort(avector, first, last);
+	// Create new lists for testing
+	for(char type : listTypes)
+		testLists.push_back({type, generateList(size, type)});
+
+	// Loop from LeChat(10/28/2025)
+    for(auto& [listType, list] : testLists) {
+        // Sort the data
+		//swaps = 0; // Reset swaps count before each test
+        sort(list, 0, list.size() - 1);
+
+        // Display results
+		cout << "Testing " << sortType << " on " << listType << " list" << endl;
+        cout << "Swaps: " << swaps << endl;
+        cout << endl;
+    }
+
+
 }

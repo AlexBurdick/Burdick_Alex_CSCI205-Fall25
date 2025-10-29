@@ -14,7 +14,7 @@ private:
     int partition(std::vector<int>&, int, int) override;
 
 public:
-    MedianOf3Sort(std::vector<int>&);
+    MedianOf3Sort();
     ~MedianOf3Sort();
 };
 

@@ -32,21 +32,19 @@ int main(){
 	//int arr[] = {6, 9, 4, 3, 10, 5, 7, 8, 1, 2};
 	//vector<int> avector(worst_case, worst_case + sizeof(worst_case) / sizeof(worst_case[0]));
 	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
-	/*
+	
 	// Create vector of sort tests
 	vector<QuickSortTest*> tests {
 		new LazyPivotSort(avector),
 		new MedianOf3Sort(avector)
 	};
-	*/
+
 
 	printVector(avector);
 	//tests[0].sort(avector, 0, avector.size() - 1);
 	printVector(avector);
 
-	// Clean up memory
-    //for (auto test : tests)
-    //    delete test;
+    for (auto test : tests) delete test; // Clean up memory
 	return 0;
 }
 

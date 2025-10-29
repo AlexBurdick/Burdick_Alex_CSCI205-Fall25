@@ -5,36 +5,36 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <utility>
+
+using namespace std;
 
 class QuickSortTest {
 private:
-	std::string sortType {"Quick_Sort"};	// Name of sort (for printing purposes)
-	std::vector<int> list;					// List to be sorted
+	vector<char> listTypes{'a', 'd', 'r', 'p'};
+	vector<pair<char, vector<int>>> testLists;
+	vector<pair<int, int>> testResults;
+	
+	vector<int> generateList(size_t size, char type);
 
 protected:
-	int swaps {0}; // Counter for operations (perfomance testing)
+	string sortType {"Quick_Sort"};	// Name of sort (for printing purposes)
+	int swaps {0}; 	// Counter for operations (perfomance testing)
 
-	// Setters
-    void setSortType(const std::string& type) { sortType = type; } // Allow subclasses to modify sortType
-	void setList(std::vector<int> &avector)   { list = avector; }  
-	// Allow subclasses to modify list
-
-	// Utility methods
-    void writeToFile(const std::vector<std::vector<int>>& data);	// Writes results of test to file
-	
-	// Helper methods
-	virtual int partition(std::vector<int>&, int, int) = 0;			// Partitioning to be overridden
+    void writeToFile(char type, const vector<pair<int, int>>& data);
+	virtual int partition(vector<int>&, int, int) = 0;
 
 public:
 	// Constructors & Destructors
 	virtual ~QuickSortTest();
 
-	// Member fucntions
-	virtual int sort(std::vector<int>&, int, int);
-	int sort(std::vector<int>&);
-
 	// Getters
-	std::string getSortType() const { return sortType; }
+	string getSortType() const { return sortType; }
+	vector<pair<char, vector<int>>> getLists() { return testLists; }
+
+	// Member fucntions
+	virtual void sort(vector<int>&, int, int);
+	void test(size_t size);
 };
 
 #endif

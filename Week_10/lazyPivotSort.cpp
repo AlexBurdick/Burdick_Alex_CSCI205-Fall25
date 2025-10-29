@@ -1,9 +1,9 @@
 #include "lazyPivotSort.h"
 
-LazyPivotSort::LazyPivotSort(std::vector<int> &avector)
+LazyPivotSort::LazyPivotSort(std::vector<int>& avector)
+    : QuickSortTest(avector)
 {
-    setSortType("Lazy_Pivot_Sort");
-    setList(avector);
+    sortType = "Lazy_Pivot_Sort";
 }
 
 LazyPivotSort::~LazyPivotSort(){}

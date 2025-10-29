@@ -3,7 +3,7 @@
 
 #include "CutoffInsertionSort.h"
 
-class DualPivotSort : public CutoffInsertionSort {
+class DualPivotSort : public QuickSortTest {
 private:
     int partition(std::vector<int>&, int, int) override;
 
