@@ -3,12 +3,12 @@
 
 #include "CutoffInsertionSort.h"
 
-class DualPivotSort : public QuickSortTest {
+class DualPivotSort : public CutoffInsertionSort {
 private:
     int partition(std::vector<int>&, int, int) override;
 
 public:
-    DualPivotSort(vector<pair<char, vector<int>>>);
+    DualPivotSort(std::vector<std::pair<char, std::vector<int>>>);
     ~DualPivotSort();
 
 	void sort(std::vector<int>&, int, int) override;

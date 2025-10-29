@@ -51,6 +51,16 @@ public:
     }
 
     vector<pair<char, vector<int>>> getLists() { return testLists; }
+
+    void printAllLists() { // Print utility for testing purposes
+        for (const auto& [type, data] : testLists) {
+            cout << "List type '" << type << "': ";
+            for (int num : data) {
+                cout << num << " ";
+            }
+            cout << endl;
+        }
+    }
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "CutoffInsertionSort.h"
 
-CutoffInsertionSort::CutoffInsertionSort(vector<pair<char, vector<int>>> vec)
+CutoffInsertionSort::CutoffInsertionSort(std::vector<std::pair<char, std::vector<int>>> vec)
     : QuickSortTest{vec}
 {
     sortType = "Cutoff_Insertion_Sort";
@@ -13,19 +13,17 @@ Switch to insertion sort for arrays with size less than a pre-
 decided limit. Once the size of the sub-array goes lower than the limit, apply insertion 
 sort on that sub-array.
 */
-int CutoffInsertionSort::insertionSort(std::vector<int> &avector)
+void CutoffInsertionSort::insertionSort(std::vector<int> &avector)
 {
-    for (unsigned int index =1; index<avector.size(); index++) {
-        int current		 	= avector[index];			// remember current item
-        unsigned int pos 	= index;					// need current position to move towards front
-        while (pos>0 && avector[pos-1]>current) {		// while not at front and current item is less than previous
-            avector[pos] = avector[pos-1];				// shift by 1 spot
-            swaps++;
-            pos--; 										// keep moving towards front of vector
+    for (unsigned int index = 1; index<avector.size(); index++) {
+        int current		 = avector[index];			// remember current item
+        unsigned int pos = index;					// need current position to move towards front
+        while (pos>0 && avector[pos-1]>current) {	// while not at front and current item is less than previous
+            swap(avector[pos], avector[pos-1]);		// shift by 1 spot
+            pos--; 									// keep moving towards front of vector
         }
-        avector[pos] = current;							// place current item in opened spot
+        avector[pos] = current;						// place current item in opened spot
     }
-    return swaps;
 }
 
 
@@ -49,13 +47,11 @@ int CutoffInsertionSort::partition(std::vector<int> &avector, int low, int high)
         if (avector[j] < pivot) {
             i++;
             swap(avector[i], avector[j]);
-            swaps++;
         }
     }
 
     // move pivot after smaller elements and return its position
     swap(avector[i + 1], avector[high]); 
-    swaps++; 
     return i + 1;
 }
 
@@ -69,6 +65,4 @@ void CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
 		sort(avector, first, splitpoint - 1);	// lower half
 		sort(avector, splitpoint + 1, last);	// upper half
 	}
-
-    swaps += insertionSort(avector);
 }

@@ -7,31 +7,30 @@
 #include <vector>
 #include <utility>
 
-using namespace std;
-
 class QuickSortTest {
 private:
-	vector<pair<int, int>> testResults;
-	vector<pair<char, vector<int>>> testLists;
-	vector<int> generateList(size_t size, char type);
+	std::vector<std::pair<int, int>> testResults;
+	std::vector<std::pair<char, std::vector<int>>> testLists;
+	std::vector<int> generateList(size_t size, char type);
 
 protected:
-	string sortType {"Quick_Sort"};	// Name of sort (for printing purposes)
+	std::string sortType {"Quick_Sort"};	// Name of sort (for printing purposes)
 	int swaps {0}; 	// Counter for operations (perfomance testing)
 
-    void writeToFile(char type, const vector<pair<int, int>>& data);
-	virtual int partition(vector<int>&, int, int) = 0;
+    void writeToFile(char type, const std::vector<std::pair<int, int>>& data);
+	virtual int partition(std::vector<int>&, int, int) = 0;
+	void swap(int&, int&);
 
 public:
 	// Constructors & Destructors
-	QuickSortTest(vector<pair<char, vector<int>>> vec) : testLists{vec} {}
+	QuickSortTest(std::vector<std::pair<char, std::vector<int>>> vec) : testLists{vec} {}
 	virtual ~QuickSortTest();
 
 	// Getters
-	string getSortType() const { return sortType; }
+	std::string getSortType() const { return sortType; }
 
 	// Member fucntions
-	virtual void sort(vector<int>&, int, int);
+	virtual void sort(std::vector<int>&, int, int);
 	void test();
 };
 

@@ -7,8 +7,10 @@ class TukeysNintherSort : public MedianOf3Sort {
 private:
     int ninther(std::vector<int>&, int, int);
 
+    int partition(std::vector<int>&, int, int);
+
 public:
-    TukeysNintherSort(vector<pair<char, vector<int>>>);
+    TukeysNintherSort(std::vector<std::pair<char, std::vector<int>>>);
     ~TukeysNintherSort();
 };
 

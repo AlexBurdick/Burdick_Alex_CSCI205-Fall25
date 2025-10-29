@@ -29,7 +29,7 @@ int main(){
 	ListGenerator lg = ListGenerator(SIZE);
 	vector<pair<char, vector<int>>> testLists = lg.getLists();
 
-	
+	lg.printAllLists();
 
 	// Create vector of sort tests
 	vector<QuickSortTest*> tests {

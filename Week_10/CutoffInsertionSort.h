@@ -9,11 +9,11 @@ private:
 
 protected:
     const int limit = 27; // Limit varies from system to system and typically it is between 5 to 27
-    
-    int insertionSort(std::vector<int>&);
+
+    void insertionSort(std::vector<int>&);
     
 public:
-    CutoffInsertionSort(vector<pair<char, vector<int>>>);
+    CutoffInsertionSort(std::vector<std::pair<char, std::vector<int>>>);
     ~CutoffInsertionSort();
 
 	void sort(std::vector<int>&, int, int);

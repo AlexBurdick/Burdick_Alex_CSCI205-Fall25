@@ -1,6 +1,6 @@
 #include "lazyPivotSort.h"
 
-LazyPivotSort::LazyPivotSort(vector<pair<char, vector<int>>> vec)
+LazyPivotSort::LazyPivotSort(std::vector<std::pair<char, std::vector<int>>> vec)
     : QuickSortTest{vec}
 {
     sortType = "Lazy_Pivot_Sort";

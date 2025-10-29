@@ -3,7 +3,7 @@
 QuickSortTest::~QuickSortTest() {}
 
 // Write results to file
-void QuickSortTest::writeToFile(char type, const vector<pair<int, int>>& data)
+void QuickSortTest::writeToFile(char type, const std::vector<std::pair<int, int>>& data)
 {
 	std::string filename = sortType + ".txt";
 	std::ofstream outFile(filename);
@@ -19,8 +19,16 @@ void QuickSortTest::writeToFile(char type, const vector<pair<int, int>>& data)
 	outFile.close();
 }
 
+// New swap function instead of standard to count swaps easier
+void QuickSortTest::swap(int& a, int& b) {
+    int temp = a;
+    a = b;
+    b = temp;
+	swaps++;
+}
+
 // Sort that may be overridden in subclasses
-void QuickSortTest::sort(vector<int> &avector, int first, int last){
+void QuickSortTest::sort(std::vector<int> &avector, int first, int last){
 	int splitpoint = 0;	// partition splitpoint index
 	if (first<last) {								  // if there is more than one element in the vector
 		splitpoint = partition(avector, first, last); // partition the vector from first to last
@@ -32,7 +40,7 @@ void QuickSortTest::sort(vector<int> &avector, int first, int last){
 void QuickSortTest::test()
 {
 	// Make a copy to sort (preserve original)
-    vector<pair<char, vector<int>>> tl = testLists;
+    std::vector<std::pair<char, std::vector<int>>> tl = testLists;
 
 	// Loop from LeChat(10/28/2025)
     for(auto& [listType, list] : tl) {
@@ -41,8 +49,8 @@ void QuickSortTest::test()
         sort(list, 0, list.size() - 1);
 
         // Display results
-		cout << "Testing " << sortType << " on " << listType << " list" << endl;
-        cout << "Swaps: " << swaps << endl;
-        cout << endl;
+		std::cout << "Testing " << sortType << " on " << listType << " list" << std::endl;
+        std::cout << "Swaps: " << swaps << std::endl;
+        std::cout << std::endl;
     }
 }

@@ -1,6 +1,6 @@
 #include "TukeysNintherSort.h"
 
-TukeysNintherSort::TukeysNintherSort(vector<pair<char, vector<int>>> vec)
+TukeysNintherSort::TukeysNintherSort(std::vector<std::pair<char, std::vector<int>>> vec)
     : MedianOf3Sort{vec}
 {
     sortType = "Tukeys_Ninther_Sort";
@@ -8,25 +8,15 @@ TukeysNintherSort::TukeysNintherSort(vector<pair<char, vector<int>>> vec)
 
 TukeysNintherSort::~TukeysNintherSort() {}
 
-int TukeysNintherSort::ninther(std::vector<int>& v, int left, int right)
+int TukeysNintherSort::ninther(std::vector<int>& vec, int left, int right)
 {
+    int pitvot = medianOf3(vec, left, right);
     return left;
 }
-/*
-int TukeysNintherSort::partition(std::vector<int>& avector, int first, int last) {
-    // Use Tukey's ninther for pivot selection
-    int pivotIndex = ninther(avector, first, last);
-    
-    // Swap pivot to end position
-    std::swap(avector[pivotIndex], avector[last]);
-    
-    // Then do standard partitioning (can call parent's partition logic)
-    // ... your partitioning code
-    
-    return splitpoint;
 
+int TukeysNintherSort::partition(std::vector<int>& avector, int low, int high) {
     // pivot (Element to be placed at right position)
-    int pivot = MedianOf3Sort::medianOf3(avector, low, high);	// better pivot choice
+    int pivot = medianOf3(avector, low, high);	// better pivot choice
     int i = low - 1; 							// marker for the partition split point
 
     // traverse through all elements, compare each element with pivot
@@ -41,4 +31,3 @@ int TukeysNintherSort::partition(std::vector<int>& avector, int first, int last)
     swap(avector[i + 1], avector[high]);		// after partitioning, put pivot in it's place at splitpoint
     return i + 1;								// return the splitpoint
 }
-*/
