@@ -19,9 +19,6 @@
 
 using namespace std;
 
-// Function prototypes
-void printVector(const std::vector<int>&);
-
 int main(){
 	const size_t SIZE = 100;
 	
@@ -48,15 +45,4 @@ int main(){
 
     for (auto test : tests) delete test; // Clean up memory
 	return 0;
-}
-
-/**
- * @brief Utility function to print a vector
- * 
- * @param avector 
- */
-void printVector(const std::vector<int>& avector){
-	for (unsigned i = 0; i < avector.size(); i++)
-		std::cout << avector[i] << " ";
-	std::cout << std::endl;
 }
