@@ -2,8 +2,8 @@
 #define LIST_GENERATOR_HPP
 
 #include <vector>
+#include <iostream>
 #include <cstdlib>
-#include <utility>
 
 using namespace std;
 

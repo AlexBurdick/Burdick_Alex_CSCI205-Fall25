@@ -60,7 +60,7 @@ void CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
 {
 	int splitpoint = 0;
 
-	if (first < last-limit) { // if there the vector is still above the limit size
+	if (first < last) {
 		splitpoint = partition(avector, first, last);// partition the vector from first to last
 		sort(avector, first, splitpoint - 1);	// lower half
 		sort(avector, splitpoint + 1, last);	// upper half

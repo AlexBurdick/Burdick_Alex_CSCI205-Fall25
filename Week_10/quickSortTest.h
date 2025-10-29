@@ -5,13 +5,12 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <utility>
+#include "ListGenerator.hpp"
 
 class QuickSortTest {
 private:
 	std::vector<std::pair<int, int>> testResults;
 	std::vector<std::pair<char, std::vector<int>>> testLists;
-	std::vector<int> generateList(size_t size, char type);
 
 protected:
 	std::string sortType {"Quick_Sort"};	// Name of sort (for printing purposes)

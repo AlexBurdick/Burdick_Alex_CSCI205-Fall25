@@ -39,13 +39,12 @@ void QuickSortTest::sort(std::vector<int> &avector, int first, int last){
 
 void QuickSortTest::test()
 {
-	// Make a copy to sort (preserve original)
+	// Make a copy to sort (preserve original for future tests)
     std::vector<std::pair<char, std::vector<int>>> tl = testLists;
 
 	// Loop from LeChat(10/28/2025)
     for(auto& [listType, list] : tl) {
-        // Sort the data
-		//swaps = 0; // Reset swaps count before each test
+		//swaps = 0; // each test will run the number of types on the same object
         sort(list, 0, list.size() - 1);
 
         // Display results

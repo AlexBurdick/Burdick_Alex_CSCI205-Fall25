@@ -11,7 +11,7 @@ TukeysNintherSort::~TukeysNintherSort() {}
 int TukeysNintherSort::ninther(std::vector<int>& vec, int left, int right)
 {
     int pitvot = medianOf3(vec, left, right);
-    return left;
+    return pitvot;
 }
 
 int TukeysNintherSort::partition(std::vector<int>& avector, int low, int high) {
