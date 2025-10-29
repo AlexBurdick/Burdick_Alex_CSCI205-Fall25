@@ -8,36 +8,30 @@ LazyPivotSort::LazyPivotSort(std::vector<std::pair<char, std::vector<int>>> vec)
 
 LazyPivotSort::~LazyPivotSort(){}
 
-// Hoare partition scheme
-// Big O: time -> O(n) where n is the sub-vector size, space -> O(1)
-int LazyPivotSort::partition(std::vector<int> &avector, int first, int last){
-    int pivotValue = avector[last];	// grab the pivot (lazy approach: either first, last or middle element)
+/* Implements Lomuto partition scheme
+selects the last element of the array as the pivot, iterates through the array, 
+maintaining an index i that tracks the boundary between elements less than or equal 
+to the pivot and those greater than the pivot. Elements less than or equal to the 
+pivot are moved to the left side, and after the iteration, the pivot is placed in its 
+correct final position by swapping it with the element at index i + 1. */
+int LazyPivotSort::partition(std::vector<int> &avector, int low, int high)
+{
+    // choose the pivot
+    int pivot = avector[high];
+  
+    // index of smaller element and indicates the right position of pivot found so far
+    int i = low - 1;
 
-    int rightmark  = last - 1;		// establish right pointer
-    int leftmark   = first;			// establish left pointer
-
-    bool done = false;				// flag to indicate when done
-
-    while (!done){					// while not done
-        // increment left pointer until a value larger than the pivot is found
-        // while pointers haven't crossed and value at left pointer is less than or equal to pivot
-        while (leftmark <= rightmark && avector[leftmark] <= pivotValue)
-            leftmark++;
-
-        // decrement right pointer until a value smaller than the pivot is found
-        // while pointers haven't crossed and value at right pointer is greater than or equal to pivot
-        while (rightmark >= leftmark && avector[rightmark] >= pivotValue)
-            rightmark--;
-        
-        if (rightmark < leftmark) done = true;				// if pointers cross, the partition is done
-        else{
-            swap(avector[rightmark], avector[leftmark]);	// pointers haven't crossed, perform a swap
-            swaps++;
+    // Traverse arr[low..high] and move all smaller elements on left side. Elements 
+    // from low to  i are smaller after every iteration
+    for (int j = low; j <= high - 1; j++) {
+        if (avector[j] < pivot) {
+            i++;
+            swap(avector[i], avector[j]);
         }
     }
-    
-    // partition is done, put pivot in it's place. This will be it's final place in the sorted vector
-    swap(avector[leftmark], avector[last]);	// place the pivot at splitpoint
-    swaps++;
-    return leftmark;						// return split point
+
+    // move pivot after smaller elements and return its position
+    swap(avector[i + 1], avector[high]); 
+    return i + 1;
 }
