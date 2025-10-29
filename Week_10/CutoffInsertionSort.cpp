@@ -1,7 +1,6 @@
 #include "CutoffInsertionSort.h"
 
-CutoffInsertionSort::CutoffInsertionSort(std::vector<int> &avector)
-    : QuickSortTest(avector)
+CutoffInsertionSort::CutoffInsertionSort()
 {
     sortType = "Cutoff_Insertion_Sort";
 }
@@ -60,7 +59,7 @@ int CutoffInsertionSort::partition(std::vector<int> &avector, int low, int high)
 }
 
 // Overrides the regular sort to stop at the limit
-int CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
+void CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
 {
 	int splitpoint = 0;
 
@@ -71,6 +70,4 @@ int CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
 	}
 
     swaps += insertionSort(avector);
-
-	return swaps;
 }

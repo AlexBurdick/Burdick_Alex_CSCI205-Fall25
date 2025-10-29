@@ -8,10 +8,10 @@ private:
     int partition(std::vector<int>&, int, int) override;
 
 public:
-    DualPivotSort(std::vector<int>&);
+    DualPivotSort();
     ~DualPivotSort();
 
-	int sort(std::vector<int>&, int, int);
+	void sort(std::vector<int>&, int, int) override;
 };
 
 #endif

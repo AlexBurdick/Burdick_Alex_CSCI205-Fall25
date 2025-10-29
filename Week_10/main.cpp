@@ -12,7 +12,8 @@
 #include "QuickSortTest.h"
 #include "LazyPivotSort.h"
 #include "MedianOf3Sort.h"
-#include "ListGenerator.hpp"
+#include "CutoffInsertionSort.h"
+#include "DualPivotSort.h"
 
 using namespace std;
 
@@ -35,14 +36,13 @@ int main(){
 	
 	// Create vector of sort tests
 	vector<QuickSortTest*> tests {
-		new LazyPivotSort(avector),
-		new MedianOf3Sort(avector)
+		new LazyPivotSort(),
+		new MedianOf3Sort(),
+		new CutoffInsertionSort(),
+		new DualPivotSort()
 	};
 
 
-	printVector(avector);
-	//tests[0].sort(avector, 0, avector.size() - 1);
-	printVector(avector);
 
     for (auto test : tests) delete test; // Clean up memory
 	return 0;

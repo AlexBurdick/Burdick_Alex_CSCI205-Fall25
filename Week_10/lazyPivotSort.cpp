@@ -1,7 +1,6 @@
 #include "lazyPivotSort.h"
 
-LazyPivotSort::LazyPivotSort(std::vector<int>& avector)
-    : QuickSortTest(avector)
+LazyPivotSort::LazyPivotSort()
 {
     sortType = "Lazy_Pivot_Sort";
 }
@@ -30,10 +29,14 @@ int LazyPivotSort::partition(std::vector<int> &avector, int first, int last){
             rightmark--;
         
         if (rightmark < leftmark) done = true;				// if pointers cross, the partition is done
-        else swap(avector[rightmark], avector[leftmark]);	// pointers haven't crossed, perform a swap
+        else{
+            swap(avector[rightmark], avector[leftmark]);	// pointers haven't crossed, perform a swap
+            swaps++;
+        }
     }
     
     // partition is done, put pivot in it's place. This will be it's final place in the sorted vector
     swap(avector[leftmark], avector[last]);	// place the pivot at splitpoint
+    swaps++;
     return leftmark;						// return split point
 }

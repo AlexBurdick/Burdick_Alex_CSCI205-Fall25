@@ -34,8 +34,7 @@ vector<int> QuickSortTest::generateList(size_t size, char type)
 	return vec;
 }
 
-// Private memeber functions
-// Write to file (from LeChat, 10/22/2025)
+// Write results to file
 void QuickSortTest::writeToFile(char type, const vector<pair<int, int>>& data)
 {
 	std::string filename = sortType + ".txt";
@@ -52,7 +51,7 @@ void QuickSortTest::writeToFile(char type, const vector<pair<int, int>>& data)
 	outFile.close();
 }
 
-// Sort that will be overridden in some subclasses
+// Sort that may be overridden in subclasses
 void QuickSortTest::sort(std::vector<int> &avector, int first, int last){
 	int splitpoint = 0;	// partition splitpoint index
 
@@ -80,6 +79,4 @@ void QuickSortTest::test(size_t size)
         cout << "Swaps: " << swaps << endl;
         cout << endl;
     }
-
-
 }

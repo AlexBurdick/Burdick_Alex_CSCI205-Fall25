@@ -8,7 +8,7 @@ private:
     int partition(std::vector<int>&, int, int) override; // Hoare partition scheme
 
 public:
-    LazyPivotSort(std::vector<int>&);
+    LazyPivotSort();
     ~LazyPivotSort();
 };
 
