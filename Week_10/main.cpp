@@ -14,19 +14,13 @@
 #include "MedianOf3Sort.h"
 #include "CutoffInsertionSort.h"
 #include "DualPivotSort.h"
+#include "TukeysNintherSort.h"
 
 using namespace std;
 
 // Function prototypes
 void printVector(const std::vector<int>&);
 
-/* TO DO:
-1. Quicksort with lazy pivot choice of either right most or left most element
-2. Quicksort with median of three pivot choice
-3. Cutoff to insertion sort
-4. Quicksort with Tukey’s ninther pivot choice
-5. Dual pivot quicksort
-*/
 int main(){
 	int worst_case[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 	int arr[] = {54, 26, 93, 17, 77, 31, 44, 55, 47};
@@ -38,6 +32,7 @@ int main(){
 	vector<QuickSortTest*> tests {
 		new LazyPivotSort(),
 		new MedianOf3Sort(),
+		new TukeysNintherSort(),
 		new CutoffInsertionSort(),
 		new DualPivotSort()
 	};

@@ -8,7 +8,7 @@ private:
     int partition(std::vector<int>&, int, int) override;
 
 public:
-    DualPivotSort();
+    DualPivotSort(vector<pair<char, vector<int>>>);
     ~DualPivotSort();
 
 	void sort(std::vector<int>&, int, int) override;

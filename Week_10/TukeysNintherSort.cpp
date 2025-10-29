@@ -1,9 +1,15 @@
 #include "TukeysNintherSort.h"
 
-TukeysNintherSort::TukeysNintherSort() { sortType = "Tukeys_Ninther_Sort"; }
+TukeysNintherSort::TukeysNintherSort(vector<pair<char, vector<int>>> vec)
+    : MedianOf3Sort{vec}
+{
+    sortType = "Tukeys_Ninther_Sort";
+}
+
 TukeysNintherSort::~TukeysNintherSort() {}
 
-int TukeysNintherSort::ninther(std::vector<int>& v, int left, int right) {
+int TukeysNintherSort::ninther(std::vector<int>& v, int left, int right)
+{
     return left;
 }
 /*

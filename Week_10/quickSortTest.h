@@ -11,10 +11,8 @@ using namespace std;
 
 class QuickSortTest {
 private:
-	vector<char> listTypes{'a', 'd', 'r', 'p'};
-	vector<pair<char, vector<int>>> testLists;
 	vector<pair<int, int>> testResults;
-	
+	vector<pair<char, vector<int>>> testLists;
 	vector<int> generateList(size_t size, char type);
 
 protected:
@@ -26,15 +24,15 @@ protected:
 
 public:
 	// Constructors & Destructors
+	QuickSortTest(vector<pair<char, vector<int>>> vec) : testLists{vec} {}
 	virtual ~QuickSortTest();
 
 	// Getters
 	string getSortType() const { return sortType; }
-	vector<pair<char, vector<int>>> getLists() { return testLists; }
 
 	// Member fucntions
 	virtual void sort(vector<int>&, int, int);
-	void test(size_t size);
+	void test();
 };
 
 #endif

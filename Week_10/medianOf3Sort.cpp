@@ -1,6 +1,11 @@
 #include "medianOf3Sort.h"
 
-MedianOf3Sort::MedianOf3Sort() { sortType = "Median_of_3_Sort"; }
+MedianOf3Sort::MedianOf3Sort(vector<pair<char, vector<int>>> vec)
+    : QuickSortTest{vec}
+{ 
+    sortType = "Median_of_3_Sort";
+}
+
 MedianOf3Sort::~MedianOf3Sort(){}
 
 // function returns the median of three values (left, center, right)

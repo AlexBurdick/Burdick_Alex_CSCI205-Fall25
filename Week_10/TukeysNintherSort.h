@@ -8,7 +8,7 @@ private:
     int ninther(std::vector<int>&, int, int);
 
 public:
-    TukeysNintherSort();
+    TukeysNintherSort(vector<pair<char, vector<int>>>);
     ~TukeysNintherSort();
 };
 

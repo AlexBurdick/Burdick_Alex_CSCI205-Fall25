@@ -1,6 +1,7 @@
 #include "CutoffInsertionSort.h"
 
-CutoffInsertionSort::CutoffInsertionSort()
+CutoffInsertionSort::CutoffInsertionSort(vector<pair<char, vector<int>>> vec)
+    : QuickSortTest{vec}
 {
     sortType = "Cutoff_Insertion_Sort";
 }
