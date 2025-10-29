@@ -15,6 +15,7 @@
 #include "CutoffInsertionSort.h"
 #include "DualPivotSort.h"
 #include "TukeysNintherSort.h"
+#include "ListGenerator.hpp"
 
 using namespace std;
 
@@ -22,22 +23,28 @@ using namespace std;
 void printVector(const std::vector<int>&);
 
 int main(){
-	int worst_case[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-	int arr[] = {54, 26, 93, 17, 77, 31, 44, 55, 47};
-	//int arr[] = {6, 9, 4, 3, 10, 5, 7, 8, 1, 2};
-	//vector<int> avector(worst_case, worst_case + sizeof(worst_case) / sizeof(worst_case[0]));
-	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
+	const size_t SIZE = 100;
 	
+	// Create test lists
+	ListGenerator lg = ListGenerator(SIZE);
+	vector<pair<char, vector<int>>> testLists = lg.getLists();
+
+	
+
 	// Create vector of sort tests
 	vector<QuickSortTest*> tests {
-		new LazyPivotSort(),
-		new MedianOf3Sort(),
-		new TukeysNintherSort(),
-		new CutoffInsertionSort(),
-		new DualPivotSort()
+		new LazyPivotSort(testLists),
+		new MedianOf3Sort(testLists),
+		new TukeysNintherSort(testLists),
+		new CutoffInsertionSort(testLists),
+		new DualPivotSort(testLists)
 	};
 
-
+	// Test all algorithms
+	for (auto test : tests) {
+		test->test();  // Call test() on each algorithm
+		cout << "---" << endl;
+	}
 
     for (auto test : tests) delete test; // Clean up memory
 	return 0;

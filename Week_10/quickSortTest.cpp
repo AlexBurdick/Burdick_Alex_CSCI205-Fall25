@@ -31,7 +31,6 @@ void QuickSortTest::sort(vector<int> &avector, int first, int last){
 
 void QuickSortTest::test()
 {
-
 	// Make a copy to sort (preserve original)
     vector<pair<char, vector<int>>> tl = testLists;
 

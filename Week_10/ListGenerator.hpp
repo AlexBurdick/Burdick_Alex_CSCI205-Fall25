@@ -2,6 +2,7 @@
 #define LIST_GENERATOR_HPP
 
 #include <vector>
+#include <cstdlib>
 #include <utility>
 
 using namespace std;
@@ -13,12 +14,12 @@ private:
 
     vector<int> generateList(size_t size, char type)
     {
-        std::vector<int> vec(size);
+        vector<int> vec(size);
         
         switch(type)
         {
             case 'a': // Ascending
-                for(int i = 0; i < size; i++)
+                for(size_t i = 0; i < size; i++)
                     vec[i] = i + 1;
                 break;
 
@@ -37,7 +38,7 @@ private:
                     vec[i] = i + 1;
                 // Swap every 5th item
                 for (size_t i = 4; i < vec.size(); i += 5)
-                    std::swap(vec[i], vec[i-4]);
+                    swap(vec[i], vec[i-4]);
         }
         return vec;
     }

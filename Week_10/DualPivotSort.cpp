@@ -10,7 +10,8 @@ DualPivotSort::~DualPivotSort(){}
 
 int DualPivotSort::partition(std::vector<int> &avector, int first, int last)
 {
-    
+    int splitpoint = 0;
+    return splitpoint;
 }
 
 void DualPivotSort::sort(std::vector<int> &avector, int first, int last)
