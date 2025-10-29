@@ -1,4 +1,4 @@
-#include "quickSortTest.h"
+#include "QuickSortTest.h"
 
 QuickSortTest::~QuickSortTest() {}
 

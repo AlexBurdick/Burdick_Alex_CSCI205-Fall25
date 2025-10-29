@@ -1,4 +1,4 @@
-#include "lazyPivotSort.h"
+#include "LazyPivotSort.h"
 
 LazyPivotSort::LazyPivotSort(std::vector<std::pair<char, std::vector<int>>> vec)
     : QuickSortTest{vec}

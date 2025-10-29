@@ -1,4 +1,4 @@
-#include "medianOf3Sort.h"
+#include "MedianOf3Sort.h"
 
 MedianOf3Sort::MedianOf3Sort(std::vector<std::pair<char, std::vector<int>>> vec)
     : QuickSortTest{vec}
