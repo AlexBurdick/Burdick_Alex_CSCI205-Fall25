@@ -22,6 +22,7 @@ protected:
 
 public:
 	// Constructors & Destructors
+	QuickSortTest() = default;
 	QuickSortTest(std::vector<std::pair<char, std::vector<int>>> vec) : testLists{vec} {}
 	virtual ~QuickSortTest();
 

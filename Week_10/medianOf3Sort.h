@@ -15,6 +15,7 @@ protected:
     int medianOf3(std::vector<int>&, int, int);
 
 public:
+    MedianOf3Sort() = default;
     MedianOf3Sort(std::vector<std::pair<char, std::vector<int>>>);
     ~MedianOf3Sort();
 };

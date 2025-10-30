@@ -12,14 +12,12 @@ MedianOf3Sort::~MedianOf3Sort(){}
 // Big O: time -> O(1), space -> O(1)
 int MedianOf3Sort::medianOf3(std::vector<int> &v, int left, int right)
 {
-    int center = (left + right) / 2;	// find center
-    swap(v[left], v[center]);			// get ready to sort the three
-    if( v[left] > v[right] )			// look at left and right
-        std::swap(v[left], v[right]);	// swap if necessary
-    if(v[center] > v[right] )			// look at center and right
-        swap(v[center], v[right]);		// swap if necessary
-    swap(v[center], v[right]);		    // put pivot on right
-    return v[right];					// return pivot value
+    int center = (left + right) / 2;
+    if(v[left] > v[center])     swap(v[left], v[center]);
+    if(v[left] > v[right])      swap(v[left], v[right]);
+    if(v[center] > v[right])    swap(v[center], v[right]);
+    swap(v[center], v[right]);
+    return v[right];
 }
 
 // function partitions vector around a pivot value

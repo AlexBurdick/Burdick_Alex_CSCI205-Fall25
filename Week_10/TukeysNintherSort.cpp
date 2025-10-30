@@ -1,22 +1,41 @@
 #include "TukeysNintherSort.h"
 
 TukeysNintherSort::TukeysNintherSort(std::vector<std::pair<char, std::vector<int>>> vec)
-    : MedianOf3Sort{vec}
+    : QuickSortTest{vec}
 {
     sortType = "Tukeys_Ninther_Sort";
 }
 
 TukeysNintherSort::~TukeysNintherSort() {}
 
-int TukeysNintherSort::ninther(std::vector<int>& vec, int left, int right)
+int TukeysNintherSort::ninther(std::vector<int>& v, int left, int right)
 {
-    int pitvot = medianOf3(vec, left, right);
-    return pitvot;
+    int depth = 0;
+    const int MAX_DEPTH = 3;
+
+    int center = (left + right) / 2;
+
+    if (right - left < 3 || depth >= MAX_DEPTH)
+    {
+        if(  v[left] > v[center])   swap(v[left], v[center]);
+        if(  v[left] > v[right])    swap(v[left], v[right]);
+        if(v[center] > v[right])    swap(v[center], v[right]);
+        swap(v[center], v[right]);
+        return v[right];
+    }
+    
+    int pivot1 = ninther(v, left, center);
+    int pivot2 = ninther(v, center+1, right);
+
+    return (pivot1 > pivot2) ? pivot1 : pivot2; 
 }
 
-int TukeysNintherSort::partition(std::vector<int>& avector, int low, int high) {
+// function partitions vector around a pivot value
+// Big O: time -> O(n) where n is the sub-vector size, space -> O(1)
+int TukeysNintherSort::partition(std::vector<int> &avector, int low, int high)
+{
     // pivot (Element to be placed at right position)
-    int pivot = medianOf3(avector, low, high);	// better pivot choice
+    int pivot = ninther(avector, low, high);	// better pivot choice
     int i = low - 1; 							// marker for the partition split point
 
     // traverse through all elements, compare each element with pivot

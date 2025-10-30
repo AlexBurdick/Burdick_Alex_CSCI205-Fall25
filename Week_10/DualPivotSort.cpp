@@ -1,7 +1,7 @@
 #include "DualPivotSort.h"
 
 DualPivotSort::DualPivotSort(std::vector<std::pair<char, std::vector<int>>> vec)
-    : CutoffInsertionSort{vec}
+    : QuickSortTest{vec}
 {
     sortType = "Cutoff_Insertion_Sort";
 }

@@ -19,9 +19,19 @@
 
 using namespace std;
 
+//utility function to print a vector
+void printl(vector<int> avector){
+	for (unsigned i = 0; i < avector.size(); i++)
+		cout << avector[i] << " ";
+	cout << endl;
+}
+
 int main(){
+	int worst_case[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+	int arr[] = {54, 26, 93, 17, 77, 31, 44, 55, 47};
+	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
+
 	const size_t SIZE = 100;
-	
 	// Create test lists
 	ListGenerator lg(SIZE);
 	vector<pair<char, vector<int>>> testLists = lg.getLists();
@@ -36,6 +46,10 @@ int main(){
 		new CutoffInsertionSort(testLists),
 		new DualPivotSort(testLists)
 	};
+
+	
+	TukeysNintherSort ttrryy();
+
 
 	// Test all algorithms
 	for (auto test : tests) {

@@ -13,6 +13,7 @@ protected:
     void insertionSort(std::vector<int>&);
     
 public:
+    CutoffInsertionSort() = default;
     CutoffInsertionSort(std::vector<std::pair<char, std::vector<int>>>);
     ~CutoffInsertionSort();
 

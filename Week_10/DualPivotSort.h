@@ -1,13 +1,14 @@
 #ifndef DUAL_SORT_H
 #define DUAL_SORT_H
 
-#include "CutoffInsertionSort.h"
+#include "QuickSortTest.h"
 
-class DualPivotSort : public CutoffInsertionSort {
+class DualPivotSort : public QuickSortTest {
 private:
     int partition(std::vector<int>&, int, int) override;
 
 public:
+    DualPivotSort() = default;
     DualPivotSort(std::vector<std::pair<char, std::vector<int>>>);
     ~DualPivotSort();
 
