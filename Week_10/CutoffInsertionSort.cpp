@@ -1,21 +1,10 @@
 #include "CutoffInsertionSort.h"
 
-CutoffInsertionSort::CutoffInsertionSort(std::vector<std::pair<char, std::vector<int>>> vec)
-    : QuickSortTest{vec}
-{
-    sortType = "Cutoff_Insertion_Sort";
-}
-
-CutoffInsertionSort::~CutoffInsertionSort(){}
-
 /*
-Switch to insertion sort for arrays with size less than a pre-
-decided limit. Once the size of the sub-array goes lower than the limit, apply insertion 
-sort on that sub-array.
+Switch to insertion sort for arrays with size less than a pre-decided limit. Once the 
+size of the sub-array goes lower than the limit, apply insertion sort on that sub-array.
 */
-void CutoffInsertionSort::insertionSort(std::vector<int> &avector)
-{
-    std::cout << "Insertion sort called"; // Print for testing purposes
+void CutoffInsertionSort::insertionSort(std::vector<int> &avector){
     for (unsigned int index = 1; index<avector.size(); index++) {
         int current		 = avector[index];			// remember current item
         unsigned int pos = index;					// need current position to move towards front

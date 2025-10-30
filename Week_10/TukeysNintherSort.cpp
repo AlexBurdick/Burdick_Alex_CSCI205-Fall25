@@ -1,18 +1,8 @@
 #include "TukeysNintherSort.h"
 
-TukeysNintherSort::TukeysNintherSort(std::vector<std::pair<char, std::vector<int>>> vec)
-    : QuickSortTest{vec}
-{
-    sortType = "Tukeys_Ninther_Sort";
-}
-
-TukeysNintherSort::~TukeysNintherSort() {}
-
 int TukeysNintherSort::ninther(std::vector<int>& v, int left, int right)
 {
-    int depth = 0;
-    const int MAX_DEPTH = 3;
-
+    depth++; // Limit recursion
     int center = (left + right) / 2;
 
     if (right - left < 3 || depth >= MAX_DEPTH)

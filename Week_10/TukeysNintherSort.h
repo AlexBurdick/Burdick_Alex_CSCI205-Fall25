@@ -5,13 +5,19 @@
 
 class TukeysNintherSort : public QuickSortTest {
 private:
+    int depth = 0;
+    const int MAX_DEPTH = 3;
+
     int ninther(std::vector<int>&, int, int);
-    int TukeysNintherSort::partition(std::vector<int> &avector, int low, int high) override;
+    int partition(std::vector<int> &avector, int low, int high) override;
+
+protected:
+    std::string sortType = "Tukey's Ninther Sort";
 
 public:
     TukeysNintherSort() = default;
-    TukeysNintherSort(std::vector<std::pair<char, std::vector<int>>>);
-    ~TukeysNintherSort();
+    TukeysNintherSort(std::vector<std::pair<char, std::vector<int>>> v) : QuickSortTest{v}{}
+    ~TukeysNintherSort(){}
 };
 
 #endif

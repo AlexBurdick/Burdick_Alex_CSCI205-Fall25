@@ -5,14 +5,19 @@
 
 class DualPivotSort : public QuickSortTest {
 private:
+    const int LIMIT = 5;
     int partition(std::vector<int>&, int, int) override;
+    void insertionSort(std::vector<int>&);
+
+protected:
+    std::string sortType = "Dual Pivot Sort";
 
 public:
     DualPivotSort() = default;
-    DualPivotSort(std::vector<std::pair<char, std::vector<int>>>);
-    ~DualPivotSort();
+    DualPivotSort(std::vector<std::pair<char, std::vector<int>>> v) : QuickSortTest{v}{}
+    ~DualPivotSort(){}
 
-	void sort(std::vector<int>&, int, int) override;
+    void sort(std::vector<int>&, int, int) override;
 };
 
 #endif

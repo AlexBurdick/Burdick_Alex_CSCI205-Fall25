@@ -1,13 +1,5 @@
 #include "LazyPivotSort.h"
 
-LazyPivotSort::LazyPivotSort(std::vector<std::pair<char, std::vector<int>>> vec)
-    : QuickSortTest{vec}
-{
-    sortType = "Lazy_Pivot_Sort";
-}
-
-LazyPivotSort::~LazyPivotSort(){}
-
 /* Implements Lomuto partition scheme
 selects the last element of the array as the pivot, iterates through the array, 
 maintaining an index i that tracks the boundary between elements less than or equal 

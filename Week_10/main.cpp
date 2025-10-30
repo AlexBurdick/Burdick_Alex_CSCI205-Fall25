@@ -19,46 +19,62 @@
 
 using namespace std;
 
-//utility function to print a vector
-void printl(vector<int> avector){
-	for (unsigned i = 0; i < avector.size(); i++)
-		cout << avector[i] << " ";
-	cout << endl;
-}
+vector<int> mergeSort(vector<int> avector);
+void merge(vector<int> &avector, vector<int> left, vector<int> right);
+void printl(vector<int> avector);
 
 int main(){
 	int worst_case[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-	int arr[] = {54, 26, 93, 17, 77, 31, 44, 55, 47};
+	int arr[] = {54, 26, 93, 17, 77, 31, 44, 55, 47, 5,};
 	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
+	vector<int> vec = {
+        42, 17, 89, 3, 56, 42, 91, 17, 24, 68,
+        75, 3, 89, 50, 12, 42, 91, 63, 24, 75,
+        8, 56, 12, 68, 31, 91, 42, 75, 24, 8,
+        50, 17, 3, 63, 89, 56, 12, 42, 75, 24,
+        91, 68, 31, 50, 8, 17, 42, 63, 89, 24,
+        75, 56, 12, 3, 91, 68, 42, 50, 17, 31,
+        8, 24, 75, 56, 63, 12, 89, 42, 91, 17,
+        3, 50, 24, 68, 75, 8, 12, 31, 56, 42,
+        89, 63, 17, 91, 24, 50, 75, 3, 12, 42,
+        68, 8, 56, 31, 17, 89, 91, 24, 42, 75
+    };
 
 	const size_t SIZE = 100;
-	// Create test lists
-	ListGenerator lg(SIZE);
-	vector<pair<char, vector<int>>> testLists = lg.getLists();
-
-	lg.printAllLists();
 
 	// Create vector of sort tests
 	vector<QuickSortTest*> tests {
-		new LazyPivotSort(testLists),
-		new MedianOf3Sort(testLists),
-		new TukeysNintherSort(testLists),
-		new CutoffInsertionSort(testLists),
-		new DualPivotSort(testLists)
+		new LazyPivotSort(),
+		new MedianOf3Sort(),
+		new TukeysNintherSort(),
+		new CutoffInsertionSort(),
+		new DualPivotSort()
 	};
-
 	
-	TukeysNintherSort ttrryy();
-
+	/*
+	DualPivotSort t;
+	printl(vec);
+	t.sort(vec, 0, vec.size() - 1);
+	printl(vec);
+	cout << "Swaps = " << t.getSwaps();
+	*/
 
 	// Test all algorithms
 	for (auto test : tests) {
-		test->test();  // Call test() on each algorithm
+		test->test(10, 10);  // Call test() on each algorithm
 		cout << "---" << endl;
 	}
 
     for (auto test : tests) delete test; // Clean up memory
 	return 0;
+}
+
+// Utiltiy function for testing
+void printl(vector<int> avector){
+	cout << "--Vector--";
+	for (unsigned i = 0; i < avector.size(); i++)
+		cout << avector[i] << " ";
+	cout << endl;
 }
 
 // function sorts using mergesort.
@@ -84,7 +100,7 @@ vector<int> mergeSort(vector<int> avector) {
 	return avector;
 }
 
-// function merges two sorted vectors
+// function merges two sorted vector
 // Big O: time -> O(n) where n is the sub-vector size, space -> O(1)
 void merge(vector<int> &avector, vector<int> left, vector<int> right){
 	unsigned i = 0;	// left vector index

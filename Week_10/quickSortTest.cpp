@@ -1,7 +1,5 @@
 #include "QuickSortTest.h"
 
-QuickSortTest::~QuickSortTest() {}
-
 // Write results to file
 void QuickSortTest::writeToFile(char type, const std::vector<std::pair<int, int>>& data)
 {
@@ -38,19 +36,41 @@ void QuickSortTest::sort(std::vector<int> &avector, int first, int last){
 	}
 }
 
-void QuickSortTest::test()
+// Setters
+void QuickSortTest::setTestLists(int size)
 {
-	// Make a copy to sort (preserve original for future tests)
-    std::vector<std::pair<char, std::vector<int>>> tl = testLists;
+	ListGenerator lg(size);
+	testLists = lg.getLists();
+}
 
-	// Loop from LeChat(10/28/2025)
-    for(auto& [listType, list] : tl) {
-		//swaps = 0; // each test will run the number of types on the same object
-        sort(list, 0, list.size() - 1);
+void QuickSortTest::test(int size, int increment)
+{
+	for(int i = 0; i <= size; i += increment)
+	{
+		// Create lists to be sorted [a, d, r, p]
+		setTestLists(size);
+		// Make a copy to sort (preserve original for future tests)
+    	std::vector<std::pair<char, std::vector<int>>> tl = testLists;
+		
+		// Loop from LeChat(10/28/2025)
+		for(auto& [listType, list] : tl)
+		{
+			swaps = 0; // each test will run the number of types on the same object
+			sort(list, 0, list.size() - 1);
+			
+			testResults.push_back({i, swaps});
+			//writeToFile(listType, testResults);
 
-        // Display results
-		std::cout << "Testing " << sortType << " on " << listType << " list" << std::endl;
-        std::cout << "Swaps: " << swaps << std::endl;
-        std::cout << std::endl;
-    }
+			// Display results
+			std::string filename = sortType + "_" + listType + ".txt";
+			std::cout << "Testing: " << filename << std::endl;
+
+			std::cout << "Results: " << std::endl;
+			for (const auto& pair : testResults)
+			{
+				std::cout << "(" << pair.first << ", " << pair.second << ")" << " ";
+			}
+			std::cout << endl;
+		}
+	}
 }

@@ -10,14 +10,15 @@ private:
     int partition(std::vector<int>&, int, int) override;
 
 protected:
+    std::string sortType = "Median of 3 Sort";
     // function returns the median of three values (left, center, right)
     // Big O: time -> O(1), space -> O(1)
     int medianOf3(std::vector<int>&, int, int);
 
 public:
     MedianOf3Sort() = default;
-    MedianOf3Sort(std::vector<std::pair<char, std::vector<int>>>);
-    ~MedianOf3Sort();
+    MedianOf3Sort(std::vector<std::pair<char, std::vector<int>>> v) : QuickSortTest{v}{}
+    ~MedianOf3Sort(){}
 };
 
 #endif
