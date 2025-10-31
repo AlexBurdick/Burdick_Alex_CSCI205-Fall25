@@ -7,11 +7,8 @@ class LazyPivotSort : public QuickSortTest {
 private:
     int partition(std::vector<int>&, int, int) override; // Hoare partition scheme
 
-protected:
-    std::string sortType = "Lazy Pivot Sort";
-
 public:
-    LazyPivotSort() = default;
+    LazyPivotSort() { sortType = "Lazy Pivot Sort"; }
     LazyPivotSort(std::vector<std::pair<char, std::vector<int>>> v) : QuickSortTest{v}{}
     ~LazyPivotSort(){}
 };

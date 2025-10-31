@@ -9,11 +9,8 @@ private:
     int partition(std::vector<int>&, int, int) override;
     void insertionSort(std::vector<int>&);
 
-protected:
-    std::string sortType = "Dual Pivot Sort";
-
 public:
-    DualPivotSort() = default;
+    DualPivotSort()  { sortType = "Dual Pivot Sort"; }
     DualPivotSort(std::vector<std::pair<char, std::vector<int>>> v) : QuickSortTest{v}{}
     ~DualPivotSort(){}
 

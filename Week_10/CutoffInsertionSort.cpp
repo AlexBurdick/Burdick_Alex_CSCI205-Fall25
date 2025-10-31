@@ -55,8 +55,14 @@ void CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
 {
 	int splitpoint = 0;
 
-	if( first < (last - limit) )
-        insertionSort(avector);
+	if( (last - first + 1) <= limit ) // from LeChat 10/31/2025
+    {
+        // Extract the subarray from first to last
+        std::vector<int> subvector(avector.begin() + first, avector.begin() + last + 1);
+        insertionSort(subvector);
+        // Copy the sorted subarray back to the original vector
+        std::copy(subvector.begin(), subvector.end(), avector.begin() + first);
+    }
     else
     {
 		splitpoint = partition(avector, first, last);// partition the vector from first to last

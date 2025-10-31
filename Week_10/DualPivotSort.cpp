@@ -22,8 +22,14 @@ int DualPivotSort::partition(std::vector<int> &avector, int first, int last) {re
 // From https://learnforeverlearn.com/yaro_web/
 void DualPivotSort::sort(std::vector<int> &A, int left, int right)
 {
-    if (left < (right - LIMIT))
-        insertionSort(A);
+    if ( (right - left + 1) <= right )
+    {
+        // Extract the subarray from first to last
+        std::vector<int> subvector(A.begin() + left, A.begin() + right + 1);
+        insertionSort(subvector);
+        // Copy the sorted subarray back to the original vector
+        std::copy(subvector.begin(), subvector.end(), A.begin() + left);
+    }
     else if ( left < right )
     {
         int p = A[left], q = A[right];

@@ -11,11 +11,8 @@ private:
     int ninther(std::vector<int>&, int, int);
     int partition(std::vector<int> &avector, int low, int high) override;
 
-protected:
-    std::string sortType = "Tukey's Ninther Sort";
-
 public:
-    TukeysNintherSort() = default;
+    TukeysNintherSort() { sortType = "Tukey's Ninther Sort"; }
     TukeysNintherSort(std::vector<std::pair<char, std::vector<int>>> v) : QuickSortTest{v}{}
     ~TukeysNintherSort(){}
 };

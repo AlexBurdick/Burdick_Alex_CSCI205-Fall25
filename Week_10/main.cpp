@@ -61,7 +61,7 @@ int main(){
 
 	// Test all algorithms
 	for (auto test : tests) {
-		test->test(10, 10);  // Call test() on each algorithm
+		test->test(100, 10);  // Call test() on each algorithm
 		cout << "---" << endl;
 	}
 

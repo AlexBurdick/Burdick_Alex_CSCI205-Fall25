@@ -13,7 +13,7 @@ private:
 	std::vector<std::pair<char, std::vector<int>>> testLists;
 
 protected:
-	std::string sortType {"Quick_Sort"}; // Name of sort (for printing purposes)
+	std::string sortType {"Quick Sort"}; // Name of sort (for printing purposes)
 	int swaps {0}; 	// Counter for operations (perfomance testing)
 
     void writeToFile(char type, const std::vector<std::pair<int, int>>& data);
