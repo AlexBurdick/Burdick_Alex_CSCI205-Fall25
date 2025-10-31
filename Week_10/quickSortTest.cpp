@@ -1,9 +1,9 @@
 #include "QuickSortTest.h"
 
 // Write results to file
-void QuickSortTest::writeToFile(char listType, const std::vector<std::pair<int, int>>& data)
+void QuickSortTest::writeToFile(char listType, int n, int swaps)
 {
-	std::string filename = "data/" + sortType + "_" + listType + ".txt";
+	std::string filename = "test_results/" + sortType + "_" + listType + ".txt";
 	std::ofstream outFile(filename, std::ios::app);
 	
 	if (!outFile.is_open()) {
@@ -11,9 +11,7 @@ void QuickSortTest::writeToFile(char listType, const std::vector<std::pair<int, 
 		return;
 	}
 
-	for(auto& [n, swaps] : testResults)
-		outFile << n << " " << swaps << std::endl;
-	
+	outFile << n << " " << swaps << std::endl;
 	outFile.close();
 }
 
@@ -46,10 +44,10 @@ void QuickSortTest::setTestLists(int size)
 
 void QuickSortTest::test(int size, int increment)
 {
-	for(int i = 0; i <= size; i += increment)
+	for(int n = 0; n <= size; n += increment)
 	{
 		// Create lists to be sorted [a, d, r, p]
-		setTestLists(i);
+		setTestLists(n);
 		// Make a copy to sort (preserve original for future tests)
     	std::vector<std::pair<char, std::vector<int>>> tl = testLists;
 		
@@ -58,15 +56,12 @@ void QuickSortTest::test(int size, int increment)
 		{
 			swaps = 0; // each test will run the number of types on the same object
 			sort(list, 0, list.size() - 1);
-			
-			testResults.push_back({i, swaps});
-			writeToFile(listType, testResults);
+			//testResults.push_back({n, swaps});
+			writeToFile(listType, n, swaps);
 
 			// Display results
 			std::cout << "Testing: " << sortType << " " << listType << std::endl;
-			std::cout << "Results: ";
-			std::cout << "(" << i << " " << swaps << ")" << " ";
-			std::cout << endl;
+			std::cout << "Results: " << "(" << n << " " << swaps << ")" << " " << endl;
 		}
 	}
 }

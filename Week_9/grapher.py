@@ -52,7 +52,7 @@ def plot_algorith_analysis():
         plt.xlabel('Problem size')
         plt.ylabel('Swaps')
         plt.title(title)
-
+        plt.legend()
         # Create the graphs folder if it doesn't exist
         os.makedirs('graphs', exist_ok=True)
         plt.savefig(f'graphs/{group_name}_analysis.png')

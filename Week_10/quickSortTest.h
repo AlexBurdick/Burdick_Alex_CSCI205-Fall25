@@ -16,7 +16,7 @@ protected:
 	std::string sortType {"Quick Sort"}; // Name of sort (for printing purposes)
 	int swaps {0}; 	// Counter for operations (perfomance testing)
 
-    void writeToFile(char type, const std::vector<std::pair<int, int>>& data);
+    void writeToFile(char type, int n, int swaps);
 	virtual int partition(std::vector<int>&, int, int) = 0;
 	void swap(int&, int&);
 
