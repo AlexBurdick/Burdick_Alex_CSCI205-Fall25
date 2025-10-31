@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include "QuickSortTest.h"
 #include "LazyPivotSort.h"
 #include "MedianOf3Sort.h"
@@ -23,10 +24,32 @@ vector<int> mergeSort(vector<int> avector);
 void merge(vector<int> &avector, vector<int> left, vector<int> right);
 void printl(vector<int> avector);
 
+// Global variables
+const size_t SIZE = 1000;
+const size_t INCR = 100;
+int currentDepth = 0;  // Tracks the current recursion depth
+int maxDepth = 0;      // Tracks the maximum recursion depth observed
+
 int main(){
-	int worst_case[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-	int arr[] = {54, 26, 93, 17, 77, 31, 44, 55, 47, 5,};
-	vector<int> avector(arr, arr + sizeof(arr) / sizeof(arr[0]));
+	
+	// QUICK SORT TESTING
+	vector<QuickSortTest*> tests{ // Create vector of sort tests
+		new LazyPivotSort(),
+		new MedianOf3Sort(),
+		new TukeysNintherSort(),
+		new CutoffInsertionSort(),
+		new DualPivotSort()
+	};
+
+	for (auto test : tests){ // Test all sorting algorithms
+		test->test(SIZE, INCR);  // Call test on each algorithm
+		cout << "---" << endl;
+	}
+
+    for (auto test : tests) delete test; // Clean up memory
+	
+
+	// RECURSION SORT TESTING
 	vector<int> vec = {
         42, 17, 89, 3, 56, 42, 91, 17, 24, 68,
         75, 3, 89, 50, 12, 42, 91, 63, 24, 75,
@@ -40,33 +63,15 @@ int main(){
         68, 8, 56, 31, 17, 89, 91, 24, 42, 75
     };
 
-	const size_t SIZE = 100;
-
-	// Create vector of sort tests
-	vector<QuickSortTest*> tests {
-		new LazyPivotSort(),
-		new MedianOf3Sort(),
-		new TukeysNintherSort(),
-		new CutoffInsertionSort(),
-		new DualPivotSort()
-	};
-	
-	/*
-	DualPivotSort t;
-	printl(vec);
-	t.sort(vec, 0, vec.size() - 1);
-	printl(vec);
-	cout << "Swaps = " << t.getSwaps();
-	*/
-
-	// Test all algorithms
-	for (auto test : tests) {
-		test->test(100, 10);  // Call test() on each algorithm
-		cout << "---" << endl;
-	}
-
-    for (auto test : tests) delete test; // Clean up memory
-	return 0;
+	vector<int> data = {5, 2, 9, 1, 5, 6, 3, 8, 7, 4};
+    vector<int> sortedData = mergeSort(data);
+    cout << "Sorted data: ";
+    for (int num : sortedData) {
+        cout << num << " ";
+    }
+    cout << endl;
+    cout << "Maximum recursion depth: " << maxDepth << endl;
+    return 0;
 }
 
 // Utiltiy function for testing
@@ -82,6 +87,9 @@ void printl(vector<int> avector){
 // Note: this implementation uses auxiliary memory
 // Each recursive call creates two new vectors of size n/2
 vector<int> mergeSort(vector<int> avector) {
+    currentDepth++;  // Increment current depth
+	maxDepth = max(maxDepth, currentDepth);  // Update max depth
+
 	int size = avector.size();				// get vector size
 	if (size>1) {							// base case, range of 1 is sorted
 		int mid = size/2;					// calculate mid point
@@ -97,6 +105,7 @@ vector<int> mergeSort(vector<int> avector) {
 		// merge sorted sub vectors back into original vector
 		merge(avector, lefthalf, righthalf);
 	}
+	currentDepth--;  // Decrement current depth as recursion unwinds
 	return avector;
 }
 
