@@ -12,7 +12,7 @@ vector<int> MergeSort::mergeSort(vector<int> avector)
 	recursionDepth++;  // Increment current depth
 	maxRecursions = max(maxRecursions, recursionDepth);  // Update max depth
 
-	if (avector.size() <= insertionLIMIT)
+	if (static_cast<int>(avector.size()) <= insertionLIMIT)
 	{
         insertionSort(avector);  // Sort the small array directly
         recursionDepth--;
