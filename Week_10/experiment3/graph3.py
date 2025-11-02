@@ -46,7 +46,7 @@ def plot_algorith_analysis():
     plt.gcf().canvas.mpl_connect('pick_event', onpick)
     plt.xlabel('Problem size')
     plt.ylabel('Recursions')
-    plt.title('Recursion Comparison')
+    plt.title('Recursion Comparison (cut-off=15)')
     plt.savefig('experiment3/recursion_analysis.png')
     plt.show()
 

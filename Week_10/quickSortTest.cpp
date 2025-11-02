@@ -54,6 +54,17 @@ void QuickSortTest::sort(std::vector<int> &avector, int first, int last){
 	recursionDepth++;
 	maxRecursions = max(maxRecursions, recursionDepth);
 	
+	if( (last - first + 1) <= insertionLIMIT )
+    {
+        // Extract the subarray from first to last
+        std::vector<int> subvector(avector.begin() + first, avector.begin() + last + 1);
+        insertionSort(subvector);
+        // Copy the sorted subarray back to the original vector
+        std::copy(subvector.begin(), subvector.end(), avector.begin() + first);
+		recursionDepth--;
+		return;
+    }
+	
 	int splitpoint = 0;	// partition splitpoint index
 	if (first < last) {						  // if there is more than one element in the vector
 		splitpoint = partition(avector, first, last); // partition the vector from first to last

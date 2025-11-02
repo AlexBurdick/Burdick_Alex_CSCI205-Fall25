@@ -1,7 +1,5 @@
 #include "DualPivotSort.h"
 
-
-
 int DualPivotSort::partition(std::vector<int> &avector, int first, int last) {return 0;}
 
 // From https://learnforeverlearn.com/yaro_web/
@@ -9,16 +7,19 @@ void DualPivotSort::sort(std::vector<int> &A, int left, int right)
 {
     recursionDepth++;
 	maxRecursions = max(maxRecursions, recursionDepth);
-
-    if ( (right - left + 1) <= right )
+    
+    if( (right - left + 1) <= insertionLIMIT )
     {
         // Extract the subarray from first to last
         std::vector<int> subvector(A.begin() + left, A.begin() + right + 1);
         insertionSort(subvector);
         // Copy the sorted subarray back to the original vector
         std::copy(subvector.begin(), subvector.end(), A.begin() + left);
+        recursionDepth--;
+        return;
     }
-    else if ( left < right )
+    
+    if ( left < right )
     {
         int p = A[left], q = A[right];
         int h = left + 1, k = h, g = right - 1;

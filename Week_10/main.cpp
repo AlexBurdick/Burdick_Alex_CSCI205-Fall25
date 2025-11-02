@@ -126,5 +126,4 @@ int main(){
 	}
 	// Clean up memory
 	for(auto test : tests3) delete test;
-
 }

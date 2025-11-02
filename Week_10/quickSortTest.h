@@ -20,6 +20,7 @@ protected:
 	int comparisons {0}; // Counter for comparison operations (performance testing)
 	unsigned int recursionDepth {0};
 	unsigned int maxRecursions {0};
+	const int insertionLIMIT {15};
 
     void writeToFile(char type, int n, int swaps);
 	virtual int partition(std::vector<int>&, int, int) = 0;

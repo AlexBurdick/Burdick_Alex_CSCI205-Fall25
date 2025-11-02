@@ -5,7 +5,6 @@
 
 class DualPivotSort : public QuickSortTest {
 private:
-    const int LIMIT = 0;
     int partition(std::vector<int>&, int, int) override;    
 
 public:
