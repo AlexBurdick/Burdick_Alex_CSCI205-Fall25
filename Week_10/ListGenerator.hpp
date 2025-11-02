@@ -11,8 +11,15 @@ class ListGenerator {
 private:
 	vector<char> listTypes{'a', 'd', 'r', 'p'};
     vector<pair<char, vector<int>>> testLists;
+    
+public:
+    ListGenerator(size_t size) {
+        for(char t : listTypes) {
+            testLists.push_back({t, generateList(size, t)});
+        }
+    }
 
-    vector<int> generateList(size_t size, char type)
+    static vector<int> generateList(size_t size, char type)
     {
         vector<int> vec(size);
         
@@ -42,13 +49,6 @@ private:
         }
         return vec;
     }
-    
-public:
-    ListGenerator(size_t size) {
-        for(char t : listTypes) {
-            testLists.push_back({t, generateList(size, t)});
-        }
-    }
 
     vector<pair<char, vector<int>>> getLists() { return testLists; }
 
@@ -60,6 +60,14 @@ public:
             }
             cout << endl;
         }
+    }
+
+    // Utility function for viewing vectors
+    void printl(vector<int>& avector){
+        cout << "--Vector--";
+        for (unsigned i = 0; i < avector.size(); i++)
+            cout << avector[i] << " ";
+        cout << endl;
     }
 };
 

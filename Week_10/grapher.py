@@ -6,7 +6,7 @@ import numpy as np
 # Function created by Copilot 09/11/2025
 def plot_algorith_analysis():
     # Opening files
-    data_dir = os.path.join(os.getcwd(), 'test_results')
+    data_dir = os.path.join(os.getcwd(), 'data')
     files = [
         f for f in os.listdir(data_dir)
         if os.path.isfile(os.path.join(data_dir, f)) and f.endswith('.txt')
@@ -24,8 +24,7 @@ def plot_algorith_analysis():
         groups[prefix].append(file)
         
     for group_name, group_files in groups.items():
-        plt.clf() # clear before plotting next graph
-        for file in group_files:
+        for file in files:
             # Sort out naming
             title = group_name
             label = file.split('_')[-1].replace('.txt', '')
@@ -53,10 +52,10 @@ def plot_algorith_analysis():
         plt.xlabel('Problem size')
         plt.ylabel('Swaps')
         plt.title(title)
-        plt.legend()
+
         # Create the graphs folder if it doesn't exist
         os.makedirs('graphs', exist_ok=True)
-        plt.savefig(f'graphs/{group_name} Analysis.png')
+        plt.savefig(f'graphs/{group_name}_analysis.png')
 
         # Optional: still show it plt.show()
 

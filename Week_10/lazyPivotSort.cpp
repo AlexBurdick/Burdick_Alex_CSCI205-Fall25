@@ -17,6 +17,7 @@ int LazyPivotSort::partition(std::vector<int> &avector, int low, int high)
     // Traverse arr[low..high] and move all smaller elements on left side. Elements 
     // from low to  i are smaller after every iteration
     for (int j = low; j <= high - 1; j++) {
+        comparisons++;
         if (avector[j] < pivot) {
             i++;
             swap(avector[i], avector[j]);

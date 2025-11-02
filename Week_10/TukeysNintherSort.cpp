@@ -7,16 +7,25 @@ int TukeysNintherSort::ninther(std::vector<int>& v, int left, int right)
 
     if (right - left < 3 || depth >= MAX_DEPTH)
     {
-        if(  v[left] > v[center])   swap(v[left], v[center]);
-        if(  v[left] > v[right])    swap(v[left], v[right]);
-        if(v[center] > v[right])    swap(v[center], v[right]);
+        if(  v[left] > v[center]){
+            swap(v[left], v[center]);
+            comparisons++;
+        }
+        if(  v[left] > v[right]){
+            swap(v[left], v[right]);
+            comparisons++;
+        }
+        if(v[center] > v[right]){
+            swap(v[center], v[right]);
+            comparisons++;
+        }
         swap(v[center], v[right]);
         return v[right];
     }
     
     int pivot1 = ninther(v, left, center);
     int pivot2 = ninther(v, center+1, right);
-
+    comparisons++;
     return (pivot1 > pivot2) ? pivot1 : pivot2; 
 }
 

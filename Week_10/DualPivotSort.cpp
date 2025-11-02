@@ -1,27 +1,15 @@
 #include "DualPivotSort.h"
 
-/*
-Switch to insertion sort for arrays with size less than a pre-decided limit. Once the 
-size of the sub-array goes lower than the limit, apply insertion sort on that sub-array.
-*/
-void DualPivotSort::insertionSort(std::vector<int> &avector)
-{
-    for (unsigned int index = 1; index<avector.size(); index++) {
-        int current		 = avector[index];			// remember current item
-        unsigned int pos = index;					// need current position to move towards front
-        while (pos>0 && avector[pos-1]>current) {	// while not at front and current item is less than previous
-            swap(avector[pos], avector[pos-1]);		// shift by 1 spot
-            pos--; 									// keep moving towards front of vector
-        }
-        avector[pos] = current;						// place current item in opened spot
-    }
-}
+
 
 int DualPivotSort::partition(std::vector<int> &avector, int first, int last) {return 0;}
 
 // From https://learnforeverlearn.com/yaro_web/
 void DualPivotSort::sort(std::vector<int> &A, int left, int right)
 {
+    recursionDepth++;
+	maxRecursions = max(maxRecursions, recursionDepth);
+
     if ( (right - left + 1) <= right )
     {
         // Extract the subarray from first to last
@@ -66,4 +54,5 @@ void DualPivotSort::sort(std::vector<int> &A, int left, int right)
         sort(A, h + 1, g - 1);
         sort(A, g + 1 , right);
     }
+    recursionDepth--;
 }

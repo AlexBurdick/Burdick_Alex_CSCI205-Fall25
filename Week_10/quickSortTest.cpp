@@ -1,7 +1,7 @@
 #include "QuickSortTest.h"
 
 // Write results to file
-void QuickSortTest::writeToFile(char listType, int n, int swaps)
+void QuickSortTest::writeToFile(char listType, int n, int ops)
 {
 	std::string filename = "test_results/" + sortType + "_" + listType + ".txt";
 	std::ofstream outFile(filename, std::ios::app);
@@ -11,8 +11,16 @@ void QuickSortTest::writeToFile(char listType, int n, int swaps)
 		return;
 	}
 
-	outFile << n << " " << swaps << std::endl;
+	outFile << n << " " << ops << std::endl;
 	outFile.close();
+}
+
+void QuickSortTest::resetCounters()
+{
+    	swaps = 0;
+    	comparisons = 0;
+		recursionDepth = 0;
+		maxRecursions = 0;
 }
 
 // New swap function instead of standard to count swaps easier
@@ -24,15 +32,36 @@ void QuickSortTest::swap(int& a, int& b)
 	swaps++;
 }
 
+/*
+Switch to insertion sort for arrays with size less than a pre-decided limit. Once the 
+size of the sub-array goes lower than the limit, apply insertion sort on that sub-array.
+*/
+void QuickSortTest::insertionSort(std::vector<int> &avector)
+{
+    for (unsigned int index = 1; index<avector.size(); index++) {
+        int current		 = avector[index];			// remember current item
+        unsigned int pos = index;					// need current position to move towards front
+        while (pos>0 && avector[pos-1]>current) {	// while not at front and current item is less than previous
+            swap(avector[pos], avector[pos-1]);		// shift by 1 spot
+            pos--; 									// keep moving towards front of vector
+        }
+        avector[pos] = current;						// place current item in opened spot
+    }
+}
+
 // Sort that may be overridden in subclasses
 void QuickSortTest::sort(std::vector<int> &avector, int first, int last){
-	int splitpoint = 0;	// partition splitpoint index
+	recursionDepth++;
+	maxRecursions = max(maxRecursions, recursionDepth);
 	
-	if (first < last) {								  // if there is more than one element in the vector
+	int splitpoint = 0;	// partition splitpoint index
+	if (first < last) {						  // if there is more than one element in the vector
 		splitpoint = partition(avector, first, last); // partition the vector from first to last
 		sort(avector, first, splitpoint - 1);		  // lower half
 		sort(avector, splitpoint + 1, last);		  // upper half
 	}
+
+	recursionDepth--;
 }
 
 // Setters
@@ -56,12 +85,13 @@ void QuickSortTest::test(int size, int increment)
 		{
 			swaps = 0; // each test will run the number of types on the same object
 			sort(list, 0, list.size() - 1);
-			//testResults.push_back({n, swaps});
-			writeToFile(listType, n, swaps);
+			//writeToFile(listType, n, maxDepth);
 
 			// Display results
-			std::cout << "Testing: " << sortType << " " << listType << std::endl;
-			std::cout << "Results: " << "(" << n << " " << swaps << ")" << " " << endl;
+			std::cout << "TESTING - " << sortType << " " << listType << std::endl;
+			std::cout << "Swaps: 			" << "(" << n << " " << swaps << ")\n";
+			std::cout << "Comparisons:		" << "(" << n << " " << comparisons << ")\n";
+			std::cout << "Recursion depth:	" << "(" << n << " " << maxRecursions << ")\n";
 		}
 	}
 }

@@ -53,7 +53,9 @@ int CutoffInsertionSort::partition(std::vector<int> &avector, int first, int las
 // Overrides the regular sort to stop at the limit
 void CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
 {
-	int splitpoint = 0;
+	recursionDepth++;
+	maxRecursions = max(maxRecursions, recursionDepth);
+    int splitpoint = 0;
 
 	if( (last - first + 1) <= limit ) // from LeChat 10/31/2025
     {
@@ -69,4 +71,5 @@ void CutoffInsertionSort::sort(std::vector<int> &avector, int first, int last)
 		sort(avector, first, splitpoint - 1);	// lower half
 		sort(avector, splitpoint + 1, last);	// upper half
 	}
+    recursionDepth--;
 }

@@ -5,9 +5,18 @@
 int MedianOf3Sort::medianOf3(std::vector<int> &v, int left, int right)
 {
     int center = (left + right) / 2;
-    if(v[left] > v[center])     swap(v[left], v[center]);
-    if(v[left] > v[right])      swap(v[left], v[right]);
-    if(v[center] > v[right])    swap(v[center], v[right]);
+    if(v[left] > v[center]){
+        swap(v[left], v[center]);
+        comparisons++;
+    }
+    if(v[left] > v[right]){
+        swap(v[left], v[right]);
+        comparisons++;
+    }
+    if(v[center] > v[right]){
+        swap(v[center], v[right]);
+        comparisons++;
+    }
     swap(v[center], v[right]);
     return v[right];
 }

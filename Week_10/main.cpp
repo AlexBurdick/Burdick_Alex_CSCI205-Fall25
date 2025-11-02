@@ -17,116 +17,114 @@
 #include "DualPivotSort.h"
 #include "TukeysNintherSort.h"
 #include "ListGenerator.hpp"
+#include "MergeSort.h"
 
 using namespace std;
-
-vector<int> mergeSort(vector<int> avector);
-void merge(vector<int> &avector, vector<int> left, vector<int> right);
-void printl(vector<int> avector);
 
 // Global variables
 const size_t SIZE = 1000;
 const size_t INCR = 100;
-int currentDepth = 0;  // Tracks the current recursion depth
-int maxDepth = 0;      // Tracks the maximum recursion depth observed
 
 int main(){
-	
+/*
 	// QUICK SORT TESTING
-	vector<QuickSortTest*> tests{ // Create vector of sort tests
+	vector<QuickSortTest*> tests1{ // Create vector of sort tests
 		new LazyPivotSort(),
 		new MedianOf3Sort(),
 		new TukeysNintherSort(),
 		new CutoffInsertionSort(),
 		new DualPivotSort()
 	};
-
-	for (auto test : tests){ // Test all sorting algorithms
+	for (auto test : tests1){ // Test all sorting algorithms
 		test->test(SIZE, INCR);  // Call test on each algorithm
 		cout << "---" << endl;
 	}
+	for (auto test : tests1) delete test; // Clean up memory
 
-    for (auto test : tests) delete test; // Clean up memory
-	
+	// WORST CASE TESTING
+	vector<QuickSortTest*> tests2{ // Create vector of sort tests
+		new LazyPivotSort(),
+		new MedianOf3Sort(),
+		new TukeysNintherSort()
+	};
 
+	for(size_t i = 0; i <= SIZE; i += INCR)
+	{
+		for(auto test : tests2)
+		{
+			test->resetCounters();
+
+			vector<int> v = ListGenerator::generateList(i, 'd');
+			test->sort(v, 0, v.size()-1);  // Call test on each algorithm
+			
+			cout << test->getSortType() << endl;
+			cout << "Comparisons: " << test->getComparisons() << endl;
+			cout << "Swaps: " << test->getSwaps() << endl;
+			cout << "---" << endl;
+			
+			test->appendTestResults(i, test->getComparisons());
+		}
+	}
+
+	for(auto test : tests2)
+	{
+		string filename = "experiment2_3/" + test->getSortType() + ".txt";
+		ofstream outFile(filename);
+		if (!outFile.is_open())
+		{
+			cerr << "Error: Could not open file " << filename << std::endl;
+			continue;
+		}
+
+		std::vector<std::pair<int, int>> testResults = test->getTestResults();
+		for(auto r : testResults)
+			outFile << r.first << " " << r.second << std::endl;
+		outFile.close();
+	}
+	// Clean up memory
+	for(auto test : tests2) delete test;
+*/
 	// RECURSION SORT TESTING
-	vector<int> vec = {
-        42, 17, 89, 3, 56, 42, 91, 17, 24, 68,
-        75, 3, 89, 50, 12, 42, 91, 63, 24, 75,
-        8, 56, 12, 68, 31, 91, 42, 75, 24, 8,
-        50, 17, 3, 63, 89, 56, 12, 42, 75, 24,
-        91, 68, 31, 50, 8, 17, 42, 63, 89, 24,
-        75, 56, 12, 3, 91, 68, 42, 50, 17, 31,
-        8, 24, 75, 56, 63, 12, 89, 42, 91, 17,
-        3, 50, 24, 68, 75, 8, 12, 31, 56, 42,
-        89, 63, 17, 91, 24, 50, 75, 3, 12, 42,
-        68, 8, 56, 31, 17, 89, 91, 24, 42, 75
-    };
+	vector<QuickSortTest*> tests3{ // Create vector of sort tests
+		new DualPivotSort(),
+		new MedianOf3Sort(),
+		new TukeysNintherSort(),
+		new MergeSort()	
+	};
 
-	vector<int> data = {5, 2, 9, 1, 5, 6, 3, 8, 7, 4};
-    vector<int> sortedData = mergeSort(data);
-    cout << "Sorted data: ";
-    for (int num : sortedData) {
-        cout << num << " ";
-    }
-    cout << endl;
-    cout << "Maximum recursion depth: " << maxDepth << endl;
-    return 0;
-}
+	for(size_t i = 0; i <= SIZE; i += INCR)
+	{
+		for(auto test : tests3)
+		{
+			test->resetCounters();
 
-// Utiltiy function for testing
-void printl(vector<int> avector){
-	cout << "--Vector--";
-	for (unsigned i = 0; i < avector.size(); i++)
-		cout << avector[i] << " ";
-	cout << endl;
-}
+			vector<int> v = ListGenerator::generateList(i, 'r');
+			test->sort(v, 0, v.size()-1);  // Call test on each algorithm
 
-// function sorts using mergesort.
-// Big O: time -> O(n log n) where n is the vector size, space -> O(n)
-// Note: this implementation uses auxiliary memory
-// Each recursive call creates two new vectors of size n/2
-vector<int> mergeSort(vector<int> avector) {
-    currentDepth++;  // Increment current depth
-	maxDepth = max(maxDepth, currentDepth);  // Update max depth
+			cout << test->getSortType() << endl;
+			cout << "Recursions: " << test->getRecursions() << endl;
+			cout << "---" << endl;
 
-	int size = avector.size();				// get vector size
-	if (size>1) {							// base case, range of 1 is sorted
-		int mid = size/2;					// calculate mid point
-
-		// split vector at midpoint: auxiliary memory created. These are new vectors
-		vector<int> lefthalf(avector.begin(),avector.begin()+mid);
-		vector<int> righthalf(avector.begin()+mid,avector.begin()+size);
-
-		// merge sort the halves
-		lefthalf  = mergeSort(lefthalf);	// recursive call to mergeSort the left half
-		righthalf = mergeSort(righthalf);	// recursive call to mergeSort the right half
-		
-		// merge sorted sub vectors back into original vector
-		merge(avector, lefthalf, righthalf);
+			test->appendTestResults(i, test->getRecursions());
+		}
 	}
-	currentDepth--;  // Decrement current depth as recursion unwinds
-	return avector;
-}
 
-// function merges two sorted vector
-// Big O: time -> O(n) where n is the sub-vector size, space -> O(1)
-void merge(vector<int> &avector, vector<int> left, vector<int> right){
-	unsigned i = 0;	// left vector index
-	unsigned j = 0;	// right vector index
-	unsigned k = 0;	// merged vector index
+	for(auto test : tests3)
+	{
+		string filename = "experiment3/" + test->getSortType() + ".txt";
+		ofstream outFile(filename);
+		if (!outFile.is_open())
+		{
+			cerr << "Error: Could not open file " << filename << std::endl;
+			continue;
+		}
 
-	// while there are elements in both sub vectors
-	while (i < left.size() && j < right.size()){
-		if (left[i] < right[j])
-			avector[k] = left[i++];		// copy from left
-		else avector[k] = right[j++];	// copy from right
-		k++;
+		std::vector<std::pair<int, int>> testResults = test->getTestResults();
+		for(auto r : testResults)
+			outFile << r.first << " " << r.second << std::endl;
+		outFile.close();
 	}
-	// one of the vectors is exhausted. Can unconditionally copy from here
-	while (i < left.size())
-		avector[k++] = left[i++];		// copy from left
+	// Clean up memory
+	for(auto test : tests3) delete test;
 
-	while (j < right.size())
-		avector[k++] = right[j++];		// copy from right
 }
