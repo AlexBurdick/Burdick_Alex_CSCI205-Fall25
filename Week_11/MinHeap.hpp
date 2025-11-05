@@ -75,18 +75,18 @@ public:
 
     // Remove and return the maximum element from the max heap
     // sift_down is O(log n)
-    T extract_max() {											// remove max element
+    T extract_min() {											// remove max element
         if (empty()) throw std::runtime_error("Heap is empty");	// throw exception if heap is empty
-        T max	= heap[1];										// get max element
+        T min	= heap[1];										// get max element
         heap[1] = heap.back();									// set root to last element
         heap.pop_back();										// remove last element
         sift_down(1);											// move new root down the tree to maintain max heap property
-        return max;												// return max element
+        return min;												// return max element
     }
 
     // Get the maximum element without removing it
     // O(1)
-    T get_max() const {
+    T get_min() const {
         if (empty()) throw std::runtime_error("Heap is empty");	// throw exception if heap is empty
         return heap[1];											// return max element
     }
