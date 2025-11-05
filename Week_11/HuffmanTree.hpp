@@ -1,8 +1,12 @@
 #include <string>
 #include "MinHeap.hpp"
-#include "QuadHashTable.hpp"
+#include "ClosedHashTable.hpp"
 #include "BinaryTree.hpp"
-
+/*
+in the lab:
+create trees with new to make sure they are heap alloated (declare pointers to trees)
+pass this by reference (or pass them as pointers)
+*/
 template <typename T>
 class HuffmanTree {
 
