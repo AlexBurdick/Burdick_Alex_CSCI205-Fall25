@@ -5,6 +5,7 @@
 
 int main() {
 
+    HuffmanTree<int> test("TEST MESSAGE");
 
     return 0;
 }

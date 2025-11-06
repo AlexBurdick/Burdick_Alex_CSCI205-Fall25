@@ -1,10 +1,21 @@
-#include <string>
+#ifndef PRIORITY_QUEUE_HPP
+#define PRIORITY_QUEUE_HPP
+
 #include "MinHeap.hpp"
 
 template <typename T>
-class PriorityQueue : MinHeap {
-    public: 
-        void enqueue(T value)   { insert(T value); }
-        T dequeue()             { return extract_min(); }
+class PriorityQueue : public MinHeap<T> {
+    public:
+        PriorityQueue()  = default;
+        ~PriorityQueue() = default;
+
+        void enqueue(const T& value) {
+            this->insert(value);
+        }
         
+        T peek() const {
+            return this->get_min();
+        }
 };
+
+#endif

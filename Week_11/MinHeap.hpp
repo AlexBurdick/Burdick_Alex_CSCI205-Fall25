@@ -1,3 +1,6 @@
+#ifndef MIN_HEAP_HPP
+#define MIN_HEAP_HPP
+
 #include <iostream>
 #include <vector>
 
@@ -58,14 +61,16 @@ private:
 
 public:
     // Default constructor with empty heap
-    MaxHeap() {}
+    MinHeap() {}
 
     // Constructor to build a max heap from an array
-    MaxHeap(const std::vector<T>& array) {
+    MinHeap(const std::vector<T>& array) {
         heap.push_back(T()); 									// add dummy element at index 0 to make math easier
         heap.insert(heap.end(), array.begin(), array.end());	// insert elements from array
         heapify();												// build heap
     }
+
+    virtual ~MinHeap() {}
 
     // Insert an element into the max heap
     void insert(T value) {
@@ -132,3 +137,5 @@ public:
         }
     }
 };
+
+#endif
