@@ -1,19 +1,33 @@
+/*
+Closed Hash Table: A key is ALWAYS stored in the bucket it is hashed to. 
+Collisions are dealt with using separate data structures (e.g. linked lists) in each bucket.
+
+In this assignment, you will implement a closed hash table using a linked list to handle collisions.
+You will implement the hash table using a fixed size array instead of a vector.
+
+Assume the hash function is midSquare(key, capacity)
+Assume the load factor threshold is 0.7 (i.e. if load factor > 0.7, resize the table)
+*/
+
 #ifndef CLOSED_HASH_TABLE_HPP
 #define CLOSED_HASH_TABLE_HPP
 
 #include <iostream>
+#include <string>
+#include <vector>
 #include "LinkedList.hpp"
+#include "HashFunctions.hpp"
 
 template<typename V>
 class ClosedHashTable {
 	private:
 		struct HashNode {
-			char key;
+			std::string key;
 			V value;
 
 			// Constructors
 			HashNode() : key(""), value(V()) {}
-			HashNode(const char k, const V& v) : key(k), value(v) {}
+			HashNode(const std::string& k, const V& v) : key(k), value(v) {}
 			
 			// overload the == operator so we can easily compare HashNode. Why do we need this?
 			// This allows us to compare the keys easily by just doing node == node
@@ -34,16 +48,19 @@ class ClosedHashTable {
 		int capacity;					// number of slots in the hash table
 
 		// helper function to compute hash value
-		int hash(const char key, int cap) {
-			int hashVal = (int(key) % cap);
-    		return hashVal;
+		int hash(const std::string& key, int cap) {
+			return digitAnalysis(key, cap);
 		}
 
 		// helper function to determine load factor
-		double loadFactor() { return static_cast<double>(_size) / capacity;}
+		double loadFactor() {
+			return static_cast<double>(_size) / capacity;
+		}
 
 		// helper function to determine if we should resize
-		bool should_resize() { return loadFactor() > 0.7; }
+		bool should_resize() {
+			return loadFactor() > 0.7;
+		}
 
 		// resize the hash table when it exceeds the load factor
 		void resize() {
@@ -88,16 +105,22 @@ class ClosedHashTable {
 			table = new LinkedList<HashNode>[capacity];
 		}
 		
-		~ClosedHashTable() { delete[] table; }
+		~ClosedHashTable() {
+			delete[] table;
+		}
 
 		// insert key-value pair
-		void put(const char& key, const V& value) {
+		void put(const std::string& key, const V& value, int* tester = nullptr) {
 			if (should_resize()) resize();
 			int h = hash(key, capacity);
+
+			// Always count the first probe attempt
+    		if (tester != nullptr) (*tester)++;
 
 			// Check if key already exists
 			Node<HashNode>* current = table[h].getHead();
 			while (current != nullptr) {
+				if (tester != nullptr) (*tester)++;
 				if (current->payload.key == key) {
 					current->payload.value = value;
 					return;
@@ -112,25 +135,34 @@ class ClosedHashTable {
 		}
 		
 		// get value associated with key
-		V get(const char key) {
+		V get(const std::string& key, int* tester = nullptr) {
+			// Always count the first probe attempt
+    		if (tester != nullptr) (*tester)++;
+			
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
 
 			while (current != nullptr) {
-				if (current->payload.key == key)
+				if (tester != nullptr) (*tester)++;
+				if (current->payload.key == key) {
 					return current->payload.value;
+				}
 				current = current->next;
 			}
 			throw std::runtime_error("Key not found");
 		}
 
 		// remove key-value pair from hash table
-		bool remove(const char key) {
+		bool remove(const std::string& key, int* tester = nullptr) {
+			// Always count the first probe attempt
+    		if (tester != nullptr) (*tester)++;
+			
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
 
 			int pos = 0;
 			while (current != nullptr) {
+				if (tester != nullptr) (*tester)++;
 				if (current->payload.key == key) {
 					table[h].erase(pos);
 					_size--;
@@ -143,7 +175,7 @@ class ClosedHashTable {
 		}
 		
 		// check if key is in the hash table
-		bool contains(const char key) {
+		bool contains(const std::string& key) {
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
 			while (current != nullptr) {
@@ -154,33 +186,62 @@ class ClosedHashTable {
 		}
 
 		// overload the [] operator to access elements in hash table (from LeChat, 10/19/2025)
-		V& operator[](const char key) {
+		V& operator[](const std::string& key) {
 			int h = hash(key, capacity);
 			Node<HashNode>* current = table[h].getHead();
-
 			while (current != nullptr) {
-				if (current->payload.key == key)
+				if (current->payload.key == key) {
 					return current->payload.value;
+				}
 				current = current->next;
 			}
 			throw std::runtime_error("Key not found");
 		}
 
-		
+		int getCap() {return capacity;}   // return the capacity (for looping through list)
 		int size()	 {return _size;}	  // return the number of key-value pairs in the hash table
 		bool empty() {return _size == 0;} // check if the hash table is empty
 
-		// print the contents of the hash table
-		// In order to use this your LinkedList class must have a print() and size() function
+		/**
+		 * @brief Updated print function from DeepSeek (11/06/2025)
+		 * 
+		 */
 		void print() const {
 			for (int i = 0; i < capacity; ++i) {
-				Node<HashNode>* current = table[i].getHead();
 				std::cout << "table[" << i << "]: ";
-				if (table[i].empty())
-					std::cout << "EMPTY" << std::endl; // is slot empty?
-				else
-					std::cout << current->payload.key << " = " << current->payload.value << std::endl;
+				if (table[i].empty()) {
+					std::cout << "EMPTY" << std::endl;
+				} else {
+					Node<HashNode>* current = table[i].getHead();
+					// Print all nodes in this bucket
+					while (current != nullptr) {
+						std::cout << current->payload.key << " = " << current->payload.value;
+						current = current->next;
+						if (current != nullptr)
+							std::cout << " -> "; // separator for multiple entries
+					}
+					std::cout << std::endl;
+				}
 			}
+		}
+
+		/**
+		 * @brief Get the keys, values in this hash table. This is for iterating
+		 * through key, value pairs without knowing the keys.
+		 * From DeepSeek (11/07/2025)
+		 * 
+		 * @return std::vector<HashNode> 
+		 */
+		std::vector<HashNode> getEntries() const {
+			std::vector<HashNode> entries;
+			for (int i = 0; i < capacity; ++i) {
+				Node<HashNode>* current = table[i].getHead();
+				while (current != nullptr) {
+					entries.push_back(current->payload);
+					current = current->next;
+				}
+			}
+			return entries;
 		}
 };
 

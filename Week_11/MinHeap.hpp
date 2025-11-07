@@ -47,9 +47,7 @@ private:
     }
 
     // Get the height of the tree
-    int height() {
-        return log2(heap.size() - 1);							// height of heap is log2(n) where n is the number of elements
-    }
+    int height() { return log2(heap.size() - 1); }              // height of heap is log2(n) where n is the number of elements
 
     // Get the log base 2 of an integer
     // O(log n)
