@@ -93,12 +93,9 @@ public:
         if (empty()) throw std::runtime_error("Heap is empty");	// throw exception if heap is empty
         return heap[1];											// return max element
     }
-
-    // Check if the max heap is empty
-    // O(1)
-    bool empty() const {
-        return heap.size() <= 1;								// return true if heap size is 0
-    }
+    
+    // Check if the max heap is empty: O(1)
+    bool empty() const { return heap.size() <= 1; }             // return true if heap size is 0
 
     // Print the heap as a list
     void print_heap() {

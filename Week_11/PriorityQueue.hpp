@@ -5,7 +5,9 @@
 
 template <typename T>
 class PriorityQueue : public MinHeap<T> {
+    
     public:
+
         PriorityQueue()  = default;
         ~PriorityQueue() = default;
 
@@ -15,6 +17,12 @@ class PriorityQueue : public MinHeap<T> {
         
         T peek() const {
             return this->get_min();
+        }
+
+        // Returns true if first param is less that second param
+        bool compareCounts(BinaryTree<std::pair<char, int>>* a, 
+                            BinaryTree<std::pair<char, int>>* b) {
+            return a->getRootVal().second < b->getRootVal().second;
         }
 };
 

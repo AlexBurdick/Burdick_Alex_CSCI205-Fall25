@@ -2,6 +2,7 @@
 #define HUFFMAN_TREE_HPP
 
 #include <string>
+#include <vector>
 #include "PriorityQueue.hpp"
 #include "ClosedHashTable.hpp"
 #include "BinaryTree.hpp"
@@ -18,7 +19,7 @@ class HuffmanTree {
         // Payload = count
         // We don't need the alphabet, we just need to add to the list for each char in the message
         ClosedHashTable<int> histogram {11};
-        PriorityQueue<BinaryTree<std::pair<char, int>>> queue;
+        PriorityQueue<BinaryTree<std::pair<char, int>>*> queue;
 
         void create_histogram(const std::string& message){
             // Creates the character frequency histogram (hashMap) for message.
@@ -33,7 +34,7 @@ class HuffmanTree {
                 else
                     histogram.put(k, 1);
             }
-            
+
             // Print for testing 
             // histogram.print();
         }
@@ -42,9 +43,9 @@ class HuffmanTree {
         and the frequency of that character (could be done with a pair)
         each node that is not a leaf will have a count but no character
         only leaf nodes will have a character */
-        void build_tree(){
+        void build_queue(){
             // Get all entries from the histogram
-            auto entries = histogram.getAllEntries();
+            auto entries = histogram.getEntries();
             
             // Create trees and add them to the Priority Queue
             for (const auto& entry : entries) {
@@ -60,10 +61,9 @@ class HuffmanTree {
                 // Add to priority queue (you'll need to implement this)
                 queue.insert(tree, frequency); // Assuming priority is based on frequency
             }
-
-            queue.print_tree();
             
-            /* Now build the Huffman tree by combining the smallest trees
+            /* 
+            Now build the Huffman tree by combining the smallest trees
             while (queue.size() > 1) {
                 // Get the two trees with smallest frequencies
                 BinaryTree<std::pair<char, int>>* left = queue.extractMin();
@@ -102,12 +102,10 @@ class HuffmanTree {
     public:
         HuffmanTree(const std::string& message){
             create_histogram(message);
-            build_tree();
+            build_queue();
         }
 
-        ~HuffmanTree() {
-            for (const pair: queue)
-        }
+        ~HuffmanTree() = default;
         
 };
 
