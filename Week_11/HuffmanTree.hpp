@@ -19,7 +19,7 @@ class HuffmanTree {
         // Payload = count
         // We don't need the alphabet, we just need to add to the list for each char in the message
         ClosedHashTable<int> histogram {11};
-        PriorityQueue<BinaryTree<std::pair<char, int>>*> queue;
+        PriorityQueue queue;
 
         void create_histogram(const std::string& message){
             // Creates the character frequency histogram (hashMap) for message.
@@ -50,16 +50,16 @@ class HuffmanTree {
             // Create trees and add them to the Priority Queue
             for (const auto& entry : entries) {
                 // Create a pair with the character and frequency
-                // Note: entry.key is std::string, we need to get the first char
                 char c = entry.key[0];
                 int frequency = entry.value;
+                std::pair p = std::make_pair(c, frequency);
                 
                 // Create a binary tree with the pair
                 BinaryTree<std::pair<char, int>>* tree = 
-                    new BinaryTree<std::pair<char, int>>(std::make_pair(c, frequency));
+                    new BinaryTree<std::pair<char, int>>(p);
                 
-                // Add to priority queue (you'll need to implement this)
-                queue.insert(tree, frequency); // Assuming priority is based on frequency
+                // Add the new tree to thezX priority queue
+                queue.enqueue(tree);
             }
             
             /* 

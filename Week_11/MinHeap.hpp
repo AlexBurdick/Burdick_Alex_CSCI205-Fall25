@@ -6,21 +6,21 @@
 
 template <typename T>
 class MinHeap {
-private:
+protected:
     // Templated vector. Instances of T should have comparison operators defined
     std::vector<T> heap; // T is going to be a tree
 
-    // Build a max heap from an unordered array
+    // Build a min heap from an unordered array
     void heapify() {
         for (int i = heap.size() / 2; i >= 1; i--)				// for each element from the middle to the beginning
             sift_down(i);										// move the element down the tree to maintain the max heap property
     }
 
-    // Move an element up the tree to maintain the max heap property
-    void sift_up(int index) {
+    // Move an element up the tree to maintain the min heap property
+    virtual void sift_up(int index) {
         while (index > 1) {										// while not at root
             int parent = index / 2;								// get parent index
-            if (heap[index] >= heap[parent]) break;				// if element is less than or equal to parent, break
+            if (heap[index] >= heap[parent]) break;				// if element is greater than or equal to parent, break
             std::swap(heap[index], heap[parent]);				// swap element and parent
             index = parent;										// set index to parent
         }
@@ -34,10 +34,10 @@ private:
         int largest     = index;								// set largest to index
 
         // find the lergest child
-        if (leftChild < heap.size() && heap[leftChild] < heap[largest])		// if left child is greater than largest
+        if (leftChild < heap.size() && heap[leftChild] < heap[largest])		// if left child is less than largest
             largest = leftChild;											// set largest to left child
 
-        if (rightChild < heap.size() && heap[rightChild] < heap[largest])	// if right child is greater than largest
+        if (rightChild < heap.size() && heap[rightChild] < heap[largest])	// if right child is less than largest
             largest = rightChild;											// set largest to right child
 
         if (largest != index) {									// if largest is at index
@@ -61,7 +61,7 @@ public:
     // Default constructor with empty heap
     MinHeap() {}
 
-    // Constructor to build a max heap from an array
+    // Constructor to build a min heap from an array
     MinHeap(const std::vector<T>& array) {
         heap.push_back(T()); 									// add dummy element at index 0 to make math easier
         heap.insert(heap.end(), array.begin(), array.end());	// insert elements from array
@@ -70,28 +70,28 @@ public:
 
     virtual ~MinHeap() {}
 
-    // Insert an element into the max heap
+    // Insert an element into the min heap
     void insert(T value) {
         heap.push_back(value);									// add element to end of heap
-        sift_up(heap.size() - 1);								// move element up the tree to maintain max heap property
+        sift_up(heap.size() - 1);								// move element up the tree to maintain min heap property
     }
 
     // Remove and return the maximum element from the max heap
     // sift_down is O(log n)
-    T extract_min() {											// remove max element
+    T extract_min() {											// remove min element
         if (empty()) throw std::runtime_error("Heap is empty");	// throw exception if heap is empty
-        T min	= heap[1];										// get max element
+        T min	= heap[1];										// get min element
         heap[1] = heap.back();									// set root to last element
         heap.pop_back();										// remove last element
         sift_down(1);											// move new root down the tree to maintain max heap property
-        return min;												// return max element
+        return min;												// return min element
     }
 
     // Get the maximum element without removing it
     // O(1)
     T get_min() const {
         if (empty()) throw std::runtime_error("Heap is empty");	// throw exception if heap is empty
-        return heap[1];											// return max element
+        return heap[1];											// return min element
     }
     
     // Check if the max heap is empty: O(1)
@@ -113,7 +113,7 @@ public:
         }
 
         int h				= height();								// height of heap
-        int maxLevelSize	= 1 << h;								// max nodes at any level
+        int maxLevelSize	= 1 << h;								// min nodes at any level
         int levelSize		= 1;									// nodes at current level
 
         for (int level = 0; level <= h; level++) {					// for each level
