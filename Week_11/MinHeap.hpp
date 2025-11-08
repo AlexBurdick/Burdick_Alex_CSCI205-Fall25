@@ -13,7 +13,7 @@ protected:
     // Build a min heap from an unordered array
     void heapify() {
         for (int i = heap.size() / 2; i >= 1; i--)				// for each element from the middle to the beginning
-            sift_down(i);										// move the element down the tree to maintain the max heap property
+            sift_down(i);										// move the element down the tree to maintain the min heap property
     }
 
     // Move an element up the tree to maintain the min heap property
@@ -26,8 +26,7 @@ protected:
         }
     }
 
-    // Move an element down the tree to maintain the max heap property
-    // O(log n)
+    // Move an element down the tree to maintain the min heap property: O(log n)
     void sift_down(int index) {
         int leftChild   = 2 * index;							// get left child index
         int rightChild  = 2 * index + 1;						// get right child index
@@ -59,7 +58,9 @@ protected:
 
 public:
     // Default constructor with empty heap
-    MinHeap() {}
+    MinHeap() {
+        heap.push_back(T());                                    // add dummy element at index 0
+    }
 
     // Constructor to build a min heap from an array
     MinHeap(const std::vector<T>& array) {
@@ -76,25 +77,27 @@ public:
         sift_up(heap.size() - 1);								// move element up the tree to maintain min heap property
     }
 
-    // Remove and return the maximum element from the max heap
+    // Remove and return the minimum element from the min heap
     // sift_down is O(log n)
     T extract_min() {											// remove min element
         if (empty()) throw std::runtime_error("Heap is empty");	// throw exception if heap is empty
         T min	= heap[1];										// get min element
         heap[1] = heap.back();									// set root to last element
         heap.pop_back();										// remove last element
-        sift_down(1);											// move new root down the tree to maintain max heap property
+        if (!empty()) {
+            sift_down(1);                                       // move new root down the tree to maintain min heap property
+        }
         return min;												// return min element
     }
 
-    // Get the maximum element without removing it
+    // Get the minimum element without removing it
     // O(1)
     T get_min() const {
         if (empty()) throw std::runtime_error("Heap is empty");	// throw exception if heap is empty
         return heap[1];											// return min element
     }
     
-    // Check if the max heap is empty: O(1)
+    // Check if the min heap is empty: O(1)
     bool empty() const { return heap.size() <= 1; }             // return true if heap size is 0
 
     // Print the heap as a list
