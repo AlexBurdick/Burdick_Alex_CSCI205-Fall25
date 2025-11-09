@@ -84,37 +84,51 @@ class BinaryTree {
 		}
 
 		/**
+		 * @brief Connect an existing tree as left child
+		 */
+		void connectLeft(BinaryTree<T>* existingTree) {
+			if (this->leftChild != NULL)
+				delete this->leftChild;  // Clean up existing left child
+			this->leftChild = existingTree;
+		}
+		
+		/**
+		 * @brief Connect an existing tree as right child  
+		 */
+		void connectRight(BinaryTree<T>* existingTree) {
+			if (this->rightChild != NULL)
+				delete this->rightChild;  // Clean up existing right child
+			this->rightChild = existingTree;
+		}
+		
+		/**
 		 * @brief Get the Right Child object
 		 * 
 		 * @return BinaryTree<T>* 
 		 */
-		BinaryTree<T> *getRightChild(){								// get right child
-			return this->rightChild;								// return right child
-		}
+		BinaryTree<T> *getRightChild() { return this->rightChild; }
+
 		/**
 		 * @brief Get the Left Child object
 		 * 
 		 * @return BinaryTree<T>* 
 		 */
-		BinaryTree<T> *getLeftChild(){								// get left child
-			return this->leftChild;									// return left child
-		}
+		BinaryTree<T> *getLeftChild() { return this->leftChild;	}
+
 		/**
-		 * @brief Set the Root Val object
+		 * @brief Set the Root Val object (set root's payload)
 		 * 
 		 * @param obj 
 		 */
-		void setRootVal(T obj){										// set root's payload
-			this->key = obj;										// set root's payload
-		}
+		void setRootVal(T obj) { this->key = obj; }
+
 		/**
-		 * @brief Get the Root Val object
+		 * @brief Get the Root Val object (get root's payload)
 		 * 
 		 * @return T 
 		 */
-		T getRootVal(){												// get root's payload
-			return this->key;										// return root's payload
-		}
+		T getRootVal() { return this->key; }
+
 		/**
 		 * @brief Preorder Traversal
 		 * 
@@ -155,9 +169,7 @@ class BinaryTree {
 		 * @brief Print Tree helper
 		 * 
 		 */
-		void printTree(){
-			printTree(this);
-		}
+		void printTree() { printTree(this); }
 
 };
 #endif

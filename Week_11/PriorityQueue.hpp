@@ -33,22 +33,25 @@ class PriorityQueue : public MinHeap<BinaryTree<std::pair<char, int>>*> {
             }
         }
 
-        // Move an element down the tree to maintain the min heap property: O(log n)
-        void sift_down(int index) {
-            int leftChild   = 2 * index;							// get left child index
-            int rightChild  = 2 * index + 1;						// get right child index
-            int largest     = index;								// set largest to index
+        // Move an element down the tree to maintain the min heap property
+        void sift_down(int index) override {
+            int leftChild = 2 * index;
+            int rightChild = 2 * index + 1;
+            int smallest = index;
 
-            // find the lergest child
-            if (leftChild < heap.size() && heap[leftChild] < heap[largest])		// if left child is less than largest
-                largest = leftChild;											// set largest to left child
+            // Find the smallest child using frequency comparison
+            if (leftChild < this->heap.size() && 
+                !compareCounts(this->heap[leftChild], this->heap[smallest])) {
+                smallest = leftChild;
+            }
+            if (rightChild < this->heap.size() && 
+                !compareCounts(this->heap[rightChild], this->heap[smallest])) {
+                smallest = rightChild;
+            }
 
-            if (rightChild < heap.size() && heap[rightChild] < heap[largest])	// if right child is less than largest
-                largest = rightChild;											// set largest to right child
-
-            if (largest != index) {									// if largest is at index
-                std::swap(heap[index], heap[largest]);				// swap element and largest
-                sift_down(largest);									// recursively sift down largest
+            if (smallest != index) {
+                std::swap(this->heap[index], this->heap[smallest]);
+                sift_down(smallest);
             }
         }
 
@@ -56,7 +59,14 @@ class PriorityQueue : public MinHeap<BinaryTree<std::pair<char, int>>*> {
 
         // Constructors
         PriorityQueue() : MinHeap<BinaryTree<std::pair<char, int>>*>() {}
-        ~PriorityQueue() = default;
+        ~PriorityQueue() {
+            // Skip index 0 (dummy) and delete only actual trees
+            if (!this->heap.empty()) {
+                for (int i = 1; i < this->heap.size(); i++) {
+                    delete this->heap[i];
+                }
+            }
+        }
 
         // Expected Member Functions
         void enqueue(BinaryTree<std::pair<char, int>>* tree) {
@@ -69,6 +79,8 @@ class PriorityQueue : public MinHeap<BinaryTree<std::pair<char, int>>*> {
         }
         
         BinaryTree<std::pair<char, int>>* peek() { return this->get_min(); }
+
+        int size() { return heap.size() - 1; }
     };
 
 #endif

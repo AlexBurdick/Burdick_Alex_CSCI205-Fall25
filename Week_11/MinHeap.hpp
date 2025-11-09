@@ -27,21 +27,21 @@ protected:
     }
 
     // Move an element down the tree to maintain the min heap property: O(log n)
-    void sift_down(int index) {
+    virtual void sift_down(int index) {
         int leftChild   = 2 * index;							// get left child index
         int rightChild  = 2 * index + 1;						// get right child index
-        int largest     = index;								// set largest to index
+        int smallest    = index;								// set largest to index
 
         // find the lergest child
-        if (leftChild < heap.size() && heap[leftChild] < heap[largest])		// if left child is less than largest
-            largest = leftChild;											// set largest to left child
+        if (leftChild < heap.size() && heap[leftChild] < heap[smallest])	// if left child is less than largest
+            smallest = leftChild;											// set largest to left child
 
-        if (rightChild < heap.size() && heap[rightChild] < heap[largest])	// if right child is less than largest
-            largest = rightChild;											// set largest to right child
+        if (rightChild < heap.size() && heap[rightChild] < heap[smallest])	// if right child is less than largest
+            smallest = rightChild;											// set largest to right child
 
-        if (largest != index) {									// if largest is at index
-            std::swap(heap[index], heap[largest]);				// swap element and largest
-            sift_down(largest);									// recursively sift down largest
+        if (smallest != index) {									// if largest is at index
+            std::swap(heap[index], heap[smallest]);				// swap element and largest
+            sift_down(smallest);									// recursively sift down largest
         }
     }
 
