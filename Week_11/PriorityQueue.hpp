@@ -59,14 +59,7 @@ class PriorityQueue : public MinHeap<BinaryTree<std::pair<char, int>>*> {
 
         // Constructors
         PriorityQueue() : MinHeap<BinaryTree<std::pair<char, int>>*>() {}
-        ~PriorityQueue() {
-            // Skip index 0 (dummy) and delete only actual trees
-            if (!this->heap.empty()) {
-                for (int i = 1; i < size(); i++) {
-                    delete this->heap[i];
-                }
-            }
-        }
+        ~PriorityQueue(){}
 
         // Expected Member Functions
         void enqueue(BinaryTree<std::pair<char, int>>* tree) {

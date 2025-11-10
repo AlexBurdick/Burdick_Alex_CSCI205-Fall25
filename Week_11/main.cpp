@@ -8,6 +8,11 @@ valgrind --tool=memcheck --leak-check=full ./a.out
 #include <vector>
 #include "Huffman.hpp"
 
+/**
+ * @brief Compresses a message using Huffman coding
+ * NOTE: Caller is responsible for deleting the returned tree
+ * 
+ */
 int main() {
 
     // Simple one-line compression
@@ -33,6 +38,7 @@ int main() {
     std::cout << "Compressed 2: " << compressed2.first << std::endl;
     std::cout << "Decompressed: " << decompressed2 << std::endl;
     
+    delete compressed.second;
     delete compressed1.second;
     delete compressed2.second;
     return 0;

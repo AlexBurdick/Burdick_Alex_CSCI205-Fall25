@@ -141,7 +141,12 @@ class Huffman {
         }
 
     public:
-        ~Huffman(){}
+        ~Huffman() {
+            if (huffmanTree != nullptr) {
+                delete huffmanTree;
+                huffmanTree = nullptr;
+            }
+        }
 
         /**
          * @brief Static compress function that calls the Huffman private constructor.
@@ -151,7 +156,9 @@ class Huffman {
          */
         static std::pair<std::string, BinaryTree<std::pair<char, int>>*> compress(const std::string& message) {
             Huffman compressor(message);
-            return compressor.compressMessage(message);
+            auto result = compressor.compressMessage(message);
+            compressor.huffmanTree = nullptr; // Prevent destructor from deleting it
+            return result;
         }
 
         /**
@@ -197,7 +204,13 @@ class Huffman {
             std::cout << "Original message: " << message << std::endl;
             std::cout << "Original size: " << message.length() * 8 << " bits" << std::endl;
             
-            std::string compressed = compressor.compressMessage(message).first;
+            // Manually compress without calling compressMessage for memory management
+            std::string compressed;
+            for (char c : message) {
+                std::string charStr(1, c);
+                compressed += compressor.huffmanCodes.get(charStr);
+            }
+
             std::cout << "Compressed: " << compressed << std::endl;
             std::cout << "Compressed size: " << compressed.length() << " bits" << std::endl;
             

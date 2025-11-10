@@ -43,14 +43,20 @@ class BinaryTree {
 		}
 
 		/**
-		 * @brief Destroy the Binary Tree object
+		 * @brief Destroy the Binary Tree object, created by DeepSeek (11/09/2025)
 		 * 
 		 */
-		~BinaryTree(){												// destructor
-			if (this->leftChild != NULL)							// if left child is not null
-				delete this->leftChild;								// delete left child
-			if (this->rightChild != NULL)							// if right child is not null
-				delete this->rightChild;							// delete right child
+		~BinaryTree(){
+			// Recursively delete left subtree
+			if (leftChild != nullptr) {
+				delete leftChild;
+				leftChild = nullptr;
+			}
+			// Recursively delete right subtree  
+			if (rightChild != nullptr) {
+				delete rightChild;
+				rightChild = nullptr;
+			}
 		}
 
 		/**
