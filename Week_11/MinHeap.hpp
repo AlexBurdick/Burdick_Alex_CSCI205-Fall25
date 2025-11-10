@@ -33,15 +33,17 @@ protected:
         int smallest    = index;								// set largest to index
 
         // find the lergest child
-        if (leftChild < heap.size() && heap[leftChild] < heap[smallest])	// if left child is less than largest
-            smallest = leftChild;											// set largest to left child
+        if (leftChild < static_cast<int>(heap.size()) && 
+            heap[leftChild] < heap[smallest])	                // if left child is less than largest
+            smallest = leftChild;								// set largest to left child
 
-        if (rightChild < heap.size() && heap[rightChild] < heap[smallest])	// if right child is less than largest
-            smallest = rightChild;											// set largest to right child
+        if (rightChild < static_cast<int>(heap.size()) && 
+            heap[rightChild] < heap[smallest])	                // if right child is less than largest
+            smallest = rightChild;								// set largest to right child
 
-        if (smallest != index) {									// if largest is at index
+        if (smallest != index) {								// if largest is at index
             std::swap(heap[index], heap[smallest]);				// swap element and largest
-            sift_down(smallest);									// recursively sift down largest
+            sift_down(smallest);								// recursively sift down largest
         }
     }
 

@@ -40,11 +40,11 @@ class PriorityQueue : public MinHeap<BinaryTree<std::pair<char, int>>*> {
             int smallest = index;
 
             // Find the smallest child using frequency comparison
-            if (leftChild < this->heap.size() && 
+            if (leftChild < size() && 
                 !compareCounts(this->heap[leftChild], this->heap[smallest])) {
                 smallest = leftChild;
             }
-            if (rightChild < this->heap.size() && 
+            if (rightChild < size() && 
                 !compareCounts(this->heap[rightChild], this->heap[smallest])) {
                 smallest = rightChild;
             }
@@ -62,7 +62,7 @@ class PriorityQueue : public MinHeap<BinaryTree<std::pair<char, int>>*> {
         ~PriorityQueue() {
             // Skip index 0 (dummy) and delete only actual trees
             if (!this->heap.empty()) {
-                for (int i = 1; i < this->heap.size(); i++) {
+                for (int i = 1; i < size(); i++) {
                     delete this->heap[i];
                 }
             }
@@ -71,7 +71,7 @@ class PriorityQueue : public MinHeap<BinaryTree<std::pair<char, int>>*> {
         // Expected Member Functions
         void enqueue(BinaryTree<std::pair<char, int>>* tree) {
             this->heap.push_back(tree);
-            sift_up(this->heap.size() - 1);
+            sift_up(size());
         }
 
         BinaryTree<std::pair<char, int>>* dequeue() {
@@ -80,7 +80,7 @@ class PriorityQueue : public MinHeap<BinaryTree<std::pair<char, int>>*> {
         
         BinaryTree<std::pair<char, int>>* peek() { return this->get_min(); }
 
-        int size() { return heap.size() - 1; }
+        int size() { return static_cast<int>(heap.size() - 1); }
     };
 
 #endif

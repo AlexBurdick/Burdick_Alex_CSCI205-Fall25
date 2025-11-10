@@ -2,9 +2,6 @@
  * @file  main.cpp
  * 
  * @brief Implementation of the quick and merge sort tests.
- 
- * g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
- * valgrind --tool=memcheck --leak-check=full ./a.out
  *********************************************************************/
 
 #include <vector>
