@@ -55,15 +55,18 @@ class BinarySearchTree {
 
 		// helper function with arguments to insert a node recursively
 		// O(log n) where n is the number of nodes in the tree
-		TreeNode<T>* insert(TreeNode<T>* node, T key) {
-			if (node == nullptr)							// if node is null, create new node
+		virtual TreeNode<T>* insert(TreeNode<T>* node, T key) {			
+			if (node == nullptr) {							// if node is null, create new node
+				nodeCount++;  								// Only increment when actually creating a new node
 				return new TreeNode<T>(key);				// return new node
+			}
 
 			if (key < node->data)							// if key is less than node's data
 				node->left = insert(node->left, key);		// recursively insert key into left subtree
 			else if (key > node->data)						// if key is greater than node's data
 				node->right = insert(node->right, key);		// recursively insert key into right subtree
-			nodeCount++;									// increment node count
+			
+			// Removed increment so that the node count doesn't increase if there isn't a new node
 			return node;									// return node
 		}
 
@@ -85,7 +88,7 @@ class BinarySearchTree {
 
 		// helper function to find the inorder successor of a node
 		// O(log n) where n is the number of nodes in the tree
-		TreeNode<T>* remove(TreeNode<T>* node, T key) {							// args: start, key to remove
+		virtual TreeNode<T>* remove(TreeNode<T>* node, T key) {							// args: start, key to remove
 			if (node == nullptr)		return node;							// key was not found in tree
 			if (key < node->data)		node->left  = remove(node->left, key);  // key is smaller than node's data, go left
 			else if (key > node->data)	node->right = remove(node->right, key); // key is greater than node's data, go right
@@ -159,8 +162,16 @@ class BinarySearchTree {
 		// no-arg constructor
 		BinarySearchTree() : root(nullptr) {}
 
+		virtual ~BinarySearchTree() {
+			if (root != nullptr) {
+				clear(root->left);
+				clear(root->right);
+				delete root;
+			}
+		}
+
 		// public insert with T argument
-		void insert(T key) {
+		virtual void insert(T key) {
 			root = insert(root, key);	// call private recursive helper insert
 		}
 

@@ -21,7 +21,7 @@ public:
 };
 
 template <typename T>
-class AVLSearchTree : public BinarySearchTree<T> {
+class AVLTree : public BinarySearchTree<T> {
 private:
     using BinarySearchTree<T>::root;  // Access base class root
     
@@ -51,7 +51,7 @@ public:
     }
     
 private:
-    AVLTreeNode<T>* insert(AVLTreeNode<T>* node, T key) {
+    AVLTreeNode<T>* insert(AVLTreeNode<T>* node, T key) override {
         // Standard BST insertion
         if (!node) return new AVLTreeNode<T>(key);
         
@@ -126,7 +126,7 @@ private:
     }
     
     // Override remove method as well
-    AVLTreeNode<T>* remove(AVLTreeNode<T>* node, T key) {
+    AVLTreeNode<T>* remove(AVLTreeNode<T>* node, T key) override {
         if (!node) return node;
         
         // Standard BST deletion
