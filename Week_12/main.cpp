@@ -1,11 +1,29 @@
+/*  g++ -g -Wall -pedantic -o a.out *.cpp *.hpp *.h
+    valgrind --tool=memcheck --leak-check=full ./a.out
+*/
+
 #include <iostream>
 #include <ctime>
 #include <vector>
-#include "BinarySearchTree.hpp"
+#include "AVLSearchTree.hpp"
 
+/* Binary search trees
+Compare binary search tree to hash tables, sorted arrays (look up binary search)
+Usually used for indexing a database (uses BTREE)
+Binary Search Tree Property = left child < right child
+Maintain lexical ordering (ascending, descending)
+If you do a traversal (in order), you will get things in order
+Insert = O(log N)
+lookup = O(log N)
+Efficient for finding minimum (leftmost node), in order traversal
+Best case for BST is root is the median
+Binary search trees can become unbalanced
+Insert starts at root, goes left if smaller than root, right if bigger
+*/
 int main() {
-	BinarySearchTree<int> bst;
-	const int SIZE = 10;
+
+    BinarySearchTree<int> bst;
+	const size_t SIZE = 10;
 
 	// fill with random numbers
 	//srand(time(nullptr));
@@ -18,7 +36,7 @@ int main() {
 
 	// use this data to test remove
 	std::vector<int> temp = { 50, 30, 20, 40, 70, 60, 65, 80 };
-	for (int i = 0; i < temp.size(); i++)
+	for (size_t i = 0; i < temp.size(); i++)
 		bst.insert(temp[i]);
 	bst.print();
 	
@@ -39,4 +57,6 @@ int main() {
 	bst.remove(50);
 	bst.print();
 	return 0;
+
+    return 0;
 }
