@@ -1,35 +1,5 @@
-/*
-	A Binary Search Tree (BST) is a hierarchical data structure used in computer science to store and organize data efficiently. 
-	It is a type of binary tree with the following key characteristics:
-
-	1.	Binary Tree Structure: A BST is a binary tree, meaning that each node has at most two child nodes: a left child and a right child. 
-		These child nodes are also BSTs, forming sub-trees within the main tree.
-
-	2.	Ordering Property: The defining feature of a BST is the ordering property. Each node in a BST is associated with a value, 
-		and this value is such that for any given node:
-		~ All values in the left sub-tree are less than the value of the node.
-		~ All values in the right sub-tree are greater than the value of the node.
-
-		This ordering property ensures that the tree is organized in such a way that you can quickly search for, insert, or delete values in logarithmic time.
-
-	3.	No Duplicates: In most BST implementations, duplicate values are not allowed. If a duplicate value is encountered, it can be placed in 
-		either the left or right sub-tree, depending on the specific implementation.
-
-	4.	Balanced vs. Unbalanced: BSTs can be balanced or unbalanced. In a balanced BST, the tree is structured such that its height is minimized,
-		leading to efficient search, insert, and delete operations. In an unbalanced BST, the height can approach that of a linked list,
-		resulting in poor performance for these operations. Techniques such as AVL trees and Red-Black trees are used to ensure that the tree remains balanced.
-
-	5. Traversal: Common ways to traverse a BST include in-order, pre-order, and post-order traversal.
-		~ In-order traversal of a BST results in visiting the nodes in ascending order of their values.
-		~ Pre-order traversal of a BST results in visiting the root node first, followed by the left and right sub-trees.
-		~ Post-order traversal of a BST results in visiting the left and right sub-trees first, followed by the root node.
-
-	BSTs are widely used in various applications, including databases, search algorithms, and data structures like sets and maps. 
-	The efficiency of search, insertion, and deletion operations in a BST makes it a valuable tool for managing and organizing data. 
-	However, it's important to note that the efficiency of these operations depends on the tree's balance, and unbalanced trees 
-	may degrade to linear time complexity for these operations. To maintain balance, self-balancing binary search trees, 
-	such as AVL trees and Red-Black trees, are often used.
-*/
+#ifndef BINARY_SEARCH_TREE_HPP
+#define BINARY_SEARCH_TREE_HPP
 
 #include <iostream>
 #include <vector>
@@ -42,19 +12,16 @@ class TreeNode {
 		T data;				// node's payload. Custom instances of T should have comparison operators defined
 		TreeNode* left;		// pointer to left child
 		TreeNode* right;	// pointer to right child
-
 		TreeNode(T val) : data(val), left(nullptr), right(nullptr) {}
 };
 
-// BinarySearchTree class
 template <typename T>
 class BinarySearchTree {
-	private:
-		TreeNode<T>* root;									// pointer to root node
-		int nodeCount;										// number of nodes in the tree
+	protected:
+		TreeNode<T>* root;	// pointer to root node
+		int nodeCount;		// number of nodes in the tree
 
-		// helper function with arguments to insert a node recursively
-		// O(log n) where n is the number of nodes in the tree
+		// helper function with arguments to insert a node recursively - O(log n) where n is the number of nodes in the tree
 		virtual TreeNode<T>* insert(TreeNode<T>* node, T key) {			
 			if (node == nullptr) {							// if node is null, create new node
 				nodeCount++;  								// Only increment when actually creating a new node
@@ -73,22 +40,20 @@ class BinarySearchTree {
 		// helper function to find the minimum value in a subtree
 		// O(log n) where n is the number of nodes in the tree
 		TreeNode<T>* min(TreeNode<T>* node) {
-			while (node->left != nullptr)					// while node has a left child
-				node = node->left;							// go left
-			return node;									// return node
+			while (node->left != nullptr) node = node->left;
+			return node;
 		}
 
 		// helper function to find the maximum value in a subtree
 		// O(log n) where n is the number of nodes in the tree
 		TreeNode<T>* max(TreeNode<T>* node) {
-			while (node->right != nullptr)					// while node has a right child
-				node = node->right;							// go right
+			while (node->right != nullptr) node = node->right;
 			return node;
 		}
 
 		// helper function to find the inorder successor of a node
 		// O(log n) where n is the number of nodes in the tree
-		virtual TreeNode<T>* remove(TreeNode<T>* node, T key) {							// args: start, key to remove
+		TreeNode<T>* remove(TreeNode<T>* node, T key) {							// args: start, key to remove
 			if (node == nullptr)		return node;							// key was not found in tree
 			if (key < node->data)		node->left  = remove(node->left, key);  // key is smaller than node's data, go left
 			else if (key > node->data)	node->right = remove(node->right, key); // key is greater than node's data, go right
@@ -96,10 +61,12 @@ class BinarySearchTree {
 				if (node->left == nullptr) {									// node has one child (right child))
 					TreeNode<T>* temp = node->right;							// store right child
 					delete node;												// delete node
+					nodeCount--; // Added decrement
 					return temp;												// return right child
 				} else if (node->right == nullptr) {							// node has one child (left child)
 					TreeNode<T>* temp = node->left;								// store left child
-					delete node;												// delete node
+					delete node;
+					nodeCount--; // Added decrement												// delete node
 					return temp;												// return left child
 				}
 				// node has two children, get inorder successor
@@ -158,17 +125,21 @@ class BinarySearchTree {
 			}
 		}
 
+		// Memory cleanup from DeepSeek (11/14/2025)
+		void clear(TreeNode<T>* node) {
+			if (node != nullptr) {
+				clear(node->left);
+				clear(node->right);
+				delete node;
+			}
+		}
+
 	public:
 		// no-arg constructor
 		BinarySearchTree() : root(nullptr) {}
 
-		virtual ~BinarySearchTree() {
-			if (root != nullptr) {
-				clear(root->left);
-				clear(root->right);
-				delete root;
-			}
-		}
+		// Destructor from DeepSeek (11/14/2025virtual)
+		virtual ~BinarySearchTree() { this->clear(root); }
 
 		// public insert with T argument
 		virtual void insert(T key) {
@@ -209,6 +180,8 @@ class BinarySearchTree {
 			postOrderTraversal(root);						// call private recursive helper
 			std::cout << std::endl;
 		}
+
+		int size() const { return nodeCount; }				// Added a way to get nodeCount
 		
 		// public print with no arguments
 		void print() {
@@ -225,3 +198,4 @@ class BinarySearchTree {
 			return max(root)->data;							// call private recursive helper max
 		}
 };
+#endif

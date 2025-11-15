@@ -1,30 +1,25 @@
+#ifndef AVL_SEARCH_TREE_HPP
+#define AVL_SEARCH_TREE_HPP
+
 #include "BinarySearchTree.hpp"
 
 template <typename T>
-class AVLTreeNode {
-public:
-    T data;
-    AVLTreeNode* left;
-    AVLTreeNode* right;
-    AVLTreeNode* parent;
-    int balanceFactor;  // height(left) - height(right)
-    int height;
-    
-    AVLTreeNode(T val) : data(val), left(nullptr), right(nullptr), 
-                         parent(nullptr), balanceFactor(0), height(1) {}
-    
-    bool isLeftChild() const { return parent && parent->left == this; }
-    bool isRightChild() const { return parent && parent->right == this; }
-    bool isRoot() const { return parent == nullptr; }
-    bool hasLeftChild() const { return left != nullptr; }
-    bool hasRightChild() const { return right != nullptr; }
+class AVLTreeNode : public TreeNode<T> {
+    public:
+        AVLTreeNode* left;
+        AVLTreeNode* right;
+        int balanceFactor;  // height(left) - height(right)
+        int height;
+        
+        AVLTreeNode(const T& val)
+        : TreeNode<T>(val), left(nullptr), right(nullptr),
+            balanceFactor(0), height(1) {}
 };
 
 template <typename T>
-class AVLTree : public BinarySearchTree<T> {
+class AVLSearchTree : public BinarySearchTree<T> {
 private:
-    using BinarySearchTree<T>::root;  // Access base class root
-    
+    AVLTreeNode<T>* root;	// pointer to root node
     // Override height calculation methods
     int getHeight(AVLTreeNode<T>* node) {
         return node ? node->height : 0;
@@ -41,17 +36,42 @@ private:
         }
     }
 
-public:
-    AVLSearchTree() = default;
-    ~AVLSearchTree() {}
-    
-    // Override insert to maintain AVL property
-    void insert(T key) override {
-        root = insert(root, key);
+    // just for illustration purposes
+    void printTree(AVLTreeNode<T>* root, int level = 0, const std::string& prefix = "", int spacing = 4) {
+        if (root) {																	// if root is not null
+            if (level == 0) {														// if root is the root node
+                std::cout << "Root: " << root->data << std::endl;					// print root node
+            } else {																// node is not the root node
+                std::string branch = (level % 2 == 1) ? "└─" : "├─";				// determine branch
+                std::string spaces(spacing * level - 2, ' ');						// determine spacing
+                std::cout << spaces << branch << prefix << root->data << std::endl;	// print node
+            }
+
+            if (root->left || root->right) {										// if node has children
+                printTree(root->left, level + 1, "L: ", spacing);					// print left child
+                printTree(root->right, level + 1, "R: ", spacing);					// print right child
+            }
+        }
     }
-    
+
+public:
+    AVLSearchTree() : root(nullptr) {}
+    ~AVLSearchTree() {}
+
+    bool is_balanced() {
+        if (root->balanceFactor < -1 || root->balanceFactor > 1) return true;
+        else return false;
+    }
+
+    // Provide public insert that calls base class insert
+    void insert(T key) override {
+        this->root = insert((this->root), key);
+    }
+
+    void print() { printTree(root); }
+   
 private:
-    AVLTreeNode<T>* insert(AVLTreeNode<T>* node, T key) override {
+    AVLTreeNode<T>* insert(AVLTreeNode<T>* node, T key) {
         // Standard BST insertion
         if (!node) return new AVLTreeNode<T>(key);
         
@@ -126,7 +146,7 @@ private:
     }
     
     // Override remove method as well
-    AVLTreeNode<T>* remove(AVLTreeNode<T>* node, T key) override {
+    AVLTreeNode<T>* remove(AVLTreeNode<T>* node, T key) {
         if (!node) return node;
         
         // Standard BST deletion
@@ -160,11 +180,6 @@ private:
         updateHeight(node);
         return rebalance(node);
     }
-    
-    AVLTreeNode<T>* minValueNode(AVLTreeNode<T>* node) {
-        AVLTreeNode<T>* current = node;
-        while (current->left)
-            current = current->left;
-        return current;
-    }
+
 };
+#endif
