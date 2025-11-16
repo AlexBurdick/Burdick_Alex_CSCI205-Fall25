@@ -19,7 +19,8 @@ class AVLTreeNode : public TreeNode<T> {
 template <typename T>
 class AVLSearchTree : public BinarySearchTree<T> {
 private:
-    AVLTreeNode<T>* root;	// pointer to root node
+    AVLTreeNode<T>* root; // pointer to root node
+
     // Override height calculation methods
     int getHeight(AVLTreeNode<T>* node) {
         return node ? node->height : 0;
@@ -54,23 +55,6 @@ private:
         }
     }
 
-public:
-    AVLSearchTree() : root(nullptr) {}
-    ~AVLSearchTree() {}
-
-    bool is_balanced() {
-        if (root->balanceFactor < -1 || root->balanceFactor > 1) return true;
-        else return false;
-    }
-
-    // Provide public insert that calls base class insert
-    void insert(T key) override {
-        this->root = insert((this->root), key);
-    }
-
-    void print() { printTree(root); }
-   
-private:
     AVLTreeNode<T>* insert(AVLTreeNode<T>* node, T key) {
         // Standard BST insertion
         if (!node) return new AVLTreeNode<T>(key);
@@ -145,7 +129,6 @@ private:
         return node;  // No rotation needed
     }
     
-    // Override remove method as well
     AVLTreeNode<T>* remove(AVLTreeNode<T>* node, T key) {
         if (!node) return node;
         
@@ -163,9 +146,10 @@ private:
                     temp = node;
                     node = nullptr;
                 } else {
-                    *node = *temp;  // Copy contents
+                    *node = *temp;
                 }
                 delete temp;
+
             } else {
                 // Node with two children
                 AVLTreeNode<T>* temp = minValueNode(node->right);
@@ -180,6 +164,24 @@ private:
         updateHeight(node);
         return rebalance(node);
     }
+
+    public:
+        AVLSearchTree() : root(nullptr) {}
+        ~AVLSearchTree() {}
+
+        bool is_balanced() {
+            if (root->balanceFactor < -1 || root->balanceFactor > 1) return true;
+            else return false;
+        }
+
+        // Provide public insert that calls base class insert
+        void insert(T key) override {
+            this->root = insert((this->root), key);
+        }
+
+        int size() { return getHeight(root); }
+
+        void print() { printTree(root); }
 
 };
 #endif

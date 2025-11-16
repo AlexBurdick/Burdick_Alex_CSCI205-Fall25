@@ -4,12 +4,13 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <cstdlib>
 
 // TreeNode class
 template <typename T>
 class TreeNode {
 	public:
-		T data;				// node's payload. Custom instances of T should have comparison operators defined
+		T data;				// node's data. Custom instances of T should have comparison operators defined
 		TreeNode* left;		// pointer to left child
 		TreeNode* right;	// pointer to right child
 		TreeNode(T val) : data(val), left(nullptr), right(nullptr) {}
@@ -20,17 +21,20 @@ class BinarySearchTree {
 	protected:
 		TreeNode<T>* root;	// pointer to root node
 		int nodeCount;		// number of nodes in the tree
+		int ops;			// track the number of recursive calls for insterts
 
 		// helper function with arguments to insert a node recursively - O(log n) where n is the number of nodes in the tree
-		virtual TreeNode<T>* insert(TreeNode<T>* node, T key) {			
+		TreeNode<T>* insert(TreeNode<T>* node, T key) {			
 			if (node == nullptr) {							// if node is null, create new node
 				nodeCount++;  								// Only increment when actually creating a new node
 				return new TreeNode<T>(key);				// return new node
 			}
 
 			if (key < node->data)							// if key is less than node's data
+				opCount++;
 				node->left = insert(node->left, key);		// recursively insert key into left subtree
 			else if (key > node->data)						// if key is greater than node's data
+				opCount++;
 				node->right = insert(node->right, key);		// recursively insert key into right subtree
 			
 			// Removed increment so that the node count doesn't increase if there isn't a new node
@@ -134,22 +138,59 @@ class BinarySearchTree {
 			}
 		}
 
+		void flatten(TreeNode<T>* node, std::vector<int>& list) {			
+			// In-order traversal
+			if (node != nullptr) {
+				flatten(node->left, list);
+				list.push_back(node->data);
+				flatten(node->right, list);
+			}
+		}
+
+		int closest(TreeNode<T>* node, int n) {			
+			if (node == nullptr)  throw std::runtime_error("Tree is empty");
+
+			int closestNum = node->data; // closest number in tree
+			int distance = abs(n - node->data); // distance between numbers
+
+			// Recursively check left subtree
+			if (node->left != nullptr) {
+				int leftClosest = closest(node->left, n);
+				int leftDistance = abs(n - leftClosest);
+				if (leftDistance < distance) {
+					closestNum = leftClosest;
+					distance = leftDistance;
+				}
+			}
+
+			// Recursively check right subtree
+			if (node->right != nullptr) {
+				int rightClosest = closest(node->right, n);
+				int rightDistance = abs(n - rightClosest);
+				if (rightDistance < distance) {
+					closestNum = rightClosest;
+					distance = rightDistance;
+				}
+			}
+
+			return closestNum;
+		}
+
 	public:
 		// no-arg constructor
 		BinarySearchTree() : root(nullptr) {}
 
 		// Destructor from DeepSeek (11/14/2025virtual)
-		virtual ~BinarySearchTree() { this->clear(root); }
+		~BinarySearchTree() { this->clear(root); }
 
 		// public insert with T argument
-		virtual void insert(T key) {
-			root = insert(root, key);	// call private recursive helper insert
-		}
+		virtual void insert(T key) { root = insert(root, key); }
 
 		// public remove with T argument
-		void remove(T key) {
-			root = remove(root, key);	// call private recursive helper remove
-		}
+		void remove(T key) { root = remove(root, key); }
+		
+		// getter for opCount
+		int getOpCount() const { return opCount; }
 
 		// public search with T argument
 		// O(log n) where n is the number of nodes in the tree
@@ -181,21 +222,12 @@ class BinarySearchTree {
 			std::cout << std::endl;
 		}
 
-		int size() const { return nodeCount; }				// Added a way to get nodeCount
-		
-		// public print with no arguments
-		void print() {
-			printTree(root);								// call private recursive helper
-		}
-
-		// public min with no arguments
-		T min() {
-			return min(root)->data;							// call private recursive helper min
-		}
-
-		// public max with no arguments
-		T max() {
-			return max(root)->data;							// call private recursive helper max
-		}
+		// Helper functions
+		int size() const { return nodeCount; }	// Added a way to get nodeCount
+		void print() { printTree(root); }		// public print with no arguments
+		T min() { return min(root)->data; }		// public min with no arguments
+		T max() { return max(root)->data; }		// public max with no arguments
+		void flatten(std::vector<int>& list) { flatten(root, list); }
+		int closest(int n) { return closest(root, n); }
 };
 #endif
