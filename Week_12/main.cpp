@@ -38,7 +38,7 @@ int main() {
     // TASK TWO
     //flattenTrees();
     //closestTest();
-    //graphCases();
+    graphCases();
     //otherTests();
     //testAVL();
 
@@ -61,8 +61,8 @@ void flattenTrees() {
     // Flatten to vectors
     vector<int> averageList;
     vector<int> worstList;
-    int aveCount = averageBST.flatten(averageList);
-    int worstCount = worstBST.flatten(worstList);
+    averageBST.flatten(averageList);
+    worstBST.flatten(worstList);
     
     // Print results
     cout << "Average List: " << endl;
@@ -119,13 +119,13 @@ void graphCases() {
 
             if (flattenFile.is_open()) {
                 vector<int> worstList;
-                int worstCount = wbst.flatten(worstList);
-                flattenFile << i << " " << worstCount;
+                wbst.flatten(worstList);
+                flattenFile << i << " " << wbst.getOpCount() << endl;
             } else cout << "Unable to open file" << endl;
-            flattenFile.close();
         }
     } else cout << "Unable to open file" << endl;
     worstFile.close();
+    flattenFile.close();
 
 	// Call Python graphing utility
     system("python grapher.py");

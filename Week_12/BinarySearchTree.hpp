@@ -141,7 +141,7 @@ class BinarySearchTree {
 		}
 
 		// Lab assignment methods
-		int flatten(TreeNode<T>* node, std::vector<int>& list) {			
+		void flatten(TreeNode<T>* node, std::vector<int>& list) {			
 			// In-order traversal
 			opCount++;
 			if (node != nullptr) {
@@ -149,10 +149,6 @@ class BinarySearchTree {
 				list.push_back(node->data);
 				flatten(node->right, list);
 			}
-
-			int temp = opCount;
-			opCount = 0;
-			return temp;
 		}
 
 		int closest(TreeNode<T>* node, int n) {			
@@ -274,11 +270,6 @@ class BinarySearchTree {
 			std::cout << std::endl;
 		}
 
-		int flatten(std::vector<int>& list) {
-			flatten(root, list);
-			return opCount;
-		}
-
 		// Helper functions
 		int size() const { return nodeCount; }	// Added a way to get nodeCount
 		void print() { printTree(root); }		// public print with no arguments
@@ -286,6 +277,10 @@ class BinarySearchTree {
 		T max() { return max(root)->data; }		// public max with no arguments
 
 		// Helpers for lab assignment methods
+		void flatten(std::vector<int>& list) {
+			flatten(root, list);
+		}
+
 		int closest(int n) { return closest(root, n); }
 
 		T find_kth_smallest(int k) {
