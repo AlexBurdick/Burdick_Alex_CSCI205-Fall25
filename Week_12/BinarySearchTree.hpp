@@ -21,7 +21,7 @@ class BinarySearchTree {
 	protected:
 		TreeNode<T>* root;	// pointer to root node
 		int nodeCount;		// number of nodes in the tree
-		int ops;			// track the number of recursive calls for insterts
+		int opCount;		// track the number of comparisons and recursive calls for insterts
 
 		// helper function with arguments to insert a node recursively - O(log n) where n is the number of nodes in the tree
 		TreeNode<T>* insert(TreeNode<T>* node, T key) {			
@@ -29,13 +29,15 @@ class BinarySearchTree {
 				nodeCount++;  								// Only increment when actually creating a new node
 				return new TreeNode<T>(key);				// return new node
 			}
-
-			if (key < node->data)							// if key is less than node's data
-				opCount++;
+			
+			opCount++; // Count the comparison
+			if (key < node->data) {							// if key is less than node's data
+				opCount++; // Count the recursive call
 				node->left = insert(node->left, key);		// recursively insert key into left subtree
-			else if (key > node->data)						// if key is greater than node's data
-				opCount++;
+			} else if (key > node->data) {					// if key is greater than node's data
+				opCount++; // Count the recursive call
 				node->right = insert(node->right, key);		// recursively insert key into right subtree
+			}
 			
 			// Removed increment so that the node count doesn't increase if there isn't a new node
 			return node;									// return node
@@ -138,13 +140,19 @@ class BinarySearchTree {
 			}
 		}
 
-		void flatten(TreeNode<T>* node, std::vector<int>& list) {			
+		// Lab assignment methods
+		int flatten(TreeNode<T>* node, std::vector<int>& list) {			
 			// In-order traversal
+			opCount++;
 			if (node != nullptr) {
 				flatten(node->left, list);
 				list.push_back(node->data);
 				flatten(node->right, list);
 			}
+
+			int temp = opCount;
+			opCount = 0;
+			return temp;
 		}
 
 		int closest(TreeNode<T>* node, int n) {			
@@ -176,6 +184,46 @@ class BinarySearchTree {
 			return closestNum;
 		}
 
+		void _find_kth_smallest(TreeNode<T>* node, int& k, T& result) {
+			if (node == nullptr || k <= 0) return;
+
+			// Traverse the left subtree, going all the way left to the smallest element
+			_find_kth_smallest(node->left, k, result);
+
+			 
+			k--; 						// We've checked one node,
+			if (k == 0) {				// so decrement k and check if we've found the kth smallest element
+				result = node->data;	// set the result to the current node's payload
+				return;
+			}
+
+			// Traverse the right subtree
+			_find_kth_smallest(node->right, k, result);
+		}
+
+		int getHeight(TreeNode<T>* node) {
+			if (node == nullptr) return -1; // Base case: height of an empty tree is -1
+
+			// Recursively get the height of the left and right subtrees
+			int leftHeight = getHeight(node->left);
+			int rightHeight = getHeight(node->right);
+
+			// Return the maximum height of the left and right subtrees, plus one for the current node
+			return std::max(leftHeight, rightHeight) + 1;
+		}
+
+		int getBalanceFactor(TreeNode<T>* node) {
+			if (node == nullptr) return 0;
+
+			// Get the height of the left and right subtrees
+			int leftHeight = getHeight(node->left);
+			int rightHeight = getHeight(node->right);
+
+			// Return the balance factor
+			return leftHeight - rightHeight;
+		}
+
+
 	public:
 		// no-arg constructor
 		BinarySearchTree() : root(nullptr) {}
@@ -190,7 +238,11 @@ class BinarySearchTree {
 		void remove(T key) { root = remove(root, key); }
 		
 		// getter for opCount
-		int getOpCount() const { return opCount; }
+		int getOpCount() {
+			int temp = opCount;
+			this->opCount = 0; // reset op count each time so it doesn't accumulate
+			return temp;
+		}
 
 		// public search with T argument
 		// O(log n) where n is the number of nodes in the tree
@@ -218,8 +270,13 @@ class BinarySearchTree {
 
 		// public post-order traversal, no arguments
 		void post_order() {
-			postOrderTraversal(root);						// call private recursive helper
+			postOrderTraversal(root);						// tcall private recursive helper
 			std::cout << std::endl;
+		}
+
+		int flatten(std::vector<int>& list) {
+			flatten(root, list);
+			return opCount;
 		}
 
 		// Helper functions
@@ -227,7 +284,19 @@ class BinarySearchTree {
 		void print() { printTree(root); }		// public print with no arguments
 		T min() { return min(root)->data; }		// public min with no arguments
 		T max() { return max(root)->data; }		// public max with no arguments
-		void flatten(std::vector<int>& list) { flatten(root, list); }
+
+		// Helpers for lab assignment methods
 		int closest(int n) { return closest(root, n); }
+
+		T find_kth_smallest(int k) {
+			T result; // will pass by reference in case T is a large object
+			_find_kth_smallest(root, k, result);
+			return result;
+		}
+
+		int height() { return getHeight(root) + 1; }
+
+		int balance_factor() { return getBalanceFactor(root); }
 };
+
 #endif
