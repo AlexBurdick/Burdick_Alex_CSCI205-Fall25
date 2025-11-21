@@ -38,6 +38,40 @@ int main() {
     return 0;
 }
 
+/*
+Breadth-First Search (BFS) is an algorithm used for traversing or searching tree or graph data structures.
+It starts at the tree root (or some arbitrary node of a graph) and explores the neighbor nodes at the current
+depth prior to moving on to nodes at the next depth level. BFS is often used to find the shortest path
+from the source node to all other nodes in an unweighted graph.
+
+Start at the Source Node:
+=========================
+   - Begin with the source node (or starting node) and enqueue it. If you're working with a graph,
+   - the source node is typically the node from which you want to start the traversal.
+
+Visit Neighbors at the Current Depth:
+=====================================
+   - Dequeue a node from the front of the queue (starting with the source node).
+   - Visit all the neighbors (adjacent nodes) of the dequeued node that haven't been visited yet.
+   - Enqueue each of these neighbors.
+
+Move to the Next Depth Level:
+=============================
+   - After visiting all neighbors at the current depth, move to the next depth level by
+   - repeating step 2 with the nodes that are now at the front of the queue.
+
+Repeat Until All Nodes Are Visited:
+===================================
+   - Continue this process until the queue is empty, meaning that all nodes have been visited.
+
+BFS is typically implemented using a queue data structure to keep track of the nodes to be visited.
+The queue follows the First-In-First-Out (FIFO) principle, ensuring that nodes are processed in the order they are discovered.
+
+Applications of BFS include finding the shortest path in an unweighted graph, analyzing network connectivity,
+and solving puzzles with multiple states. 
+
+The time complexity of BFS is generally O(V + E), where V is the number of vertices and E is the number of edges in the graph.
+*/
 void bfs(Graph<string>& g, Vertex<string>* v) {
 	bool* seen = new bool[ g.size()+1 ]();			// boolean array to track visited nodes. +1 for 1-based indexing
 	queue<Vertex<string>*> q;						// queue of Vertex pointers
