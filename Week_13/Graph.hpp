@@ -17,8 +17,9 @@ class Graph {
 
 		void addVertex(int key, T payload){					// add isolated vertex by specifying key
 			numVertices++;									// increase count
-			Vertex<T> newVertex = Vertex<T>(key, payload);	// create the vertex
-			this->vertList[key] = newVertex;				// put the vertex in the adjacancy list
+			// Received error: 'Vertex<std::string>::Vertex(const Vertex<std::string> &)': attempting to reference a deleted function
+			// replaced with different method to create a new verex
+			vertList.emplace(key, Vertex<T>(key, payload));
 		}
 
 		Vertex<T>* getVertex(int key){						// get pointer to vertex with key
@@ -40,12 +41,13 @@ class Graph {
 		}
 
 		void addEdge(int from, int to, int cost = 0) {						// add the edge from key -> to key
-			if (!this->contains(from)) {									// the source vertext does not exist yet
+			if (!this->contains(from)) {									// the source vertex does not exist yet
 				std::cout << from << " was not found, adding!" << std::endl;// helpful message
 				this->addVertex(from, "placeholder");						// add it
 			}
 			if (!this->contains(to))										// destination vertex does not exist yet
 				std::cout << to << " was not found, adding!" << std::endl;	// helpful message
+			
 			vertList[from].addNeighbor(to, cost);							// add the destination as neighbor to "source"
 		}
 		

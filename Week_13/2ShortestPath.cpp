@@ -3,10 +3,10 @@ This is a common problem in Computer Science. Given a maze in the form of binary
 rectangular matrix, find the shortest path’s length from a given source to a given 
 destination. A path consists of cells with 1, and at any given moment, we can only 
 move one cell in one of the four directions. The valid moves are:
-Go Top: (x, y) ——> (x – 1, y)
+Go Top:   (x, y) ——> (x – 1, y)
 Go Left:  (x, y) ——> (x, y – 1)
 Go Down:  (x, y) ——> (x + 1, y)
-Go Right:  (x, y) ——> (x, y + 1)
+Go Right: (x, y) ——> (x, y + 1)
 */
 
 #include <iostream>

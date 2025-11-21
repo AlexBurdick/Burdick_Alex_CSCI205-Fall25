@@ -20,19 +20,19 @@ int main() {
 	for (int i = 1; i <= 10; i++) 	// create ten vertex objects
 		g.addVertex(i, "payload");	// keys will be 1 - 10
 
-	// add edges
-	//        F   T   W		(F)rom, (T)o, (W)eight . . . not (F)or (T)he (W)in
+	// Add edges in a Binary Tree configuration
+	//        F   T   W		(F)rom, (T)o, (W)eight
 	g.addEdge(1,  2,  5);
-	g.addEdge(1,  5,  2);
-	g.addEdge(5,  6,  4);
-	g.addEdge(5,  8,  7);
-	g.addEdge(1,  9,  3);
-	g.addEdge(2,  3,  8);
-	g.addEdge(9,  10, 1);
-	g.addEdge(3,  4,  1);
-	g.addEdge(5,  7,  9);
-	g.addEdge(9,  11, 3);	// this call to add edge will add the new vertex with key = 11
-	g.addEdge(11, 10, 2);
+	g.addEdge(2,  4,  2);
+	g.addEdge(2,  5,  4);
+	g.addEdge(3,  6,  7);
+	g.addEdge(3,  7,  3);
+	g.addEdge(4,  6,  8);
+	g.addEdge(4,  6,  1);
+	g.addEdge(5,  10, 1);
+	g.addEdge(5,  11, 9);
+	g.addEdge(6,  12, 3);	// this call to add edge will add the new vertex with key = 11
+	g.addEdge(13, 13, 2);
 
 	// print graph
 	cout 	<< "\nGraph has " 

@@ -26,8 +26,7 @@ class Vertex {
 
 		void addNeighbor(int nbr, int weight = 0) {						// adds neighbor
 			connectedTo[nbr] = weight;									// if neighbor exists the weight will be updated
-																		// if not, the neighbor will be added
-		}
+		}																// if not, the neighbor will be added
 
 		std::vector<int> getConnections() {
 			std::vector<int> keys;										// will return a vector containing all neighbors
