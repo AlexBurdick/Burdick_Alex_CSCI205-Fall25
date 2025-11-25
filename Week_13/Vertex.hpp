@@ -20,8 +20,6 @@ class Vertex {
 			this->payload = pl;					// set payload
 		}
 
-		Vertex(const Vertex&) = delete;			// Delete copy constructor
-
 		T getPayload(){ return this->payload; }	// get payload
 
 		void addNeighbor(int nbr, int weight = 0) {						// adds neighbor
@@ -46,6 +44,20 @@ class Vertex {
 				stream	<< "( " << vert.id << " , " 					// print this vertex's id
 						<< connects[i] << " ) \n";						// print neighbor's id
 			return stream;												// return stream
+		}
+
+		// ADDED METHODS
+		// Copy constructor and Overloaded assignment operator to avoid problems with 
+		// deleted default constructor
+		Vertex(const Vertex& copy)
+			: id {copy.id}, connectedTo {copy.connectedTo}, payload {copy.payload} {}
+
+		Vertex& operator=(const Vertex& vertex) {
+			id			= vertex.id;
+			connectedTo	= vertex.connectedTo;
+			payload		= vertex.payload;
+
+			return *this;												// return the existing object so we can chain this operator
 		}
 };
 #endif
