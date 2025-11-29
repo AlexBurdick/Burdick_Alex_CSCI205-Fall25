@@ -12,7 +12,7 @@ present in a level by modifying the preorder traversal on the tree.
 
 using namespace std;
 
-void bfs(Graph<string>&, Vertex<string>*);
+void printTree(Graph<string>&, Vertex<string>*);
 
 int main() {
 	Graph<string> g;				// create graph object
@@ -23,63 +23,30 @@ int main() {
 	// Add edges in a Binary Tree configuration
 	//        F   T   W		(F)rom, (T)o, (W)eight
 	g.addEdge(1,  2,  5);
-	g.addEdge(2,  4,  2);
-	g.addEdge(2,  5,  4);
-	g.addEdge(3,  6,  7);
-	g.addEdge(3,  7,  3);
-	g.addEdge(4,  6,  8);
-	g.addEdge(4,  6,  1);
-	g.addEdge(5,  10, 1);
-	g.addEdge(5,  11, 9);
-	g.addEdge(6,  12, 3);	// this call to add edge will add the new vertex with key = 11
-	g.addEdge(13, 13, 2);
+	g.addEdge(1,  3,  2);
+	g.addEdge(2,  4,  4);
+	g.addEdge(2,  5,  7);
+	g.addEdge(3,  6,  3);
+	g.addEdge(3,  7,  8);
+	g.addEdge(4,  8,  1);
+	g.addEdge(4,  9,  1);
+	g.addEdge(5,  10, 9);
+	//g.addEdge(5,  11, 3);
+	//g.addEdge(6,  12, 2);
 
 	// print graph
 	cout 	<< "\nGraph has " 
 			<< g.size() << " vertices"	// print number of vertices
 			<< g << endl;				// print using overloaded graph stream insertion
 
-	cout << "Breadth First Traversal" << endl;
-	bfs(g, g.getVertex(1));
+	cout << "Level Order Traversal" << endl;
+	printTree(g, g.getVertex(1));
 
 	return 0;
 }
 
-/*
-Breadth-First Search (BFS) is an algorithm used for traversing or searching tree or graph data structures.
-It starts at the tree root (or some arbitrary node of a graph) and explores the neighbor nodes at the current
-depth prior to moving on to nodes at the next depth level. BFS is often used to find the shortest path
-from the source node to all other nodes in an unweighted graph.
 
-Start at the Source Node:
-=========================
-   - Begin with the source node (or starting node) and enqueue it. If you're working with a graph,
-   - the source node is typically the node from which you want to start the traversal.
-
-Visit Neighbors at the Current Depth:
-=====================================
-   - Dequeue a node from the front of the queue (starting with the source node).
-   - Visit all the neighbors (adjacent nodes) of the dequeued node that haven't been visited yet.
-   - Enqueue each of these neighbors.
-
-Move to the Next Depth Level:
-=============================
-   - After visiting all neighbors at the current depth, move to the next depth level by
-   - repeating step 2 with the nodes that are now at the front of the queue.
-
-Repeat Until All Nodes Are Visited:
-===================================
-   - Continue this process until the queue is empty, meaning that all nodes have been visited.
-
-BFS is typically implemented using a queue data structure to keep track of the nodes to be visited.
-The queue follows the First-In-First-Out (FIFO) principle, ensuring that nodes are processed in the order they are discovered.
-
-Applications of BFS include finding the shortest path in an unweighted graph, analyzing network connectivity,
-and solving puzzles with multiple states. 
-
-The time complexity of BFS is generally O(V + E), where V is the number of vertices and E is the number of edges in the graph.
-*/
-void bfs(Graph<string>& g, Vertex<string>* v) {
+void printTree(Graph<string>& g, Vertex<string>* v) {
 	bool* seen = new bool[ g.size()+1 ]();			// boolean array to track visited nodes. +1 for 1-based indexing
 	queue<Vertex<string>*> q;						// queue of Vertex pointers
 	q.push(v);										// enqueue the starting node

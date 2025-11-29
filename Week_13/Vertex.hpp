@@ -46,9 +46,13 @@ class Vertex {
 			return stream;												// return stream
 		}
 
-		// ADDED METHODS
+		// ADDED CONTENT
+		private:
+		// Distance variable for shortest path problem
+		int distance = 0; // defaults to 0.
 		// Copy constructor and Overloaded assignment operator to avoid problems with 
 		// deleted default constructor
+		public:
 		Vertex(const Vertex& copy)
 			: id {copy.id}, connectedTo {copy.connectedTo}, payload {copy.payload} {}
 
@@ -57,7 +61,10 @@ class Vertex {
 			connectedTo	= vertex.connectedTo;
 			payload		= vertex.payload;
 
-			return *this;												// return the existing object so we can chain this operator
+			return *this;
 		}
+
+		int getDistance()		{ return distance }
+		void setDistance(int d)	{ distance = d }
 };
 #endif
