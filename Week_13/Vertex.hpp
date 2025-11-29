@@ -64,7 +64,7 @@ class Vertex {
 			return *this;
 		}
 
-		int getDistance()		{ return distance }
-		void setDistance(int d)	{ distance = d }
+		int getDistance()			{ return distance }
+		void incrementDistance()	{ distance+=1 }
 };
 #endif

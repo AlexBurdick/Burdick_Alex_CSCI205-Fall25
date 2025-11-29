@@ -21,10 +21,11 @@ int main() {
    
    Graph<string> g;
    
-   // 4.It may be helpful to modify the Vertex class to have a property to store the 
-   // distance from the source. (In Vertex.hpp)
+   
    // 5.It may be helpful to modify the Vertex class to have an x and y property to store its coordinates in the matrix.
-   // 6.Also, be sure to stay in bounds. You will need to check to see if you are on a matrix edge.
+   // 6.Also, be sure to stay in bounds. You will need to check to see if you are on 
+   // a matrix edge.
+      // How would i go out of bounds? The connections are only to things in the grid?
 
     return 0;
 }
@@ -46,7 +47,7 @@ int shortestPath(Graph<string>& g, Vertex<string>* source, Vertex<string>* desti
 		// b. If the vertex is the destination node, then return its distance.
       if (vert == destination) {
          delete[] visited;
-         return distance;
+         return vert->getDistance();
       }
       
       // c. Otherwise, for each of four adjacent cells, enqueue each vertex with +1 
@@ -54,6 +55,9 @@ int shortestPath(Graph<string>& g, Vertex<string>* source, Vertex<string>* desti
 		for (int v : vert->getConnections()) {
 			if ( !visited[v] ) {
 				Vertex<string>* _v = g.getVertex(v);
+            // 4.It may be helpful to modify the Vertex class to have a property to 
+            // store the distance from the source. (In Vertex.hpp)
+            _v->incrementDistance();
 				q.push( _v );
 				visited[ v ] = true;
 			}
