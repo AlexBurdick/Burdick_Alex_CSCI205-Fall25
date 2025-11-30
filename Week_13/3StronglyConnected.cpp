@@ -15,88 +15,86 @@ status of the vertices.
 
 using namespace std;
 
-void dfs(Graph<string>&, Vertex<string>*);
+bool isStronglyConnected(Graph<string>&);
 
 int main() {
-	Graph<string> g;				// create graph object
-
-	for (int i = 1; i <= 10; i++) 	// create ten vertex objects
-		g.addVertex(i, "payload");	// keys will be 1 - 10
-
-	// add edges
-	//        F   T   W		(F)rom, (T)o, (W)eight . . . not (F)or (T)he (W)in
-	g.addEdge(1,  2,  5);
-	g.addEdge(1,  5,  2);
-	g.addEdge(5,  6,  4);
-	g.addEdge(5,  8,  7);
-	g.addEdge(1,  9,  3);
-	g.addEdge(2,  3,  8);
-	g.addEdge(9,  10, 1);
-	g.addEdge(3,  4,  1);
-	g.addEdge(5,  7,  9);
-	g.addEdge(9,  11, 3);	// this call to add edge will add the new vertex with key = 11
-	g.addEdge(11, 10, 2);
-
-	// print graph
-	cout 	<< "\nGraph has " 
-			<< g.size() << " vertices"	// print number of vertices
-			<< g << endl;				// print using overloaded graph stream insertion
-
-	cout << "\nDepth First Traversal" << endl;
-	dfs(g, g.getVertex(1));
-
-	return 0;
+	// Tests written by DeepSeek (11/30/2025)
+    // Test Case 1: Strongly Connected Graph
+    Graph<string> g1;
+    for (int i = 1; i <= 4; i++)  g1.addVertex(i, "payload");
+    
+    // Create a strongly connected graph
+    g1.addEdge(1, 2);
+    g1.addEdge(2, 3);
+    g1.addEdge(3, 4);
+    g1.addEdge(4, 1);
+    
+    cout << "Testing Graph 1 (Strongly Connected) -\n";
+    bool result1 = isStronglyConnected(g1);
+    cout << "Graph 1 is strongly connected: " << (result1 ? "Yes" : "No") << endl << endl;
+    
+    // Test Case 2: Not Strongly Connected Graph
+    Graph<string> g2;
+    for (int i = 1; i <= 4; i++)  g2.addVertex(i, "payload");
+    
+    // Create a graph that is not strongly connected (missing edge from 4 back to 1)
+    g2.addEdge(1, 2);
+    g2.addEdge(2, 3);
+    g2.addEdge(3, 4);
+    
+    
+    cout << "Testing Graph 2 (Not Strongly Connected) -\n";
+    bool result2 = isStronglyConnected(g2);
+    cout << "Graph 2 is strongly connected: " << (result2 ? "Yes" : "No") << endl << endl;
+    
+    // Test Case 3: Single Node
+    Graph<string> g3;
+    g3.addVertex(1, "single");
+    
+    cout << "Testing Graph 3 (Single Vertex) -\n";
+    bool result3 = isStronglyConnected(g3);
+    cout << "Graph 3 is strongly connected: " << (result3 ? "Yes" : "No") << endl;
+    
+    return 0;
 }
 
-/*
-Depth-First Search (DFS) is an algorithm used for traversing or searching tree or graph data structures.
-Unlike Breadth-First Search (BFS), DFS explores as far as possible along each branch before backtracking.
-It starts at the root node (or an arbitrary node in the case of a graph) and explores as deeply 
-as possible along each branch before backtracking.
-
-Start at the Source Node:
-=========================
-   - Begin with the source node (or starting node). If you're working with a graph, the source node is
-   - typically the node from which you want to start the traversal.
-
-Explore as Far as Possible:
-===========================
-   - Move to an adjacent unvisited node and repeat the process. If there are multiple adjacent nodes,
-   - choose one and proceed. This creates a recursive call or a stack-based approach to remember the path.
-
-Backtrack When Necessary:
-=========================
-   - If there are no more unvisited nodes from the current position, backtrack to the previous node 
-   - and continue exploring other unvisited branches.
-
-Repeat Until All Nodes Are Visited:
-===================================
-   - Continue this process until stack is empty meaning all nodes are visited.
-
-DFS can be implemented using recursion or an explicit stack data structure. In the recursive approach,
-the function calls act as the stack, and in the stack-based approach, an actual stack is used to keep track of nodes to be visited.
-
-Applications of DFS include topological sorting, finding connected components in a graph,
-solving puzzles (like mazes or Sudoku), and pathfinding algorithms. 
-
-The time complexity of DFS is generally O(V + E), where V is the number of vertices and E is the number of edges in the graph.
-*/
-void dfs(Graph<string>& g, Vertex<string>* r) {		// iterative depth first search using explicit stack
-	char* c = new char[ g.size()+1 ]();				// array to store "visited" status. +1 for 1-based indexing
+// Function to perform DFS and check if all vertices are visited
+bool dfs(Graph<string>& g, Vertex<string>* r) {
+    char* c = new char[ g.size()+1 ]();				// array to store "visited" status. +1 for 1-based indexing
 	stack< Vertex<string>* > s;						// stack of Vertex pointers to store edges
-	s.push(r);										// push starting vertex
-
-	while( s.size() > 0 ) {							// as long as the stack is not empty
-		Vertex< string >* vert = s.top();			// get current Vertex
+    s.push(r);										// push starting vertex
+	int visitedCount = 0; // keep track of number of visited vertices, must be the same as the total 
+						  // number of vertices in the graph for it to be strongly connected
+    
+    while( s.size() > 0 ) {							// as long as the stack is not empty
+        Vertex< string >* vert = s.top();			// get current Vertex
 		int key = vert->getId();					// get the key of the current vertex
-		cout << key << endl;						// print so we can see
-		s.pop();									// pop current Vertex from Stack
-		if( c[ key ] != 'v' ){						// has this vertex been visited?
-			c[ key ]  = 'v';						// It has not. Mark it as visited
-			vector<int> edges = g.getVertices();	// edges connected to i
+        s.pop();									// pop current Vertex from Stack
+    	if( c[ key ] != 'v' ){						// has this vertex been visited?
+            c[ key ]  = 'v';						// It has not. Mark it as visited
+            visitedCount++; // keep track of nodes visited in this dfs
+            vector<int> edges = g.getVertices();	// edges connected to i
 			for (int key : vert->getConnections())	// loop through edges stemming from current vertex
 				s.push( g.getVertex( key ) );		// push each vertext on to stack
-		}
-	}
-	delete[] c;										// free up dynamic memory
+        }
+    }
+    
+    // Check if we visited all vertices
+    return visitedCount == g.size();
+}
+
+// Run a dfs for each node, if they all return true then the graph is strongly connected
+bool isStronglyConnected(Graph<string>& g) {
+    vector<int> vertices = g.getVertices();
+    
+    // Perform DFS from every vertex
+    for (int key : vertices) {
+        Vertex<string>* vert = g.getVertex(key);
+        if (vert == nullptr) continue;
+        
+        vector<bool> visited(g.size() + 1, false);
+        if ( !dfs(g, vert) )  return false; // if dfs from any vertex doesn't visit all
+    }									    // other vertices, graph is not strongly connected
+    
+    return true;
 }

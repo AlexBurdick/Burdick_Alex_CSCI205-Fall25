@@ -47,12 +47,13 @@ class Vertex {
 		}
 
 		// ADDED CONTENT
-		private:
+	private:
 		// Distance variable for shortest path problem
 		int distance = 0; // defaults to 0.
+		
+	public:
 		// Copy constructor and Overloaded assignment operator to avoid problems with 
 		// deleted default constructor
-		public:
 		Vertex(const Vertex& copy)
 			: id {copy.id}, connectedTo {copy.connectedTo}, payload {copy.payload} {}
 
@@ -64,7 +65,8 @@ class Vertex {
 			return *this;
 		}
 
-		int getDistance()			{ return distance }
-		void incrementDistance()	{ distance+=1 }
+		int getDistance()			{ return distance; }
+		void setDistance(int dist)	{ distance = dist; }
 };
+
 #endif
