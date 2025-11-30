@@ -91,11 +91,11 @@ int main() {
 
 	cout << "Tree has " << tree.size() << " vertices" << endl;
     
-    bool hasCycle = hasCycleBFS(tree, tree.getVertex(1));
+    hasCycle = hasCycleBFS(tree, tree.getVertex(1));
     if (hasCycle) {
-        cout << "RESULT: The tree contains cycles! ❌" << endl;
+        cout << "RESULT: The tree contains cycles!" << endl;
     } else {
-        cout << "RESULT: The tree is acyclic (no cycles found). ✅" << endl;
+        cout << "RESULT: The tree is acyclic (no cycles found)." << endl;
     }
 
     return 0;
