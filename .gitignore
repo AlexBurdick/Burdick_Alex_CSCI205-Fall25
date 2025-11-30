@@ -1,5 +1,9 @@
+*.pdf
 *.txt
 *.exe
+*.ilk
+*.obj
+*.pdb
 *.out
 .vscode/
 data/
