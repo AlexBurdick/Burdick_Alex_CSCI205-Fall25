@@ -37,12 +37,9 @@ int main() {
     g1.addEdge(3, 4, 5);  // C-D
     g1.addEdge(3, 5, 1);  // C-E
     g1.addEdge(4, 5, 4);  // D-E
-
-    cout << "Original Graph has " << g1.size() << " vertices" << endl;
-    cout << "Finding Minimum Spanning Tree..." << endl;
-    
+    cout << "Original Graph has " << g1.size() << " vertices\n";
     int mstCost1 = mst(g1, g1.getVertex(1));
-    cout << "\nTotal cost of MST: " << mstCost1 << endl;
+    cout << "Total cost of MST: " << mstCost1 << endl;
     
     // Test Case 2: Larger graph for more comprehensive testing
     cout << "\n6-Vertices Graph -\n";
@@ -57,10 +54,7 @@ int main() {
     g2.addEdge(4, 5, 2);
     g2.addEdge(4, 6, 6);
     g2.addEdge(5, 6, 3);
-    
-    cout << "Original Graph has " << g2.size() << " vertices" << endl;
-    cout << "Finding Minimum Spanning Tree..." << endl;
-    
+    cout << "Original Graph has " << g2.size() << " vertices\n";
     int mstCost2 = mst(g2, g2.getVertex(1));
     cout << "\nTotal cost of MST: " << mstCost2 << endl;
     
@@ -71,18 +65,9 @@ int main() {
     g3.addEdge(1, 2, 5);
     g3.addEdge(1, 3, 3);
     g3.addEdge(2, 3, 2);
-    
-    cout << "Original Graph has " << g3.size() << " vertices" << endl;
-    cout << "Finding Minimum Spanning Tree...";
-    
+    cout << "Original Graph has " << g3.size() << " vertices\n";
     int mstCost3 = mst(g3, g3.getVertex(1));
     cout << "\nTotal cost of MST: " << mstCost3 << endl;
-    
-    // Summary
-    cout << "\n=== SUMMARY ===" << endl;
-    cout << "Test Case 1 (5 vertices): MST Cost = " << mstCost1 << endl;
-    cout << "Test Case 2 (6 vertices): MST Cost = " << mstCost2 << endl;
-    cout << "Test Case 3 (3 vertices): MST Cost = " << mstCost3 << endl;
     
     // Manual verification for the 5-vertex example
     cout << "\n=== VERIFICATION FOR 5-VERTEX GRAPH ===" << endl;
@@ -110,12 +95,12 @@ void printMST(Graph<string>& g, const vector<int>& parent) {
     }
 }
 
-// Function to find Minimum Spanning Tree using Prim's algorithm
+// Function to find Minimum Spanning Tree using Prim's algorithm (from DeepSeek 11/30/2025)
 int mst(Graph<string>& g, Vertex<string>* start) {
     
     int totalCost = 0;
     vector<bool> inMST(g.size() + 1, false); // keep track of what's been added
-    vector<int> key(g.size() + 1);           // Minimum weight edge to connect to MST
+    vector<int> key(g.size() + 1, INT_MAX);  // Minimum weight edge to connect to MST
     vector<int> parent(g.size() + 1);        // To store the MST structure
     
     // Priority Queue template parameters (from DeepSeek, 11/30/2025):
