@@ -19,18 +19,94 @@ that your solution is correct.
 
 using namespace std;
 
+int mst(Graph<string>&, Vertex<string>*);
+
+int main() {
+    // Tests written by DeepSeek (11/30/2025)
+    cout << "Minimum Spanning Tree\n";
+    
+    // Test Case 1: (5 vertices)
+    cout << "\n5-Vertices Graph -\n";
+    Graph<string> g1;
+    for (int i = 1; i <= 5; i++)  g1.addVertex(i, "payload");
+    g1.addEdge(1, 2, 2);  // A-B
+    g1.addEdge(1, 3, 3);  // A-C
+    g1.addEdge(1, 4, 1);  // A-D
+    g1.addEdge(2, 3, 4);  // B-C
+    g1.addEdge(2, 4, 3);  // B-D
+    g1.addEdge(2, 5, 2);  // B-E
+    g1.addEdge(3, 4, 5);  // C-D
+    g1.addEdge(3, 5, 1);  // C-E
+    g1.addEdge(4, 5, 4);  // D-E
+
+    cout << "Original Graph has " << g1.size() << " vertices" << endl;
+    cout << "Finding Minimum Spanning Tree..." << endl;
+    
+    int mstCost1 = mst(g1, g1.getVertex(1));
+    cout << "\nTotal cost of MST: " << mstCost1 << endl;
+    
+    // Test Case 2: Larger graph for more comprehensive testing
+    cout << "\n6-Vertices Graph -\n";
+    Graph<string> g2;
+    for (int i = 1; i <= 6; i++)  g2.addVertex(i, "payload");
+    g2.addEdge(1, 2, 4);
+    g2.addEdge(1, 3, 2);
+    g2.addEdge(2, 3, 1);
+    g2.addEdge(2, 4, 5);
+    g2.addEdge(3, 4, 8);
+    g2.addEdge(3, 5, 10);
+    g2.addEdge(4, 5, 2);
+    g2.addEdge(4, 6, 6);
+    g2.addEdge(5, 6, 3);
+    
+    cout << "Original Graph has " << g2.size() << " vertices" << endl;
+    cout << "Finding Minimum Spanning Tree..." << endl;
+    
+    int mstCost2 = mst(g2, g2.getVertex(1));
+    cout << "\nTotal cost of MST: " << mstCost2 << endl;
+    
+    // Test Case 3: Simple 3-vertex graph
+    cout << "\n3-Vertices Graph -\n";
+    Graph<string> g3;
+    for (int i = 1; i <= 3; i++)  g3.addVertex(i, "payload");
+    g3.addEdge(1, 2, 5);
+    g3.addEdge(1, 3, 3);
+    g3.addEdge(2, 3, 2);
+    
+    cout << "Original Graph has " << g3.size() << " vertices" << endl;
+    cout << "Finding Minimum Spanning Tree..." << endl;
+    
+    int mstCost3 = mst(g3, g3.getVertex(1));
+    cout << "\nTotal cost of MST: " << mstCost3 << endl;
+    
+    // Summary
+    cout << "\n=== SUMMARY ===" << endl;
+    cout << "Test Case 1 (5 vertices): MST Cost = " << mstCost1 << endl;
+    cout << "Test Case 2 (6 vertices): MST Cost = " << mstCost2 << endl;
+    cout << "Test Case 3 (3 vertices): MST Cost = " << mstCost3 << endl;
+    
+    // Manual verification for the 5-vertex example
+    cout << "\n=== VERIFICATION FOR 5-VERTEX GRAPH ===" << endl;
+    cout << "Graph edges and weights:" << endl;
+    cout << "1-2:2, 1-3:3, 1-4:1, 2-3:4, 2-4:3, 2-5:2, 3-4:5, 3-5:1, 4-5:4" << endl;
+    cout << "Expected MST edges: 1-4(1), 4-2(3), 2-5(2), 5-3(1)" << endl;
+    cout << "Expected total cost: 1 + 3 + 2 + 1 = 7" << endl;
+    cout << "Actual total cost: " << mstCost1 << (mstCost1 == 7 ? "CORRECT!" : "INCORRECT!") << endl;
+    
+    return 0;
+}
+
 // Function to find Minimum Spanning Tree using Prim's algorithm
-int primMST(Graph<string>& g, Vertex<string>* start) {
-    if (g.size() == 0) return 0;
+int mst(Graph<string>& g, Vertex<string>* start) {
     
     int totalCost = 0;
-    vector<bool> inMST(g.size() + 1, false);
+    vector<bool> inMST(g.size() + 1, false); // keep track of what's been added
     vector<int> key(g.size() + 1, INT_MAX);  // Minimum weight edge to connect to MST
     vector<int> parent(g.size() + 1, -1);    // To store the MST structure
     
-    // Priority queue to get the minimum weight edge efficiently
-    // Stores pairs of (weight, vertexId)
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    // Priority Queue template parameters (from DeepSeek, 11/30/2025):
+    //             ElementType     ContainerType           ComparisonFunction
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; // stores pairs of (weight, vertexId)
     
     // Start with the first vertex
     key[start->getId()] = 0;
@@ -79,118 +155,4 @@ int primMST(Graph<string>& g, Vertex<string>* start) {
     }
     
     return totalCost;
-}
-
-// Function to print the MST edges
-void printMST(Graph<string>& g, const vector<int>& parent) {
-    cout << "\nMinimum Spanning Tree Edges:" << endl;
-    cout << "============================" << endl;
-    for (int i = 1; i < parent.size(); i++) {
-        if (parent[i] != -1) {
-            Vertex<string>* v = g.getVertex(parent[i]);
-            if (v != nullptr) {
-                int weight = v->getWeight(i);
-                cout << parent[i] << " - " << i << " (weight: " << weight << ")" << endl;
-            }
-        }
-    }
-}
-
-// Function to create the example graph from the problem
-Graph<string> createExampleGraph() {
-    Graph<string> g;
-    
-    // Add vertices
-    for (int i = 1; i <= 5; i++) { g.addVertex(i, "payload"); }
-    
-    // Add edges with weights (creating the graph from Figure a)
-    // This represents a graph with more edges than necessary
-    g.addEdge(1, 2, 2);  // A-B
-    g.addEdge(1, 3, 3);  // A-C
-    g.addEdge(1, 4, 1);  // A-D
-    g.addEdge(2, 3, 4);  // B-C
-    g.addEdge(2, 4, 3);  // B-D
-    g.addEdge(2, 5, 2);  // B-E
-    g.addEdge(3, 4, 5);  // C-D
-    g.addEdge(3, 5, 1);  // C-E
-    g.addEdge(4, 5, 4);  // D-E
-    
-    return g;
-}
-
-// Alternative: Create a different test graph
-Graph<string> createLargeTestGraph() {
-    Graph<string> g;
-    
-    // Add vertices
-    for (int i = 1; i <= 6; i++)  g.addVertex(i, "payload");
-    
-    // Add edges to create a more complex graph
-    g.addEdge(1, 2, 4);
-    g.addEdge(1, 3, 2);
-    g.addEdge(2, 3, 1);
-    g.addEdge(2, 4, 5);
-    g.addEdge(3, 4, 8);
-    g.addEdge(3, 5, 10);
-    g.addEdge(4, 5, 2);
-    g.addEdge(4, 6, 6);
-    g.addEdge(5, 6, 3);
-    
-    return g;
-}
-
-int main() {
-    cout << "=== PRIM'S MINIMUM SPANNING TREE ALGORITHM ===" << endl;
-    
-    // Test Case 1: Example from the problem (5 vertices)
-    cout << "\n*** TEST CASE 1: 5-Vertices Graph ***" << endl;
-    Graph<string> g1 = createExampleGraph();
-    
-    cout << "Original Graph has " << g1.size() << " vertices" << endl;
-    cout << "Finding Minimum Spanning Tree..." << endl;
-    
-    int mstCost1 = primMST(g1, g1.getVertex(1));
-    cout << "\nTotal cost of MST: " << mstCost1 << endl;
-    
-    // Test Case 2: Larger graph for more comprehensive testing
-    cout << "\n*** TEST CASE 2: 6-Vertices Graph ***" << endl;
-    Graph<string> g2 = createLargeTestGraph();
-    
-    cout << "Original Graph has " << g2.size() << " vertices" << endl;
-    cout << "Finding Minimum Spanning Tree..." << endl;
-    
-    int mstCost2 = primMST(g2, g2.getVertex(1));
-    cout << "\nTotal cost of MST: " << mstCost2 << endl;
-    
-    // Test Case 3: Simple 3-vertex graph
-    cout << "\n*** TEST CASE 3: Simple 3-Vertices Graph ***" << endl;
-    Graph<string> g3;
-    
-    for (int i = 1; i <= 3; i++)  g3.addVertex(i, "payload");
-    
-    g3.addEdge(1, 2, 5);
-    g3.addEdge(1, 3, 3);
-    g3.addEdge(2, 3, 2);
-    
-    cout << "Original Graph has " << g3.size() << " vertices" << endl;
-    cout << "Finding Minimum Spanning Tree..." << endl;
-    
-    int mstCost3 = primMST(g3, g3.getVertex(1));
-    cout << "\nTotal cost of MST: " << mstCost3 << endl;
-    
-    // Summary
-    cout << "\n=== SUMMARY ===" << endl;
-    cout << "Test Case 1 (5 vertices): MST Cost = " << mstCost1 << endl;
-    cout << "Test Case 2 (6 vertices): MST Cost = " << mstCost2 << endl;
-    cout << "Test Case 3 (3 vertices): MST Cost = " << mstCost3 << endl;
-    
-    // Manual verification for the 5-vertex example
-    cout << "\n=== VERIFICATION FOR 5-VERTEX GRAPH ===" << endl;
-    cout << "Graph edges and weights:" << endl;
-    cout << "1-2:2, 1-3:3, 1-4:1, 2-3:4, 2-4:3, 2-5:2, 3-4:5, 3-5:1, 4-5:4" << endl;
-    cout << "Expected MST edges: 1-4(1), 4-2(3), 2-5(2), 5-3(1)" << endl;
-    cout << "Expected total cost: 1 + 3 + 2 + 1 = 7" << endl;
-    cout << "Actual total cost: " << mstCost1 << (mstCost1 == 7 ? "CORRECT!" : "INCORRECT!") << endl;
-    
-    return 0;
 }
