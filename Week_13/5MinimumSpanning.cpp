@@ -13,7 +13,6 @@ that your solution is correct.
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <functional>
 #include <climits>
 #include "Graph.hpp"
 
@@ -23,7 +22,7 @@ int mst(Graph<string>&, Vertex<string>*);
 
 int main() {
     // Tests written by DeepSeek (11/30/2025)
-    cout << "Minimum Spanning Tree\n";
+    cout << "Prim's Alrgorithm - Minimum Spanning Tree\n";
     
     // Test Case 1: (5 vertices)
     cout << "\n5-Vertices Graph -\n";
@@ -74,7 +73,7 @@ int main() {
     g3.addEdge(2, 3, 2);
     
     cout << "Original Graph has " << g3.size() << " vertices" << endl;
-    cout << "Finding Minimum Spanning Tree..." << endl;
+    cout << "Finding Minimum Spanning Tree...";
     
     int mstCost3 = mst(g3, g3.getVertex(1));
     cout << "\nTotal cost of MST: " << mstCost3 << endl;
@@ -96,13 +95,28 @@ int main() {
     return 0;
 }
 
+// Function to print the MST edges (from DeepSeek 11/30/2025)
+void printMST(Graph<string>& g, const vector<int>& parent) {
+    cout << "\nMinimum Spanning Tree Edges:" << endl;
+    cout << "============================" << endl;
+    for (size_t i = 1; i < parent.size(); i++) {
+        if (parent[i] != -1) {
+            Vertex<string>* v = g.getVertex(parent[i]);
+            if (v != nullptr) {
+                int weight = v->getWeight(i);
+                cout << parent[i] << " - " << i << " (weight: " << weight << ")" << endl;
+            }
+        }
+    }
+}
+
 // Function to find Minimum Spanning Tree using Prim's algorithm
 int mst(Graph<string>& g, Vertex<string>* start) {
     
     int totalCost = 0;
     vector<bool> inMST(g.size() + 1, false); // keep track of what's been added
-    vector<int> key(g.size() + 1, INT_MAX);  // Minimum weight edge to connect to MST
-    vector<int> parent(g.size() + 1, -1);    // To store the MST structure
+    vector<int> key(g.size() + 1);           // Minimum weight edge to connect to MST
+    vector<int> parent(g.size() + 1);        // To store the MST structure
     
     // Priority Queue template parameters (from DeepSeek, 11/30/2025):
     //             ElementType     ContainerType           ComparisonFunction
@@ -111,9 +125,6 @@ int mst(Graph<string>& g, Vertex<string>* start) {
     // Start with the first vertex
     key[start->getId()] = 0;
     pq.push({0, start->getId()});
-    
-    cout << "Prim's Algorithm Steps:" << endl;
-    cout << "======================" << endl;
     
     while (!pq.empty()) {
         int currentId = pq.top().second;
@@ -129,14 +140,6 @@ int mst(Graph<string>& g, Vertex<string>* start) {
         
         Vertex<string>* currentVertex = g.getVertex(currentId);
         if (currentVertex == nullptr) continue;
-        
-        // Print the edge added to MST (if it's not the starting vertex)
-        if (parent[currentId] != -1) {
-            cout << "Added edge: " << parent[currentId] << " - " << currentId 
-                 << " (weight: " << currentKey << ")" << endl;
-        } else {
-            cout << "Starting from vertex: " << currentId << endl;
-        }
         
         // Update keys for all adjacent vertices
         for (int neighborId : currentVertex->getConnections()) {
@@ -154,5 +157,6 @@ int mst(Graph<string>& g, Vertex<string>* start) {
         }
     }
     
+    printMST(g, parent);
     return totalCost;
 }
