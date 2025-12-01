@@ -18,8 +18,7 @@ path, and ~ represents a direct edge).
 
 using namespace std;
 
-void bfs(Graph<string>&, Vertex<string>*);
-bool hasCycleBFS(Graph<string>& g, Vertex<string>* start);
+bool bfs(Graph<string>& g, Vertex<string>* start);
 
 int main() {
 
@@ -54,8 +53,7 @@ int main() {
     g.addEdge(10, 11, 2);  // undirected - add reverse edge
 
     cout << "Cycle Detection - \n";
-    bool hasCycle = hasCycleBFS(g, g.getVertex(1));
-    if (hasCycle) {
+    if ( bfs(g, g.getVertex(1)) ) {
         cout << "The graph contains cycles!" << endl;
     } else {
         cout << "The graph is acyclic (no cycles found)." << endl;
@@ -64,10 +62,7 @@ int main() {
     // Graph without cycles (tree)
     cout << "\nNo cycles - \n";
     Graph<string> tree;
-
-    // Create vertices for a tree structure
     for (int i = 1; i <= 11; i++)  tree.addVertex(i, "payload");
-
     tree.addEdge(1, 2, 1);
     tree.addEdge(2, 1, 1);
     tree.addEdge(1, 5, 1);
@@ -91,8 +86,7 @@ int main() {
 
 	cout << "Tree has " << tree.size() << " vertices" << endl;
     
-    hasCycle = hasCycleBFS(tree, tree.getVertex(1));
-    if (hasCycle) {
+    if ( bfs(tree, tree.getVertex(1)) ) {
         cout << "RESULT: The tree contains cycles!" << endl;
     } else {
         cout << "RESULT: The tree is acyclic (no cycles found)." << endl;
@@ -101,31 +95,7 @@ int main() {
     return 0;
 }
 
-void bfs(Graph<string>& g, Vertex<string>* v) {
-	bool* seen = new bool[ g.size()+1 ]();			// boolean array to track visited nodes. +1 for 1-based indexing
-	queue<Vertex<string>*> q;						// queue of Vertex pointers
-	q.push(v);										// enqueue the starting node
-	seen[ v->getId() ] = true;						// mark the starting node as being "seen"
-	
-	while ( !q.empty() ) {							// as long as the queue is not empty
-		Vertex<string>* vert = q.front();			// dequeue the front vertex
-		q.pop();									// remove it from the queue
-		cout 	<< "Vertex " << vert->getId();		// print the vertex
-		for (int v : vert->getConnections()){		// get all of the edges from the current vertex
-			cout << "-->" 							// illustrate connection
-				 << g.getVertex( v )->getId();		// print the key of the connected vertex
-			if ( !seen[v] ) {						// if the current key has not been "seen"
-				Vertex<string>* _v = g.getVertex(v);// get the vertex
-				q.push( _v );						// enqueue the vertext
-				seen[ v ] = true;					// mark it as seen
-			}
-		}
-		cout << endl;								// just for nice printing
-	}
-	delete[] seen;									// free up dynamic memory
-}
-
-bool hasCycleBFS(Graph<string>& g, Vertex<string>* vert) {
+bool bfs(Graph<string>& g, Vertex<string>* vert) {
     bool* seen = new bool[ g.size()+1 ]();		    // boolean array to track visited nodes. +1 for 1-based indexing
     vector<int> parent(g.size() + 1, -1);           // track parent of each vertex
     queue<Vertex<string>*> q;                       // queue of Vertex pointers
@@ -156,7 +126,7 @@ bool hasCycleBFS(Graph<string>& g, Vertex<string>* vert) {
                 cout << " - not visited, adding to queue" << endl;
             } else if ( parent[currentId] != neighborId ) {
                 // If neighbor is visited and not the parent of current, we found a cycle
-                cout << " - ALREADY VISITED! CYCLE DETECTED!" << endl;
+                cout << " - Already visited, cycle detected" << endl;
                 cout << "     Cycle: " << currentId << " -> " << neighborId 
                      << " (but " << neighborId << " is not parent of " << currentId 
                      << ", parent is " << parent[currentId] << ")" << endl;
