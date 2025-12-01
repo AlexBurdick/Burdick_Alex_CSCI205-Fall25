@@ -125,16 +125,12 @@ void bfs(Graph<string>& g, Vertex<string>* v) {
 	delete[] seen;									// free up dynamic memory
 }
 
-bool hasCycleBFS(Graph<string>& g, Vertex<string>* start) {
-    if (start == nullptr) return false;
-    
-    vector<bool> visited(g.size() + 1, false);  // track visited vertices
-    vector<int> parent(g.size() + 1, -1);       // track parent of each vertex in BFS tree
-    
-    queue<Vertex<string>*> q;
-    q.push(start);
-    visited[start->getId()] = true;
-    parent[start->getId()] = -1;  // root has no parent
+bool hasCycleBFS(Graph<string>& g, Vertex<string>* vert) {
+    bool* seen = new bool[ g.size()+1 ]();		    // boolean array to track visited nodes. +1 for 1-based indexing
+    vector<int> parent(g.size() + 1, -1);           // track parent of each vertex
+    queue<Vertex<string>*> q;                       // queue of Vertex pointers
+    q.push(vert);                                   // enqueue the starting node
+    seen[vert->getId()] = true;                     // mark the starting node as being "seen"
     
     cout << "BFS Traversal (showing potential cycles):" << endl;
     
@@ -152,26 +148,28 @@ bool hasCycleBFS(Graph<string>& g, Vertex<string>* start) {
             
             cout << "  -> Checking neighbor " << neighborId;
             
-            if (!visited[neighborId]) {
+            if ( !seen[neighborId] ) {
                 // If neighbor is not visited, mark it visited and set its parent
-                visited[neighborId] = true;
+                seen[neighborId] = true;
                 parent[neighborId] = currentId;
                 q.push(neighbor);
                 cout << " - not visited, adding to queue" << endl;
-            } else if (parent[currentId] != neighborId) {
+            } else if ( parent[currentId] != neighborId ) {
                 // If neighbor is visited and not the parent of current, we found a cycle
                 cout << " - ALREADY VISITED! CYCLE DETECTED!" << endl;
                 cout << "     Cycle: " << currentId << " -> " << neighborId 
                      << " (but " << neighborId << " is not parent of " << currentId 
                      << ", parent is " << parent[currentId] << ")" << endl;
+                delete[] seen;                  // free up dynamic memory
                 return true;
-            } else {
-                // Neighbor is visited but it's the parent (this is normal in BFS tree)
+            } else { 
+                // Neighbor is visited but it's the parent
                 cout << " - visited but is parent (normal edge in BFS tree)" << endl;
             }
         }
     }
     
     cout << "No cycles detected in BFS traversal." << endl;
+    delete[] seen;                              // free up dynamic memory
     return false;
 }
